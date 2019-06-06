@@ -17,7 +17,7 @@
 #include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateTransform.h"
-#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
+//#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
 
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 
@@ -1279,7 +1279,7 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       int nMissingAfter = 0;
       CheckHitPattern checkHitPattern_;
       for(int j = 0; j < (int)cleanTrackColl.size(); j++){
-	CheckHitPattern::Result res = checkHitPattern_.analyze(es,cleanTrackColl[j].track(),avfVerts[0].vertexState(),false);
+	const CheckHitPattern::Result res = checkHitPattern_.operator()(cleanTrackColl[j].track(),avfVerts[0].vertexState());
 	nHitsInFront += res.hitsInFrontOfVert;
 	nMissingAfter += res.missHitsAfterVert;
       }

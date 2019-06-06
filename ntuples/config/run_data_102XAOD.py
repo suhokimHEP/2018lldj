@@ -17,22 +17,21 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(101) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
+#process.MessageLogger.cerr.FwkReport.reportEvery = 1
+#process.Tracer = cms.Service('Tracer')
 
 # input files
 process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
-
-#'root://cmsxrootd.fnal.gov//store/data/Run2017F/SinglePhoton/AOD/17Nov2017-v1/50000/B86B5B18-0EDF-E711-BEE1-02163E019E8F.root'<--data
-#'root://cmsxrootd.fnal.gov//store/mc/RunIISummer17DRPremix/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/AODSIM/92X_upgrade2017_realistic_v10_ext1-v1/50003/BEF5C718-BA86-E711-8A89-C81F66B7ED98.root'
-#'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17DRPremix/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/PU2017_94X_mc2017_realistic_v11-v2/40000/E852C6B8-349F-E811-B40F-24BE05C63631.root'
-#'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17DRPremix/ZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8_TuneCP5Down/AODSIM/PU2017_94X_mc2017_realistic_v11-v2/60000/D85856D2-1C72-E811-BB88-A0369FD1EF00.root'
-'file:/uscms/home/ddiaz/nobackup/ZH.root'
+#'file:MuEG.root'
+#'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
+'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
+#'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )
 
 # output name
-process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD.root'));
-
+process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_data_AOD.root'));
 
 # cms geometry
 #process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
@@ -47,27 +46,27 @@ process.load("Geometry.CaloEventSetup.CaloTowerConstituents_cfi")
 # global tag
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
-process.GlobalTag.globaltag = '94X_mc2017_realistic_v17'
+process.GlobalTag.globaltag = '102X_dataRun2_Sep2018ABC_v2'
 
-## for AOD Photons
+##from old config for 2016
+###########################################################################################
+process.load( 'PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff' )
+process.load( 'PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff' )
+process.load('PhysicsTools.PatAlgos.patSequences_cff')
+##########################################################################################
+
+
+# for AOD Photons
 #from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 #dataFormat = DataFormat.AOD
 #switchOnVIDPhotonIdProducer(process, dataFormat)
-#my_id_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Spring16_V2p2_cff']
+#my_id_modules = ['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Fall17_94X_V1_TrueVtx_cff']
 #for idmod in my_id_modules:
 #    setupAllVIDIdsInModule(process,idmod,setupVIDPhotonSelection) 
-
-## for AOD Electrons
-#switchOnVIDElectronIdProducer(process, dataFormat)
-#my_id_modules = ['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Summer16_80X_V1_cff']
-#for idmod in my_id_modules:
-#    setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
 
 # for JEC
 # Load the corrections
 process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
-
 
 # Produce corrected jets collection
 process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
@@ -81,15 +80,37 @@ process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
 # pat for trigger
 process.load( 'PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff' )
 
-# pat for muons
-process.load('PhysicsTools.PatAlgos.patSequences_cff')
+# load the coreTools of PAT
+from PhysicsTools.PatAlgos.tools.jetTools import *
 
+# pat for muons
+#process.load('PhysicsTools.PatAlgos.patSequences_cff')
+
+from PhysicsTools.PatAlgos.tools.coreTools import *
+runOnData( process, names=['All'], outputModules = [])
+
+#### import skeleton process
+###from PhysicsTools.PatAlgos.patTemplate_cfg import *
+#process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")
+#patAlgosToolsTask.add(process.patCandidatesTask)
+
+#process.load("PhysicsTools.PatAlgos.selectionLayer1.selectedPatCandidates_cff")
+#patAlgosToolsTask.add(process.selectedPatCandidatesTask)
+
+
+
+###########----Test Area
+# 2017 AOD Electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes#Running_on_2016_2017_AOD
+# 2017 ID recommendations: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaRunIIRecommendations#Fall17v1 
+## for AOD Electrons
 from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 setupEgammaPostRecoSeq(process,
                        runVID=True,
                        era='2017-Nov17ReReco', 
 		       isMiniAOD=False,
 		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff'])
+
+
 
 # For AOD Track variables
 process.MaterialPropagator = cms.ESProducer('PropagatorWithMaterialESProducer',
@@ -113,13 +134,7 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
  doAOD                     = cms.bool(True),
  doMiniAOD                 = cms.bool(False),
 
- electronSrc               = cms.InputTag('selectedElectrons','','LLDJ'),
  rhoLabel                  = cms.InputTag('fixedGridRhoFastjetAll'),
- eleVetoIdMap              = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-veto'),
- eleLooseIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-loose'),
- eleMediumIdMap            = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-medium'),
- eleTightIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-tight'),
- eleHLTIdMap               = cms.InputTag('egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer17-V2'),
 
  rhoCentralLabel           = cms.InputTag('fixedGridRhoFastjetCentralNeutral'),
  pileupCollection          = cms.InputTag('slimmedAddPileupInfo'),
@@ -133,7 +148,7 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
  beamspotLabel_            = cms.InputTag('offlineBeamSpot'),
 
  #ak4JetSrc                 = cms.InputTag('slimmedJets'),
- #AODak4CaloJetsSrc         = cms.InputTag('ak4CaloJets' , '', 'RECO'),
+ ##AODak4CaloJetsSrc         = cms.InputTag('ak4CaloJets' , '', 'RECO'),
  AODak4CorrCaloJetsSrc     = cms.InputTag('ak4CaloCorrectedJets'),
  #AODak4PFJetsSrc           = cms.InputTag('ak4PFJets'   , '', 'RECO'),
  #AODak4PFJetsCHSSrc        = cms.InputTag('ak4PFJetsCHS', '', 'RECO'),
@@ -150,41 +165,34 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
  patTriggerResults         = cms.InputTag('TriggerResults', '', 'PAT'),
  BadChargedCandidateFilter = cms.InputTag('BadChargedCandidateFilter'),
  BadPFMuonFilter           = cms.InputTag('BadPFMuonFilter'),
- #pfMETLabel                = cms.InputTag('slimmedMETs'),
+ #pfMETLabel                = cms.InputTag('slimmedMETsMuEGClean', '', 'LLDJ'),
  AODCaloMETlabel           = cms.InputTag('caloMet','','RECO'),    
  #AODpfChMETlabel           = cms.InputTag('pfChMet','','RECO'),    
  #AODpfMETlabel             = cms.InputTag('pfMet','','RECO'),  
 
  muonSrc                   = cms.InputTag('slimmedMuons'),
  muonAODSrc                = cms.InputTag('selectedPatMuons'),
+ #muonAODSrc                = cms.InputTag('muons' , '', 'RECO'),
 
  #photonSrc                 = cms.InputTag('selectedPhotons','','LLDJ'),
- #phoLooseIdMap             = cms.InputTag('egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-loose'),
- #phoMediumIdMap            = cms.InputTag('egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-medium'),
- #phoTightIdMap             = cms.InputTag('egmPhotonIDs:cutBasedPhotonID-Spring15-25ns-V1-standalone-tight'),
- #phoChargedIsolation       = cms.InputTag('photonIDValueMapProducer:phoChargedIsolation'),
- #phoNeutralHadronIsolation = cms.InputTag('photonIDValueMapProducer:phoNeutralHadronIsolation'),
- #phoPhotonIsolation        = cms.InputTag('photonIDValueMapProducer:phoPhotonIsolation'),
- #phoWorstChargedIsolation  = cms.InputTag('photonIDValueMapProducer:phoWorstChargedIsolation'),
-
- #photonAODSrc              = cms.InputTag('selectedPatPhotons'),
  photonAODSrc              = cms.InputTag('gedPhotons'),
- #AOD_phoLooseIdMap  = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-loose"),
- #AOD_phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-medium"),
- #AOD_phoTightIdMap  = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Spring16-V2p2-tight"),
- #AOD_phoChargedIsolationMap       = cms.InputTag("photonIDValueMapProducer", "phoChargedIsolation"),
- #AOD_phoNeutralHadronIsolationMap = cms.InputTag("photonIDValueMapProducer", "phoNeutralHadronIsolation"),
- #AOD_phoPhotonIsolationMap        = cms.InputTag("photonIDValueMapProducer", "phoPhotonIsolation"),
- #AOD_phoWorstChargedIsolationMap  = cms.InputTag("photonIDValueMapProducer", "phoWorstChargedIsolation"),
+
+# AOD_phoLooseIdMap  = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Fall17-94X-V1-loose"),
+# AOD_phoMediumIdMap = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Fall17-94X-V1-medium"),
+# AOD_phoTightIdMap  = cms.InputTag("egmPhotonIDs:cutBasedPhotonID-Fall17-94X-V1-tight"),
+# AOD_phoChargedIsolationMap       = cms.InputTag("photonIDValueMapProducer", "phoChargedIsolation"),
+# AOD_phoNeutralHadronIsolationMap = cms.InputTag("photonIDValueMapProducer", "phoNeutralHadronIsolation"),
+# AOD_phoPhotonIsolationMap        = cms.InputTag("photonIDValueMapProducer", "phoPhotonIsolation"),
+# AOD_phoWorstChargedIsolationMap  = cms.InputTag("photonIDValueMapProducer", "phoWorstChargedIsolation"),
 
  electronAODSrc = cms.InputTag("gedGsfElectrons"),
  #AOD_eleIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),#doesn't work with AOD
  AOD_eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
  AOD_eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
  AOD_eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
- conversions  = cms.InputTag('allConversions'),                                    
+ conversions  = cms.InputTag('allConversions'),
 
- #genParticleSrc    = cms.InputTag("genParticles"),
+# genParticleSrc    = cms.InputTag("genParticles"),
 
  bits = cms.InputTag("TriggerResults","","HLT"),
  prescales = cms.InputTag("patTrigger"),
@@ -199,6 +207,7 @@ process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
 process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
 
+
 #builds Ntuple
 process.p = cms.Path(
     process.egammaPostRecoSeq *
@@ -209,9 +218,3 @@ process.p = cms.Path(
     process.selectedPatCandidates *
     process.lldjNtuple
     )
-
-    #process.egmPhotonIDSequence *
-#process.ep = cms.EndPath(process.out)
-#print process.dumpPython()
-#print process.egmGsfElectronIDSequence.dumpPython()
-

@@ -7,21 +7,31 @@ printf "Files checked for completion after condor submition : \n"
 printf "%50s %4s %4s \n" Sample Tot  Left
 
 samples=( \
+ "Data_DoubleMuon_A"         \
  "Data_DoubleMuon_B"         \
  "Data_DoubleMuon_C"         \
  "Data_DoubleMuon_D"         \
- "Data_DoubleMuon_E"         \
- "Data_DoubleMuon_F"         \
+ "Data_DoubleEG_A"         \
  "Data_DoubleEG_B"         \
  "Data_DoubleEG_C"         \
  "Data_DoubleEG_D"         \
- "Data_DoubleEG_E"         \
- "Data_DoubleEG_F"         \
+ "Data_MuonEG_A"         \
  "Data_MuonEG_B"         \
  "Data_MuonEG_C"         \
  "Data_MuonEG_D"         \
- "Data_MuonEG_E"         \
- "Data_MuonEG_F"         \
+ "QCD_HT100to200"        \
+ "QCD_HT200to300"        \
+ "QCD_HT300to500"        \
+ "QCD_HT500to700"        \
+ "QCD_HT700to1000"       \
+ "QCD_HT1000to1500"      \
+ "QCD_HT1500to2000"      \
+ "QCD_HT2000toInf"       \
+ "GJets_HT-40To100"        \
+ "GJets_HT-100To200"        \
+ "GJets_HT-200To400"        \
+ "GJets_HT-400To600"        \
+ "GJets_HT-600ToInf"       \
  "DYJetsToLL_M-50"            \
  "WJetsToLNu"     \
  "TTJets"          \
@@ -34,14 +44,8 @@ samples=( \
  "WZ"                 \
  "ZZ"                 \
  "WGToLNuG"              \
- "QCD_HT100to200"        \
- "QCD_HT200to300"        \
- "QCD_HT300to500"        \
- "QCD_HT500to700"        \
- "QCD_HT700to1000"       \
- "QCD_HT1000to1500"      \
- "QCD_HT1500to2000"      \
- "QCD_HT2000toInf"       \
+ "ZH_HToBB" 		\
+ "ggZH_HToBB"		\
 )
 
 totin=0

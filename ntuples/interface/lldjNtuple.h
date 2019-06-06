@@ -30,7 +30,6 @@
 #include "JetMETCorrections/Modules/interface/JetResolution.h"
 #include "RecoTracker/Record/interface/NavigationSchoolRecord.h"
 
-#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
 //#include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
 //#include "PhysicsTools/SelectorUtils/interface/PFJetIDSelectionFunctor.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"

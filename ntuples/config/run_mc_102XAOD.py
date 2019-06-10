@@ -10,20 +10,21 @@ process.options = cms.untracked.PSet( allowUnscheduled = cms.untracked.bool(True
 #Setup FWK for multithreaded
 process.options.numberOfThreads=cms.untracked.uint32(4)
 process.options.numberOfStreams=cms.untracked.uint32(0)
-
+#process.options.SkipEvent = cms.untracked.vstring('ProductNotFound')
 process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(101) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 # input files
 process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 
-'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/QCD_HT50to100_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/100000/4E581528-5A9D-5042-8B33-99BB0FF2F0DD.root'
+#'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/QCD_HT50to100_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/100000/4E581528-5A9D-5042-8B33-99BB0FF2F0DD.root'
 #'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/00003/DD967656-BACC-DD40-BA44-7E309FF8D393.root'
+'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
  ),
 )
 
@@ -112,10 +113,10 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 
  electronSrc               = cms.InputTag('selectedElectrons','','LLDJ'),
  rhoLabel                  = cms.InputTag('fixedGridRhoFastjetAll'),
- eleVetoIdMap              = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-veto'),
- eleLooseIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-loose'),
- eleMediumIdMap            = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-medium'),
- eleTightIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-tight'),
+ #eleVetoIdMap              = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-veto'),
+ #eleLooseIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-loose'),
+ #eleMediumIdMap            = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-medium'),
+ #eleTightIdMap             = cms.InputTag('egmGsfElectronIDs:cutBasedElectronID-Summer17-94X-V2-tight'),
  eleHLTIdMap               = cms.InputTag('egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer17-V2'),
 
  rhoCentralLabel           = cms.InputTag('fixedGridRhoFastjetCentralNeutral'),
@@ -190,9 +191,9 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 )
 
 # Double check: this is to remove the OOT photons, which is causing a crash
-#process.patCandidates.remove(process.patCandidateSummary)
+process.patCandidates.remove(process.patCandidateSummary)
 process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
-#process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
 process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
 

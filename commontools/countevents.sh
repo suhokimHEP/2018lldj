@@ -150,6 +150,7 @@ countalist "Data_MuonEG_D"
 ### MC backgrounds
 
 # QCD
+countalist "QCD_HT50to100"       ${xcQCD_HT50to100}
 countalist "QCD_HT100to200"       ${xcQCD_HT100to200}
 countalist "QCD_HT200to300"       ${xcQCD_HT200to300}
 countalist "QCD_HT300to500"       ${xcQCD_HT300to500}

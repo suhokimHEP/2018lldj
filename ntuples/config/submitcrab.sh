@@ -56,62 +56,79 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-  "Data_DoubleMuon_B"      \
+   "ZH_Hbb_2"		\
+#  "ZZ"		\
+#  "Data_MuonEG_C"   \    
+#  "DY50_1_amc"      \
 )
+#data
 
+#"Data_DoubleMuon_A"\
+#"Data_DoubleMuon_B"\
+#"Data_DoubleMuon_C"\
+#"Data_DoubleMuon_D"\
+#"Data_DoubleEG_A"\  
+#"Data_DoubleEG_B"\ 
+#"Data_DoubleEG_C"\  
+#"Data_DoubleEG_D"\  
+#"Data_MuonEG_A"\    
+#"Data_MuonEG_B"\    
+#"Data_MuonEG_C"\    
+#"Data_MuonEG_D"\    
+                   
+#BKG
+#"QCD_HT50to100"\                   
+#"QCD_HT100to200"\   
+#"QCD_HT200to300"\   
+#"QCD_HT300to500"\   
+#"QCD_HT500to700"\   
+#"QCD_HT700to1000"\  
+#"QCD_HT1000to1500"\ 
+#"QCD_HT1500to2000"\ 
+#"QCD_HT2000toInf"\  
+                                  
+#"GJets_HT40To100"\ 
+#"GJets_HT100To200"\
+#"GJets_HT200To400"\
+#"GJets_HT400To600"\
+#"GJets_HT600ToInf"\
+                   
+#"DY50_1"\
+#"DY50_1_amc"\
+#"DY10to50"\
+#"DY5to50"\
+  
+#"TTJets"\ 
+#"TTJets_amc"\ 
+#"TTtoLL"\ 
+#"TTtoLL_amc"\ 
+#"TTtoLfromT"\ 
+#"TTtoLfromTbar"\ 
 
-#QCD_HT50to100\
-#QCD_HT100to200\
-#QCD_HT200to300\
-#QCD_HT300to500\
-#QCD_HT500to700\
-#QCD_HT700to1000\
-#QCD_HT1000to1500\
-#QCD_HT1500to2000\
-#QCD_HT2000toInf\
-#GJets_HT40to100\
-#GJets_HT100to200\
-#GJets_HT200to400\
-#GJets_HT400to600\
-#GJets_HT600toInf\
-#DY50_1\
-#DY50_1_amc\
-#DY10to50\
-#DY5to50\
-#TTJets\
-#TTJets_amc\
-#TTtoLL\
-#TTtoLL_amc\
-#TTtoLfromT\
-#TTtoLfromTbar\
-#STs_3\
-#STs_4\
-#STt\
-#STtbar\
-#STtW_2\
-#STtW_3\
-#STtW_inc\
-#STtbarW_2\
-#STtbarW_3\
-#STtbarW_inc\
-#WJets\
-#WW\
-#WZ\
-#ZZ\
-#WG\
-#ZG\
-#ZH_Hbb_1\
-#ZH_Hbb_2\
-#ggZH_Hbb\
-#Data_Double_Muon_A\
-#Data_Double_Muon_B\
-#Data_Double_Muon_C\
-#Data_Double_Muon_D\
-#
-#Data_MuonEG_A\
-#Data_MuonEG_B\
-#Data_MuonEG_C\
-#Data_MuonEG_D\
+#"STs_3"\             
+#"STs_4"\             
+#"STt"\             
+#"STtbar"\             
+#"STtW_2"\             
+#"STtW_3"\             
+#"STtW_inc"\             
+#"STtbarW_2"\             
+#"STtbarW_3"\             
+#"STtbarW_inc"\             
+
+#"WJets"\     
+                                    
+#"WW"\              
+#"WZ"\              
+#"ZZ"\                                                 
+#"ZG"\        
+#"WG"\        
+              
+#"ZH_Hbb_1"\  
+#"ZH_Hbb_2"\                      
+#"ggZH_HToBB_ZToLL"\
+
+#Signal
 
 # print which samples we're running over
 printf "For:\n"
@@ -155,7 +172,7 @@ do
  LUMIMASK=""
  if [ ${dodata} = true ]
  then
-     LUMIMASK="'${PWD}/jsons/Cert_294927-306462_13TeV_PromptReco_Collisions17_JSON.txt'"
+     LUMIMASK="'${PWD}/jsons/Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON.txt'"
  fi
 
  # choose correct config parameters
@@ -197,8 +214,8 @@ do
    CMSRUNCONFIG="'${msubmitconfig}'" 
    UPERJOB="1"
   fi
-  #SPLITTING="'FileBased'"
-  SPLITTING="'Automatic'"
+  SPLITTING="'FileBased'"
+  #SPLITTING="'Automatic'"
  fi
 
  NUNITS="-1"

@@ -19,6 +19,7 @@ makealist() {
 ### MC backgrounds
 #
 ##QCD 
+makealist "QCD_HT50to100"      "/QCD_HT50to100_"
 makealist "QCD_HT100to200"      "/QCD_HT100to200_"
 makealist "QCD_HT200to300"      "/QCD_HT200to300_"
 makealist "QCD_HT300to500"      "/QCD_HT300to500_"
@@ -96,10 +97,10 @@ makealist "ZH_HToBB_ZToLL"         "/ZH_HToBB_ZToLL_M125_"
 ##
 ## Data
 ##
-makealist "Data_DoubleMuon_A"          "/MuonEG/crab_Data_DoubleMuon_A"
-makealist "Data_DoubleMuon_B"          "/MuonEG/crab_Data_DoubleMuon_B"
-makealist "Data_DoubleMuon_C"          "/MuonEG/crab_Data_DoubleMuon_C"
-makealist "Data_DoubleMuon_D"          "/MuonEG/crab_Data_DoubleMuon_D"
+makealist "Data_DoubleMuon_A"          "/DoubleMuon/crab_Data_DoubleMuon_A"
+makealist "Data_DoubleMuon_B"          "/DoubleMuon/crab_Data_DoubleMuon_B"
+makealist "Data_DoubleMuon_C"          "/DoubleMuon/crab_Data_DoubleMuon_C"
+makealist "Data_DoubleMuon_D"          "/DoubleMuon/crab_Data_DoubleMuon_D"
 ##
 makealist "Data_DoubleEG_A"          "/DoubleEG/crab_Data_DoubleEG_A"
 makealist "Data_DoubleEG_B"          "/DoubleEG/crab_Data_DoubleEG_B"

@@ -15,7 +15,7 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(101) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.cerr.FwkReport.reportEvery = 1
 #process.Tracer = cms.Service('Tracer')
@@ -25,7 +25,8 @@ process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 #'file:MuEG.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
-'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
+#'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
+'root://cms-xrd-global.cern.ch//store/data/Run2018C/MuonEG/AOD/17Sep2018-v1/810000/E462389C-0A89-414A-BCF3-0BC9CA026DBC.root'	
 #'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )
@@ -201,9 +202,9 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 )
 
 # Double check: this is to remove the OOT photons, which is causing a crash
-#process.patCandidates.remove(process.patCandidateSummary)
+process.patCandidates.remove(process.patCandidateSummary)
 process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
-#process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
 process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
 

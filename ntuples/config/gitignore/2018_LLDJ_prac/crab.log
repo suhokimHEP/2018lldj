@@ -1,0 +1,18 @@
+DEBUG 2019-06-09 18:44:52,453: 	 Executing command: 'status'
+DEBUG 2019-06-09 18:44:52,453: 	 Found CRAB cache file /uscms/home/skim2/.crab3
+ERROR 2019-06-09 18:44:52,463: 	 Cannot find .requestcache file in CRAB project directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac
+ERROR 2019-06-09 18:44:52,463: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/bin/crab", line 161, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/lib/python2.7/site-packages/CRABClient/Commands/status.py", line 40, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 268, in __init__
+    SubCommand.validateOptions(self)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 590, in validateOptions
+    self.loadLocalCache()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1904/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 452, in loadLocalCache
+    raise ex
+CachefileNotFoundException: Cannot find .requestcache file in CRAB project directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac

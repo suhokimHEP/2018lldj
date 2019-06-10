@@ -17,7 +17,7 @@
 #include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateTransform.h"
-//#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
+#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
 
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 
@@ -1275,19 +1275,19 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       AODCaloJetAvfBeamSpotLog10MedianDeltaPhi_.push_back( log10(d2dphiMed) );
       AODCaloJetNCleanMatchedTracks_.push_back( (int)cleanTrackColl.size() );
       
-      int nHitsInFront = 0;
-      int nMissingAfter = 0;
-      CheckHitPattern checkHitPattern_;
-      for(int j = 0; j < (int)cleanTrackColl.size(); j++){
-	const CheckHitPattern::Result res = checkHitPattern_.operator()(cleanTrackColl[j].track(),avfVerts[0].vertexState());
-	nHitsInFront += res.hitsInFrontOfVert;
-	nMissingAfter += res.missHitsAfterVert;
-      }
-      AODCaloJetSumHitsInFrontOfVert_.push_back( nHitsInFront );
-      AODCaloJetSumMissHitsAfterVert_.push_back( nMissingAfter );
-      AODCaloJetHitsInFrontOfVertPerTrack_.push_back( double(nHitsInFront)/double(transientTracks.size()) );
-      AODCaloJetMissHitsAfterVertPerTrack_.push_back( double(nMissingAfter)/double(transientTracks.size()) );
-      
+      //int nHitsInFront = 0;
+      //int nMissingAfter = 0;
+      //CheckHitPattern checkHitPattern_;
+      //for(int j = 0; j < (int)cleanTrackColl.size(); j++){
+      //  const CheckHitPattern::Result res = checkHitPattern_.operator()(cleanTrackColl[j].track(),avfVerts[0].vertexState());
+      //  nHitsInFront += res.hitsInFrontOfVert;
+      //  nMissingAfter += res.missHitsAfterVert;
+      //}
+      //AODCaloJetSumHitsInFrontOfVert_.push_back( nHitsInFront );
+      //AODCaloJetSumMissHitsAfterVert_.push_back( nMissingAfter );
+      //AODCaloJetHitsInFrontOfVertPerTrack_.push_back( double(nHitsInFront)/double(transientTracks.size()) );
+      //AODCaloJetMissHitsAfterVertPerTrack_.push_back( double(nMissingAfter)/double(transientTracks.size()) );
+      //
       AODCaloJetAvfDistToPV_.push_back( 
 				       sqrt(pow((AODVertexHandle->at(0).x() - avfVerts[0].position().x())/AODVertexHandle->at(0).x(),2)
 					    +pow((AODVertexHandle->at(0).y() - avfVerts[0].position().y())/AODVertexHandle->at(0).y(),2)

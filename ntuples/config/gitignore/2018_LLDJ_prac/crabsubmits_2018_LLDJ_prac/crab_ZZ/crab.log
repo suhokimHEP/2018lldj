@@ -1,0 +1,149 @@
+DEBUG 2019-06-10 14:04:19,861: 	 Executing command: 'submit'
+DEBUG 2019-06-10 14:04:19,896: 	 Found CRAB cache file /uscms/home/skim2/.crab3
+DEBUG 2019-06-10 14:04:19,912: 	 Checking credentials
+DEBUG 2019-06-10 14:04:19,913: 	 Found proxy file /uscms/home/skim2/x509up_u54978
+DEBUG 2019-06-10 14:04:19,913: 	 Getting proxy life time left
+DEBUG 2019-06-10 14:04:20,017: 	 Executing : 
+ command : voms-proxy-info -file /uscms/home/skim2/x509up_u54978 -timeleft
+ output : 39137
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:20,121: 	 Executing : 
+ command : voms-proxy-info -file /uscms/home/skim2/x509up_u54978 -actimeleft
+ output : 39136
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:20,121: 	 Proxy lifetime 39137 secs is different from voms extension lifetime 39136 secs for proxy: /uscms/home/skim2/x509up_u54978
+DEBUG 2019-06-10 14:04:20,121: 	 Proxy valid for 10:52:16 hours
+DEBUG 2019-06-10 14:04:20,122: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2019-06-10 14:04:20,242: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=suho/CN=833637/CN=Suho Kim
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:20,242: 	 Checking credentials
+DEBUG 2019-06-10 14:04:20,242: 	 Found proxy file /uscms/home/skim2/x509up_u54978
+DEBUG 2019-06-10 14:04:20,242: 	 Getting proxy life time left
+DEBUG 2019-06-10 14:04:20,346: 	 Executing : 
+ command : voms-proxy-info -file /uscms/home/skim2/x509up_u54978 -timeleft
+ output : 39136
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:20,583: 	 Executing : 
+ command : voms-proxy-info -file /uscms/home/skim2/x509up_u54978 -actimeleft
+ output : 39136
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:20,584: 	 Proxy valid for 10:52:16 hours
+DEBUG 2019-06-10 14:04:20,788: 	 Executing : 
+ command : env X509_USER_PROXY=/uscms/home/skim2/x509up_u54978 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:21,392: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(052|058|030|0118|0105|0109).cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod)-tw(02|01).cern.ch
+DEBUG 2019-06-10 14:04:21,502: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=suho/CN=833637/CN=Suho Kim
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:21,502: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2019-06-10 14:04:21,503: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=suho/CN=833637/CN=Suho Kim_cmsweb.cern.ch for credential name
+DEBUG 2019-06-10 14:04:22,508: 	 Executing : 
+ command : myproxy-info -l a47256a1dddc6ec84f2d33894c6ed740770b8ac0 -s myproxy.cern.ch
+ output : username: a47256a1dddc6ec84f2d33894c6ed740770b8ac0
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=suho/CN=833637/CN=Suho Kim
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(052|058|030|0118|0105|0109).cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod)-tw(02|01).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(052|058|030|0118|0105|0109).cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod)-tw(02|01).cern.ch
+  timeleft: 695:08:08  (29.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2019-06-10 14:04:22,510: 	 Myproxy is valid: 2502488
+DEBUG 2019-06-10 14:04:22,510: 	 Command use: submit
+DEBUG 2019-06-10 14:04:22,510: 	 Options use: ['--config', <WMCore.Configuration.Configuration object at 0x7f740d40de90>]
+DEBUG 2019-06-10 14:04:23,121: 	 CRABClient version: 3.3.1904
+DEBUG 2019-06-10 14:04:23,121: 	 Instance is prod
+DEBUG 2019-06-10 14:04:23,121: 	 Server base url is cmsweb.cern.ch
+DEBUG 2019-06-10 14:04:23,121: 	 Command url /crabserver/prod/workflow
+DEBUG 2019-06-10 14:04:23,121: 	 Started submission
+DEBUG 2019-06-10 14:04:23,121: 	 Working on /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ
+DEBUG 2019-06-10 14:04:23,959: 	 Loading required information from the environment
+DEBUG 2019-06-10 14:04:23,959: 	 Found CMSSW_10_2_15 for slc6_amd64_gcc700 with base /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15
+DEBUG 2019-06-10 14:04:23,959: 	 Loading required information from the environment
+DEBUG 2019-06-10 14:04:23,959: 	 Found CMSSW_10_2_15 for slc6_amd64_gcc700 with base /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15
+DEBUG 2019-06-10 14:04:23,980: 	 UNIQUE NAME: tarUUID 420e2d3a-ffac-403e-80ae-782f0c40ee4a 
+DEBUG 2019-06-10 14:04:23,981: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = False
+config.General.workArea = 'crabsubmits_2018_LLDJ_prac'
+config.General.requestName = 'ZZ'
+config.section_('JobType')
+config.JobType.numCores = 4
+config.JobType.maxMemoryMB = 4000
+config.JobType.pluginName = 'Analysis'
+config.JobType.allowUndistributedCMSSW = True
+config.JobType.psetName = 'run_mc_102XAOD.py'
+config.JobType.sendExternalFolder = True
+config.section_('Data')
+config.Data.inputDataset = '/ZZ_TuneCP5_13TeV-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-v2/AODSIM'
+config.Data.publication = False
+config.Data.unitsPerJob = 1
+config.Data.ignoreLocality = True
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'FileBased'
+config.Data.outLFNDirBase = '/store/group/lpchbb/LLDJntuples/2018_LLDJ_prac'
+config.Data.totalUnits = -1
+config.section_('Site')
+config.Site.whitelist = ['T2_US*']
+config.Site.storageSite = 'T3_US_FNALLPC'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2019-06-10 14:04:23,982: 	 self.config.JobType.psetName: run_mc_102XAOD.py
+INFO 2019-06-10 14:04:23,982: 	 Importing CMSSW configuration run_mc_102XAOD.py
+INFO 2019-06-10 14:04:28,475: 	 Finished importing CMSSW configuration run_mc_102XAOD.py
+INFO 2019-06-10 14:04:28,475: 	 You are requesting more than 1 core per job. Please make sure that your multi-threaded code is thread-safe and CPU-efficient, and request the correct amount of memory since the default 'maxMemoryMB' value is meant for single core jobs.
+DEBUG 2019-06-10 14:04:28,476: 	 Writing CMSSW configuration to /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ/inputs/PSet.py
+DEBUG 2019-06-10 14:04:29,592: 	 The following EDM output files will be collected: []
+DEBUG 2019-06-10 14:04:29,592: 	 The following TFile output files will be collected: ['lldjntuple_mc_AOD.root']
+DEBUG 2019-06-10 14:04:29,592: 	 The following user output files will be collected: []
+DEBUG 2019-06-10 14:04:29,592: 	 Loading required information from the environment
+DEBUG 2019-06-10 14:04:29,592: 	 Found CMSSW_10_2_15 for slc6_amd64_gcc700 with base /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15
+DEBUG 2019-06-10 14:04:29,592: 	 Making tarball in /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ/inputs/420e2d3a-ffac-403e-80ae-782f0c40ee4adefault.tgz
+DEBUG 2019-06-10 14:04:29,594: 	 Checking directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/lib
+DEBUG 2019-06-10 14:04:29,594: 	 Adding directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/lib to tarball
+DEBUG 2019-06-10 14:04:32,549: 	 Checking directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/biglib
+DEBUG 2019-06-10 14:04:32,549: 	 Adding directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/biglib to tarball
+DEBUG 2019-06-10 14:04:32,551: 	 Checking directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/module
+DEBUG 2019-06-10 14:04:32,551: 	 Checking directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/external
+DEBUG 2019-06-10 14:04:32,551: 	 Adding directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/external to tarball
+DEBUG 2019-06-10 14:04:35,460: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/PhysicsTools/PatAlgos/interface to tarball
+DEBUG 2019-06-10 14:04:36,574: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/RecoEgamma/EgammaTools/data to tarball
+DEBUG 2019-06-10 14:04:36,704: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/RecoEgamma/EgammaTools/interface to tarball
+DEBUG 2019-06-10 14:04:37,472: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/RecoEgamma/PhotonIdentification/data to tarball
+DEBUG 2019-06-10 14:04:45,638: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/RecoEgamma/PhotonIdentification/interface to tarball
+DEBUG 2019-06-10 14:04:46,060: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/RecoTracker/DebugTools/interface to tarball
+DEBUG 2019-06-10 14:04:46,830: 	 Adding data directory /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/interface to tarball
+DEBUG 2019-06-10 14:04:47,672: 	 Uploading archive /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ/inputs/420e2d3a-ffac-403e-80ae-782f0c40ee4adefault.tgz (32 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2019-06-10 14:05:12,265: 	 Loading required information from the environment
+DEBUG 2019-06-10 14:05:12,265: 	 Found CMSSW_10_2_15 for slc6_amd64_gcc700 with base /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15
+DEBUG 2019-06-10 14:05:12,265: 	 Making tarball in /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ/inputs/debugFiles.tgz
+DEBUG 2019-06-10 14:05:12,273: 	 Uploading archive /uscms_data/d3/skim2/2018-LLDJ_slc6_700_CMSSW_10_2_15/src/2018lldj/ntuples/config/gitignore/2018_LLDJ_prac/crabsubmits_2018_LLDJ_prac/crab_ZZ/inputs/debugFiles.tgz (3 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2019-06-10 14:05:25,790: 	 Result uploading input files: 7b8d5b5174c7b7bf04421b0e4c6b1eec27fa0afe00d4fcb3529a94a00386ef3c.tar.gz 
+INFO 2019-06-10 14:05:25,790: 	 Sending the request to the server
+DEBUG 2019-06-10 14:05:25,791: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'ignorelocality': 1, 'savelogsflag': 0, 'useparent': 0, 'asyncdest': 'T3_US_FNALLPC', 'algoargs': 1, 'cachefilename': '7b8d5b5174c7b7bf04421b0e4c6b1eec27fa0afe00d4fcb3529a94a00386ef3c.tar.gz', 'numcores': 4, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 4000, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_10_2_15', 'edmoutfiles': [], 'userfiles': [], 'primarydataset': '', 'inputdata': '/ZZ_TuneCP5_13TeV-pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-v2/AODSIM', 'lfn': '/store/group/lpchbb/LLDJntuples/2018_LLDJ_prac', 'dryrun': 0, 'workflow': 'crab_ZZ', 'sitewhitelist': ['T2_US*'], 'nonprodsw': 1, 'tfileoutfiles': ['lldjntuple_mc_AOD.root'], 'oneEventMode': 0, 'debugfilename': 'a1124e16b073d4de66169874e18fe85740b02669718b3d10d46f7f2393cdc047.tar.gz', 'cacheurl': u'https://cmsweb.cern.ch/crabcache', 'saveoutput': 1, 'publication': 0, 'jobarch': 'slc6_amd64_gcc700', 'totalunits': -1, 'splitalgo': 'FileBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'publishgroupname': 0, 'jobtype': 'Analysis', 'publishname2': ''} 
+DEBUG 2019-06-10 14:05:25,791: 	 Encoded submit request: maxjobruntime=1250&ignorelocality=1&savelogsflag=0&useparent=0&asyncdest=T3_US_FNALLPC&algoargs=1&cachefilename=7b8d5b5174c7b7bf04421b0e4c6b1eec27fa0afe00d4fcb3529a94a00386ef3c.tar.gz&numcores=4&generator=pythia&maxmemory=4000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_10_2_15&primarydataset=&inputdata=%2FZZ_TuneCP5_13TeV-pythia8%2FRunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-v2%2FAODSIM&lfn=%2Fstore%2Fgroup%2Flpchbb%2FLLDJntuples%2F2018_LLDJ_prac&dryrun=0&workflow=crab_ZZ&nonprodsw=1&oneEventMode=0&debugfilename=a1124e16b073d4de66169874e18fe85740b02669718b3d10d46f7f2393cdc047.tar.gz&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&saveoutput=1&publication=0&jobarch=slc6_amd64_gcc700&totalunits=-1&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=&sitewhitelist=T2_US%2A&tfileoutfiles=lldjntuple_mc_AOD.root
+DEBUG 2019-06-10 14:05:26,456: 	 Result: {u'result': [{u'RequestName': u'190610_190526:suho_crab_ZZ'}]}
+INFO 2019-06-10 14:05:26,459: 	 Success: Your task has been delivered to the CRAB3 server.
+INFO 2019-06-10 14:05:26,459: 	 Task name: 190610_190526:suho_crab_ZZ
+INFO 2019-06-10 14:05:26,459: 	 Project dir: crabsubmits_2018_LLDJ_prac/crab_ZZ
+INFO 2019-06-10 14:05:26,459: 	 Please use 'crab status -d crabsubmits_2018_LLDJ_prac/crab_ZZ' to check how the submission process proceeds.
+DEBUG 2019-06-10 14:05:26,460: 	 About to return

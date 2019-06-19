@@ -56,7 +56,10 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-   "ZH_Hbb_2"		\
+
+  "Data_DoubleMuon_B"\
+
+#  "ZH_Hbb_2"		\
 #  "ZZ"		\
 #  "Data_MuonEG_C"   \    
 #  "DY50_1_amc"      \
@@ -106,14 +109,14 @@ samples=( \
 #"TTtoLfromTbar"\ 
 
 #"STs_3"\             
-#"STs_4"\             
+#"STs"\             
 #"STt"\             
 #"STtbar"\             
 #"STtW_2"\             
-#"STtW_3"\             
+#"STtW"\             
 #"STtW_inc"\             
 #"STtbarW_2"\             
-#"STtbarW_3"\             
+#"STtbarW"\             
 #"STtbarW_inc"\             
 
 #"WJets"\     
@@ -125,7 +128,7 @@ samples=( \
 #"WG"\        
               
 #"ZH_Hbb_1"\  
-#"ZH_Hbb_2"\                      
+#"ZH_Hbb"\                      
 #"ggZH_HToBB_ZToLL"\
 
 #Signal

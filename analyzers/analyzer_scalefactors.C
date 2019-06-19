@@ -115,7 +115,7 @@ void analyzer_scalefactors::loadPUWeight(){
 //----------------------------loadElectronWeight
 void analyzer_scalefactors::loadElectronWeight(TString eleid){
  std::cout << "loading Electron weight" << std::endl;
- TString filename = "2017_Electron"+eleid+".root" ;
+ TString filename = "2018_Electron"+eleid+".root" ;
  TFile* file_eleweights = new TFile( filename ) ;
  std::cout << " filename: " << filename << std::endl;
  EleWeights = (TH2F*)file_eleweights->Get("EGamma_SF2D")->Clone("EleWeights");

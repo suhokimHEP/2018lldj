@@ -27,9 +27,6 @@ cmsenv;
 git cms-init;
 git cms-merge-topic cms-egamma:EgammaID_1023; #if you want the V2 IDs, otherwise skip  
 git cms-merge-topic cms-egamma:EgammaPostRecoTools; #just adds in an extra file to have a setup function to make things  easier
-mkdir -p RecoTracker/DebugTools
-cd RecoTracker/DebugTools
-cp -r /cvmfs/cms.cern.ch/slc6_amd64_gcc630/cms/cmssw/CMSSW_9_4_9/src/RecoTracker/DebugTools/ . 
 scramv1 build -j 4;
 ```
 

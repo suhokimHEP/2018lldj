@@ -96,15 +96,15 @@ samples=( \
 #"GJets_HT400To600"\
 #"GJets_HT600ToInf"\
                    
+#"DY50_1_MG"\
 #"DY50_1"\
-#"DY50_1_amc"\
 #"DY10to50"\
 #"DY5to50"\
   
+#"TTJets_MG"\ 
 #"TTJets"\ 
-#"TTJets_amc"\ 
+#"TTtoLL_MG"\ 
 #"TTtoLL"\ 
-#"TTtoLL_amc"\ 
 #"TTtoLfromT"\ 
 #"TTtoLfromTbar"\ 
 

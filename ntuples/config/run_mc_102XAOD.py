@@ -29,7 +29,7 @@ process.source = cms.Source('PoolSource',
 )
 
 # output name
-process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD4.root'));
+process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD.root'));
 
 
 # cms geometry

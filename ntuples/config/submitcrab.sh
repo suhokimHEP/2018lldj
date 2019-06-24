@@ -56,13 +56,9 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-
-  "Data_DoubleMuon_B"\
-
-#  "ZH_Hbb_2"		\
-#  "ZZ"		\
-#  "Data_MuonEG_C"   \    
-#  "DY50_1_amc"      \
+"DY50_1"    \
+"STs"    \             
+"STtbarW"    \             
 )
 #data
 
@@ -217,8 +213,8 @@ do
    CMSRUNCONFIG="'${msubmitconfig}'" 
    UPERJOB="1"
   fi
-  SPLITTING="'FileBased'"
-  #SPLITTING="'Automatic'"
+  #SPLITTING="'FileBased'"
+  SPLITTING="'Automatic'"
  fi
 
  NUNITS="-1"

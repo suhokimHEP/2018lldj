@@ -1,4 +1,4 @@
-#2018lldj
+##2018lldj
  For 2018 data
 ## Overview, History, and Introduction
 ```
@@ -38,17 +38,17 @@ git clone https://github.com/<mygithubusername>/2018lldj.git;
 pushd 2018lldj;
 ```
 
-# If you want to check out a specific branch
+## If you want to check out a specific branch
 ```
   git fetch origin
   git branch -v -a # list branches available, find yours
   git checkout -b NAMEOFBRANCH origin/NAMEOFBRANCH
 ```  
-# add DisplacedHiggs as upstream
+## add DisplacedHiggs as upstream
 ```
   git remote add upstream https://github.com/DisplacedHiggs/2018lldj.git
 ```
-#-----Compile a clean area
+##-----Compile a clean area
 ```
   cd 2018lldj
   scramv1 build -j 4;

@@ -186,6 +186,16 @@ countalist "DYJetsToLL_M-50"                   ${xcDY50}
 #countalist "WW"                 ${xcWW} 
 #countalist "WZ"                 ${xcWZ} 
 countalist "ZZ"                 ${xcZZ} 
+#countalist "WWToLNuQQ"                   ${xcWZ} 
+#countalist "WWTo4Q"                      ${xcWZ} 
+#countalist "WWTo2L2Nu"                   ${xcWZ} 
+#countalist "WWTo1L1Nu2Q"                 ${xcWZ} 
+#countalist "WZTo3LNu"                    ${xcWZ} 
+#countalist "WZTo2L2Q"                    ${xcWZ} 
+#countalist "ZZTo4L"                      ${xcWZ} 
+#countalist "ZZTo2Q2Nu"                   ${xcWZ} 
+#countalist "ZZTo2L2Q"                    ${xcWZ} 
+#countalist "ZZTo2L2Nu"                   ${xcWZ} 
 #
 ## VGamma
 ##countalist "ZGTo2LG"              ${xcZG} 

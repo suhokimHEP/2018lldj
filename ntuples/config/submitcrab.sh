@@ -126,6 +126,22 @@ samples=( \
 #"ZZ"\                                                 
 #"ZG"\        
 #"WG"\        
+
+#"WWToLNuQQ"\
+#"WWTo4Q"\
+#"WWTo2L2Nu"\
+#"WWTo1L1Nu2Q"\
+#"WZTo3LNu_1"\
+#"WZTo3LNu_powheg"\
+#"WZTo3LNu"\
+#"WZTo2L2Q"\
+#"ZZTo4L"\
+#"ZZTo4L_2"\
+#"ZZTo2Q2Nu"\
+#"ZZTo2L2Q"\
+#"ZZTo2L2Nu"\
+#"ZZTo2L2Nu_2"\
+
               
 #"ZH_Hbb_1"\  
 #"ZH_Hbb"\                      

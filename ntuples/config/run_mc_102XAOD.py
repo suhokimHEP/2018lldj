@@ -15,7 +15,7 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 # input files
@@ -29,7 +29,7 @@ process.source = cms.Source('PoolSource',
 )
 
 # output name
-process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD4.root'));
+process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD.root'));
 
 
 # cms geometry
@@ -87,7 +87,7 @@ setupEgammaPostRecoSeq(process,
                        runVID=True,
                        era='2017-Nov17ReReco', 
 		       isMiniAOD=False,
-		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V1_cff'])
+		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'])
 
 # For AOD Track variables
 process.MaterialPropagator = cms.ESProducer('PropagatorWithMaterialESProducer',
@@ -177,9 +177,9 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 
  electronAODSrc = cms.InputTag("gedGsfElectrons"),
  #AOD_eleIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),#doesn't work with AOD
- AOD_eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
- AOD_eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
- AOD_eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V1-loose"),
+ AOD_eleLooseIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose"),
+ AOD_eleMediumIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose"),
+ AOD_eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose"),
  conversions  = cms.InputTag('allConversions'),                                    
 
  #genParticleSrc    = cms.InputTag("genParticles"),

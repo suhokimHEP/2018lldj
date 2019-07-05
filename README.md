@@ -1,4 +1,4 @@
-#2018lldj
+##2018lldj
  For 2018 data
 ## Overview, History, and Introduction
 ```
@@ -27,9 +27,6 @@ cmsenv;
 git cms-init;
 git cms-merge-topic cms-egamma:EgammaID_1023; #if you want the V2 IDs, otherwise skip  
 git cms-merge-topic cms-egamma:EgammaPostRecoTools; #just adds in an extra file to have a setup function to make things  easier
-mkdir -p RecoTracker/DebugTools
-cd RecoTracker/DebugTools
-cp -r /cvmfs/cms.cern.ch/slc6_amd64_gcc630/cms/cmssw/CMSSW_9_4_9/src/RecoTracker/DebugTools/ . 
 scramv1 build -j 4;
 ```
 
@@ -41,17 +38,17 @@ git clone https://github.com/<mygithubusername>/2018lldj.git;
 pushd 2018lldj;
 ```
 
-# If you want to check out a specific branch
+## If you want to check out a specific branch
 ```
   git fetch origin
   git branch -v -a # list branches available, find yours
   git checkout -b NAMEOFBRANCH origin/NAMEOFBRANCH
 ```  
-# add DisplacedHiggs as upstream
+## add DisplacedHiggs as upstream
 ```
   git remote add upstream https://github.com/DisplacedHiggs/2018lldj.git
 ```
-#-----Compile a clean area
+##-----Compile a clean area
 ```
   cd 2018lldj
   scramv1 build -j 4;

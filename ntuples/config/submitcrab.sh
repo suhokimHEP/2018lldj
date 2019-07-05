@@ -56,13 +56,9 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-
-  "Data_DoubleMuon_B"\
-
-#  "ZH_Hbb_2"		\
-#  "ZZ"		\
-#  "Data_MuonEG_C"   \    
-#  "DY50_1_amc"      \
+"DY50_1"    \
+"STs"    \             
+"STtbarW"    \             
 )
 #data
 
@@ -96,15 +92,15 @@ samples=( \
 #"GJets_HT400To600"\
 #"GJets_HT600ToInf"\
                    
+#"DY50_1_MG"\
 #"DY50_1"\
-#"DY50_1_amc"\
 #"DY10to50"\
 #"DY5to50"\
   
+#"TTJets_MG"\ 
 #"TTJets"\ 
-#"TTJets_amc"\ 
+#"TTtoLL_MG"\ 
 #"TTtoLL"\ 
-#"TTtoLL_amc"\ 
 #"TTtoLfromT"\ 
 #"TTtoLfromTbar"\ 
 
@@ -233,8 +229,8 @@ do
    CMSRUNCONFIG="'${msubmitconfig}'" 
    UPERJOB="1"
   fi
-  SPLITTING="'FileBased'"
-  #SPLITTING="'Automatic'"
+  #SPLITTING="'FileBased'"
+  SPLITTING="'Automatic'"
  fi
 
  NUNITS="-1"

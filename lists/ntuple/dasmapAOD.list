@@ -73,13 +73,13 @@
  ggZH_Hbb    /ggZH_HToBB_ZToLL_M125_13TeV_powheg_pythia8/RunIIAutumn18DRPremix-102X_upgrade2018_realistic_v15-v1/AODSIM
  	
  #Data	
- Data_DoubleMuon_A    /DoubleMuon/Run2018A-PromptReco-v3/AOD
- Data_DoubleMuon_B    /DoubleMuon/Run2018B-PromptReco-v2/AOD
- Data_DoubleMuon_C    /DoubleMuon/Run2018C-PromptReco-v3/AOD
+ Data_DoubleMuon_A    /DoubleMuon/Run2018A-17Sep2018-v2/AOD
+ Data_DoubleMuon_B    /DoubleMuon/Run2018B-17Sep2018-v1/AOD
+ Data_DoubleMuon_C    /DoubleMuon/Run2018C-17Sep2018-v1/AOD
  Data_DoubleMuon_D    /DoubleMuon/Run2018D-PromptReco-v2/AOD
  	
- Data_MuonEG_A    /MuonEG/Run2018A-PromptReco-v3/AOD
- Data_MuonEG_B    /MuonEG/Run2018B-PromptReco-v2/AOD
- Data_MuonEG_C    /MuonEG/Run2018C-PromptReco-v3/AOD
+ Data_MuonEG_A    /MuonEG/Run2018A-17Sep2018-v1/AOD
+ Data_MuonEG_B    /MuonEG/Run2018B-17Sep2018-v1/AOD
+ Data_MuonEG_C    /MuonEG/Run2018C-17Sep2018-v1/AOD
  Data_MuonEG_D    /MuonEG/Run2018D-PromptReco-v2/AOD
  

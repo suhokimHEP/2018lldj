@@ -9,9 +9,9 @@ do
 
 done #for sample in DY50..
 
-for sample in \
- "Data_DoubleMuon_B"
-
-do
-  ./runanalyzer.exe -s ${sample} -l "20000" -x "" -e "400000" -i "../lists" -o "junk2" -n 50 -a 1 -d
-done # for datasample               
+#for sample in \
+# "Data_DoubleMuon_B"
+#
+#do
+#  ./runanalyzer.exe -s ${sample} -l "20000" -x "" -e "400000" -i "../lists" -o "junk2" -n 50 -a 1 -d
+#done # for datasample               

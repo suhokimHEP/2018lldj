@@ -85,4 +85,8 @@
  Data_MuonEG_B    /MuonEG/Run2018B-17Sep2018-v1/AOD
  Data_MuonEG_C    /MuonEG/Run2018C-17Sep2018-v1/AOD
  Data_MuonEG_D    /MuonEG/Run2018D-PromptReco-v2/AOD
- 
+
+ Data_EGamma_A    /EGamma/Run2018A-17Sep2018-v2/AOD
+ Data_EGamma_B    /EGamma/Run2018B-17Sep2018-v1/AOD
+ Data_EGamma_C    /EGamma/Run2018C-17Sep2018-v1/AOD
+ Data_EGamma_D    /EGamma/Run2018D-PromptReco-v2/AOD 

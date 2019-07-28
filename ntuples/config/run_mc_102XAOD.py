@@ -23,8 +23,8 @@ process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 
 #'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/QCD_HT50to100_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/100000/4E581528-5A9D-5042-8B33-99BB0FF2F0DD.root'
-#'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/00003/DD967656-BACC-DD40-BA44-7E309FF8D393.root'
-'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
+'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/00003/DD967656-BACC-DD40-BA44-7E309FF8D393.root'
+#'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
  ),
 )
 
@@ -64,17 +64,17 @@ process.GlobalTag.globaltag = '102X_upgrade2018_realistic_v18'
 
 # for JEC
 # Load the corrections
-process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+#process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
 
 
 # Produce corrected jets collection
-process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
-    src         = cms.InputTag('ak4CaloJets'),
-    #L1(PU), L2L3(MCTruth), L2L3Residuals
-    correctors  = cms.VInputTag('ak4CaloL1FastL2L3ResidualCorrector')
-    #correctors  = cms.VInputTag('ak4CaloL1FastjetCorrector', 'ak4CaloL2L3Corrector', 'ak4CaloL2L3ResidualCorrector')
-    #correctors  = cms.VInputTag('ak4CaloL2L3Corrector')
-    )
+#process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
+#    src         = cms.InputTag('ak4CaloJets'),
+#    #L1(PU), L2L3(MCTruth), L2L3Residuals
+#    correctors  = cms.VInputTag('ak4CaloL1FastL2L3ResidualCorrector')
+#    #correctors  = cms.VInputTag('ak4CaloL1FastjetCorrector', 'ak4CaloL2L3Corrector', 'ak4CaloL2L3ResidualCorrector')
+#    #correctors  = cms.VInputTag('ak4CaloL2L3Corrector')
+#    )
 
 # pat for trigger
 process.load( 'PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff' )
@@ -87,7 +87,10 @@ setupEgammaPostRecoSeq(process,
                        runVID=True,
                        era='2017-Nov17ReReco', 
 		       isMiniAOD=False,
-		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'])
+		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'],
+		       phoIDModules=['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Fall17_94X_V2_cff']
+#		       phoIDModules=[]
+)
 
 # For AOD Track variables
 process.MaterialPropagator = cms.ESProducer('PropagatorWithMaterialESProducer',
@@ -131,8 +134,8 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
  beamspotLabel_            = cms.InputTag('offlineBeamSpot'),
 
  #ak4JetSrc                 = cms.InputTag('slimmedJets'),
- #AODak4CaloJetsSrc         = cms.InputTag('ak4CaloJets' , '', 'RECO'),
- AODak4CorrCaloJetsSrc     = cms.InputTag('ak4CaloCorrectedJets'),
+ AODak4CaloJetsSrc         = cms.InputTag('ak4CaloJets' , '', 'RECO'),
+ #AODak4CorrCaloJetsSrc     = cms.InputTag('ak4CaloCorrectedJets'),
  #AODak4PFJetsSrc           = cms.InputTag('ak4PFJets'   , '', 'RECO'),
  #AODak4PFJetsCHSSrc        = cms.InputTag('ak4PFJetsCHS', '', 'RECO'),
  #selectedPatJetsSrc        = cms.InputTag('selectedPatJets'),                                   
@@ -200,8 +203,8 @@ process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #builds Ntuple
 process.p = cms.Path(
     process.egammaPostRecoSeq *
-    process.ak4CaloCorrectedJets *
-    process.ak4CaloL1FastL2L3ResidualCorrectorChain *
+#    process.ak4CaloCorrectedJets *
+#    process.ak4CaloL1FastL2L3ResidualCorrectorChain *
     process.particleFlowPtrs *
     process.patCandidates *
     process.selectedPatCandidates *

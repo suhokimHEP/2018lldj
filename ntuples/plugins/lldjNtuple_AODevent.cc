@@ -35,7 +35,6 @@ void lldjNtuple::branchesAODEvent(TTree* tree) {
 }
 
 void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
-
   AODrun_    = e.id().run();
   AODevent_  = e.id().event();
   AODlumis_  = e.luminosityBlock();
@@ -82,8 +81,10 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
   else {edm::LogWarning("lldjNtuple") << "Primary vertices info not unavailable";}
 
   }
+  if (!e.isRealData()){
   edm::Handle<GenEventInfoProduct>  AODGenEventInfoHandle;
   e.getByToken(AODGenEventInfoLabel_, AODGenEventInfoHandle);
-  std::cout<<"weight:"<<AODGenEventInfoHandle->weight()<<std::endl;
-  AODGenEventWeight_ = AODGenEventInfoHandle->weight();
+  GenEventWeight =AODGenEventInfoHandle->weight();
+  AODGenEventWeight_ = GenEventWeight;
+  }
 }

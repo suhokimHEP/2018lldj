@@ -15,7 +15,7 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(500) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 
 # input files
@@ -23,8 +23,8 @@ process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 
 #'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/QCD_HT50to100_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/100000/4E581528-5A9D-5042-8B33-99BB0FF2F0DD.root'
-#'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/00003/DD967656-BACC-DD40-BA44-7E309FF8D393.root'
-'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
+'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/90000/0EBE99B3-B9C8-1E4F-BF05-996F426C109B.root'
+#'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
  ),
 )
 

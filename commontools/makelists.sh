@@ -35,8 +35,8 @@ makealist() {
 #makealist "GJets_HT-400To600"      "/GJets_HT-400To600_"
 #makealist "GJets_HT-600ToInf"      "/GJets_HT-600ToInf_"
 ### DY
-makealist "DYJetsToLL_M-50"            "/DYJetsToLL_M-50_"
-##what about DY50_1_amc, DY10to50, DY5to50?
+makealist "DYJetsToLL"            "/DYJetsToLL_"
+##what about DY50_1_amc, DY10to50, DY5to50?, DY Jet dependency?
 ##
 ### TTbar
 #makealist "TTJets"          "/TTJets_TuneCP5"
@@ -58,7 +58,7 @@ makealist "DYJetsToLL_M-50"            "/DYJetsToLL_M-50_"
 ### Diboson
 #makealist "WW"                    "/WW_"
 #makealist "WZ"                    "/WZ_"
-makealist "ZZ"                    "/ZZ_"
+#makealist "ZZ"                    "/ZZ_"
 #makealist "WWToLNuQQ"                    "/WWToLNuQQ_"
 #makealist "WWTo4Q"                    "/WWTo4Q_"
 #makealist "WWTo2L2Nu"                    "/WWTo2L2Nu_"
@@ -108,17 +108,17 @@ makealist "ZZ"                    "/ZZ_"
 ### Data
 ###
 #makealist "Data_DoubleMuon_A"          "/DoubleMuon/crab_Data_DoubleMuon_A"
-makealist "Data_DoubleMuon_B"          "/DoubleMuon/crab_Data_DoubleMuon_B"
+#makealist "Data_DoubleMuon_B"          "/DoubleMuon/crab_Data_DoubleMuon_B"
 #makealist "Data_DoubleMuon_C"          "/DoubleMuon/crab_Data_DoubleMuon_C"
 #makealist "Data_DoubleMuon_D"          "/DoubleMuon/crab_Data_DoubleMuon_D"
 ###
-#makealist "Data_DoubleEG_A"          "/DoubleEG/crab_Data_DoubleEG_A"
-#makealist "Data_DoubleEG_B"          "/DoubleEG/crab_Data_DoubleEG_B"
-#makealist "Data_DoubleEG_C"          "/DoubleEG/crab_Data_DoubleEG_C"
-#makealist "Data_DoubleEG_D"          "/DoubleEG/crab_Data_DoubleEG_D"
+#makealist "Data_DoubleEG_A"          "/EGamma/crab_Data_EGamma_A"
+#makealist "Data_DoubleEG_B"          "/EGamma/crab_Data_EGamma_B"
+#makealist "Data_DoubleEG_C"          "/EGamma/crab_Data_EGamma_C"
+#makealist "Data_DoubleEG_D"          "/EGamma/crab_Data_EGamma_D"
 ###
 #makealist "Data_MuonEG_A"          "/MuonEG/crab_Data_MuonEG_A"
 #makealist "Data_MuonEG_B"          "/MuonEG/crab_Data_MuonEG_B"
-makealist "Data_MuonEG_C"          "/MuonEG/crab_Data_MuonEG_C"
+#makealist "Data_MuonEG_C"          "/MuonEG/crab_Data_MuonEG_C"
 #makealist "Data_MuonEG_D"          "/MuonEG/crab_Data_MuonEG_D"
 

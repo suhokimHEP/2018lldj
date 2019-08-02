@@ -9,6 +9,7 @@ xcDY10to50="18610.0"
 
 xcDY50="6100.8" #5765.4 * 1.05
 xcDY5017="6100.8" #5765.4 * 1.05
+xcDY="6100.8" #5765.4 * 1.05
 #xcDY50="5765.4"
 #Ref: https://cms-gen-dev.cern.ch/xsdb/?columns=67108863&currentPage=0&pageSize=10&searchQuery=DAS%3DDYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8
 #Ref: https://twiki.cern.ch/twiki/bin/viewauth/CMS/StandardModelCrossSectionsat13TeV FEWZ 3.1.b2 1921.8*3
@@ -134,7 +135,7 @@ countalist () {
 #### Data
 ##
 #countalist "Data_DoubleMuon_A"        
-countalist "Data_DoubleMuon_B"        
+#countalist "Data_DoubleMuon_B"        
 #countalist "Data_DoubleMuon_C"        
 #countalist "Data_DoubleMuon_D"        
 ##
@@ -145,7 +146,7 @@ countalist "Data_DoubleMuon_B"
 ##
 #countalist "Data_MuonEG_A"        
 #countalist "Data_MuonEG_B"        
-countalist "Data_MuonEG_C"        
+#countalist "Data_MuonEG_C"        
 #countalist "Data_MuonEG_D"        
 #### MC backgrounds
 #
@@ -168,6 +169,7 @@ countalist "Data_MuonEG_C"
 #countalist "GJets_HT-600ToInf"     ${xcGJets_HT600ToInf} 
 ## DY
 countalist "DYJetsToLL_M-50"                   ${xcDY50}                
+#countalist "DYJetsToLL"                   ${xcDY}                
 #
 ## TTbar
 #countalist "TTJets"         ${xcTTJets}
@@ -185,7 +187,7 @@ countalist "DYJetsToLL_M-50"                   ${xcDY50}
 ## Diboson
 #countalist "WW"                 ${xcWW} 
 #countalist "WZ"                 ${xcWZ} 
-countalist "ZZ"                 ${xcZZ} 
+#countalist "ZZ"                 ${xcZZ} 
 #countalist "WWToLNuQQ"                   ${xcWZ} 
 #countalist "WWTo4Q"                      ${xcWZ} 
 #countalist "WWTo2L2Nu"                   ${xcWZ} 

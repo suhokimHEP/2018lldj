@@ -6,10 +6,10 @@ export CMS_PATH=/cvmfs/cms.cern.ch
 #get the release setup and in place
 #CMSSW_RELEASE_BASE="/cvmfs/cms.cern.ch/slc6_amd64_gcc530/cms/cmssw-patch/CMSSW_8_0_26_patch1"
 
-export SCRAM_ARCH=slc7_amd64_gcc630
-scramv1 project CMSSW CMSSW_9_4_10
+export SCRAM_ARCH=slc7_amd64_gcc700
+scramv1 project CMSSW CMSSW_10_2_15
 
-cd CMSSW_9_4_10
+cd CMSSW_10_2_15
 cd src
 printf "pwd\n"
 pwd
@@ -19,9 +19,9 @@ cp ../../puWeights_DoubleEG_69200.root          .
 cp ../../puWeights_DoubleMu_69200.root          .
 cp ../../puWeights_MuonEG_69200.root            .
 cp ../../puWeights_SinglePhoton_69200.root      .
-cp ../../2017_ElectronTight.root     .
-cp ../../2017_ElectronMedium.root    .
-cp ../../2017_ElectronLoose.root     .
+cp ../../2018_ElectronTight.root     .
+cp ../../2018_ElectronMedium.root    .
+cp ../../2018_ElectronLoose.root     .
 cp ../../feff_ZH.root                           .
 
 

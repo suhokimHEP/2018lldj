@@ -16,9 +16,9 @@
   bash --login
 
 # Set up the area
-export SCRAM_ARCH=slc6_amd64_gcc700;
-scram pro -n 2018-LLDJ_slc6_700_CMSSW_10_2_15 CMSSW CMSSW_10_2_15;
-cd 2018-LLDJ_slc6_700_CMSSW_10_2_15/src;
+export SCRAM_ARCH=slc7_amd64_gcc700;
+scram pro -n 2018-LLDJ_slc7_700_CMSSW_10_2_15 CMSSW CMSSW_10_2_15;
+cd 2018-LLDJ_slc7_700_CMSSW_10_2_15/src;
 cmsenv;
 ```
 
@@ -26,6 +26,7 @@ cmsenv;
 ```
 git cms-init;
 git cms-merge-topic cms-egamma:EgammaID_1023; #if you want the V2 IDs, otherwise skip  
+git config merge.renameLimit 7440; #Not essential but suggested by the git due to rename-limit
 git cms-merge-topic cms-egamma:EgammaPostRecoTools; #just adds in an extra file to have a setup function to make things  easier
 scramv1 build -j 4;
 ```

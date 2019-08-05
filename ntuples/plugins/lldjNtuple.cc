@@ -118,11 +118,13 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
 
   // gen
   //genParticlesCollection_    = consumes<vector<reco::GenParticle> >    (ps.getParameter<InputTag>("genParticleSrc"));
+  AODGenEventInfoLabel_           = consumes <GenEventInfoProduct> (edm::InputTag(std::string("generator")));
 
   Service<TFileService> fs;
-  tree_    = fs->make<TTree>("EventTree", "Event data");
-  hTTSF_   = fs->make<TH1F>("hTTSF",      "TTbar scalefactors",   200,  0,   2);
-  hEvents_ = fs->make<TH1F>("hEvents",    "total processed events",   1,  0,   2);
+  tree_    = fs->make<TTree>("EventTree",          "Event data");
+  hTTSF_   = fs->make<TH1F>("hTTSF",               "TTbar scalefactors",     200,  0,   2);
+  hEvents_ = fs->make<TH1F>("hEvents",             "total processed events",   1,  0,   2);
+  hGenEventWeightSum_ = fs->make<TH1F>("hGenEventWeightSum",    "Sum of GenEventWeights",   1,  0,   2);
 
  //if(doMiniAOD_){
  // // make branches for tree
@@ -162,7 +164,7 @@ void lldjNtuple::beginRun(edm::Run const& run, edm::EventSetup const& eventsetup
 }
 
 void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
-
+ GenEventWeight = 0.0;
  //if(doMiniAOD_){
  // //# https://twiki.cern.ch/twiki/bin/view/CMSPublic/WorkBookJetEnergyResolution
  // slimmedJetResolution_   = JME::JetResolution::get(es, "AK4PFchs_pt");
@@ -196,7 +198,7 @@ void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
  // fillMET(e, es);
  //}
 
- if(doAOD_){
+// if(doAOD_){
   fillAODEvent(e, es);
   fillAODTrigger(e, es);
   fillAODJets(e, es);
@@ -216,9 +218,11 @@ void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
   fillAODMuons(e, vtx); 
   fillAODMET(e, es);
 
- }
+// }
 
  hEvents_->Fill(1.);
+ if (!e.isRealData()) hGenEventWeightSum_->Fill(1, GenEventWeight);
+ else hGenEventWeightSum_->Fill(1, 1);
  tree_->Fill();
 }
 

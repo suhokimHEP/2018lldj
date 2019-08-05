@@ -25,8 +25,8 @@ process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 #'file:MuEG.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
-'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
-#'root://cms-xrd-global.cern.ch//store/data/Run2018C/MuonEG/AOD/17Sep2018-v1/810000/E462389C-0A89-414A-BCF3-0BC9CA026DBC.root'	
+#'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
+'root://cms-xrd-global.cern.ch//store/data/Run2018C/DoubleMuon/AOD/17Sep2018-v1/60001/FA54390B-F3F9-7846-B02A-7F0CF2D8E684.root'	
 #'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )

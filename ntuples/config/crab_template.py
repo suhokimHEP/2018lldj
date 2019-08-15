@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     #config.Data.useParent             = True
     config.Data.ignoreLocality         = True
-    config.Site.whitelist = ["T2_US*"]
+    config.Site.whitelist = ["T2_*"]
 
     def submit(config):
         try:

@@ -15,10 +15,10 @@ samples=(  \
 # "Data_DoubleMuon_B"         \
 # "Data_DoubleMuon_C"         \
 # "Data_DoubleMuon_D"         \
-# "Data_DoubleEG_A"         \
-# "Data_DoubleEG_B"         \
-# "Data_DoubleEG_C"         \
-# "Data_DoubleEG_D"         \
+# "Data_EGamma_A"         \
+# "Data_EGamma_B"         \
+# "Data_EGamma_C"         \
+# "Data_EGamma_D"         \
 # "Data_MuonEG_A"         \
 # "Data_MuonEG_B"         \
 # "Data_MuonEG_C"         \

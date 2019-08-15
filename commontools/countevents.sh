@@ -139,10 +139,10 @@ countalist () {
 #countalist "Data_DoubleMuon_C"        
 #countalist "Data_DoubleMuon_D"        
 ##
-#countalist "Data_DoubleEG_A"        
-#countalist "Data_DoubleEG_B"        
-#countalist "Data_DoubleEG_C"        
-#countalist "Data_DoubleEG_D"        
+#countalist "Data_EGamma_A"        
+#countalist "Data_EGamma_B"        
+#countalist "Data_EGamma_C"        
+#countalist "Data_EGamma_D"        
 ##
 #countalist "Data_MuonEG_A"        
 #countalist "Data_MuonEG_B"        

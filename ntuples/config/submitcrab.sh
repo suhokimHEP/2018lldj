@@ -56,9 +56,13 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-"DY50_1"    \
-"STs"    \             
-"STtbarW"    \             
+#"Data_MuonEG_A"     \    
+#"Data_MuonEG_B"     \    
+#"Data_MuonEG_C"     \    
+#"Data_MuonEG_D"     \    
+#"DY50_1"    \
+#"STs"    \             
+#"STtbarW"    \             
 )
 #data
 
@@ -66,10 +70,10 @@ samples=( \
 #"Data_DoubleMuon_B"\
 #"Data_DoubleMuon_C"\
 #"Data_DoubleMuon_D"\
-#"Data_DoubleEG_A"\  
-#"Data_DoubleEG_B"\ 
-#"Data_DoubleEG_C"\  
-#"Data_DoubleEG_D"\  
+#"Data_EGamma_A"\  
+#"Data_EGamma_B"\ 
+#"Data_EGamma_C"\  
+#"Data_EGamma_D"\  
 #"Data_MuonEG_A"\    
 #"Data_MuonEG_B"\    
 #"Data_MuonEG_C"\    
@@ -200,8 +204,8 @@ do
   then
    # DATA AOD
    CMSRUNCONFIG="'${dsubmitconfig}'" 
-   #UPERJOB="50" #use when not automatic splitting
-   UPERJOB="180"
+   UPERJOB="50" #use when not automatic splitting
+   #UPERJOB="180"
   elif [ ${dominiAOD} = true ]
   then
    # DATA miniAOD
@@ -213,8 +217,8 @@ do
    CMSRUNCONFIG="'${dsubmitconfig}'" 
    UPERJOB="100"
   fi
-  #SPLITTING="'LumiBased'"
-  SPLITTING="'Automatic'"
+  SPLITTING="'LumiBased'"
+  #SPLITTING="'Automatic'"
  else #if [ ${dodata} = true ]
   if [ ${doAOD} = true ]
   then

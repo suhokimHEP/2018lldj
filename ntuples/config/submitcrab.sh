@@ -57,12 +57,6 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 samples=( \
 # put your samples here, copy from below
 #"Data_EGamma_A"      \  
-"Data_EGamma_B"      \ 
-"Data_EGamma_C"      \  
-#"Data_EGamma_D"      \  
-#"DY50_1"    \
-#"STs"    \             
-#"STtbarW"    \             
 )
 #data
 

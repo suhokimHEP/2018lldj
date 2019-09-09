@@ -5,7 +5,7 @@
 
 # source xx/LLDJ/setup.sh for ${aversion}
 
-doSubmit=true
+doSubmit=false
 lumi=20000.0 # 7.57582+8.43466+0.2156965 
 nevents=-1
 maxfilesperjob=200   # 500=6h
@@ -23,8 +23,7 @@ samples=(  \
 # "Data_MuonEG_B"         \
 # "Data_MuonEG_C"         \
 # "Data_MuonEG_D"         \
- "DYJetsToLL_M-50"            \
-# "DYJetsToLL"            \
+# "DYJetsToLL_M-50"            \
 # "WJetsToLNu"     \
 # "TTJets"          \
 # "ST_s-channel_4f_leptonDecays"             \
@@ -36,6 +35,7 @@ samples=(  \
 # "WZ"                 \
 # "ZZ"                 \
 # "WGToLNuG"              \
+# "ZGTo2LG"               \
 # "QCD_HT100to200"        \
 # "QCD_HT200to300"        \
 # "QCD_HT300to500"        \

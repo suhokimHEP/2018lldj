@@ -19,7 +19,8 @@ Float_t analyzer_scalefactors::makeEventWeight(Float_t crossSec,
   // 1.0 for real data
   event_weight=1.0;
   Float_t crossSecScl = crossSec;
-  if(isMC){ event_weight=lumi*crossSecScl/nrEvents; }
+  //if(isMC){ event_weight=lumi*crossSecScl/nrEvents; }
+  if(isMC){ event_weight=lumi*crossSecScl*AODGenEventWeight*.7323/nrEvents; }
   //printf("isMC: %i lumi: %0.9f crossSec: %0.9f nrEvents: %0.9f",isMC,lumi,crossSecScl,nrEvents);
   //printf("  event_weight: %0.9f\n",event_weight);
 
@@ -96,9 +97,9 @@ Float_t analyzer_scalefactors::makeElectronWeight( std::vector<int> &electron_li
 //----------------------------loadPUWeight
 void analyzer_scalefactors::loadPUWeight(){
  std::cout << "loading PU weight" << std::endl;
- TString filename_DoubleEG     = "puWeights_DoubleEG_69200.root" ;
- TString filename_DoubleMu     = "puWeights_DoubleMu_69200.root" ;
- TString filename_MuonEG       = "puWeights_MuonEG_69200.root" ;
+ TString filename_DoubleEG     = "2018_puWeights_EGamma_69200.root" ;
+ TString filename_DoubleMu     = "2018_puWeights_DoubleMuon_69200.root" ;
+ TString filename_MuonEG       = "2018_puWeights_MuonEG_69200.root" ;
  TString filename_SinglePhoton = "puWeights_SinglePhoton_69200.root" ;
  TFile* file_puweights_DoubleEG     = new TFile( filename_DoubleEG     ) ;
  TFile* file_puweights_DoubleMu     = new TFile( filename_DoubleMu     ) ;

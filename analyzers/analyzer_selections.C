@@ -104,7 +104,7 @@ void analyzer_selections::setSelections()
 
  selvecBaseDY      .push_back( passGoodVtx );
  selvecBaseDY      .push_back( passZWindow );
- selvecBaseDY      .push_back( !passPTOSSF );
+ selvecBaseDY      .push_back( passPTOSSFL );
  selvecBaseDY      .push_back( passOneJet  );
 
  selvecBaseOffZ    .push_back( passGoodVtx  );

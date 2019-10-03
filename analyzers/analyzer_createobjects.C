@@ -918,7 +918,7 @@ void analyzer_createobjects::shiftCollections( TString uncbin )
     Shifted_CaloJetMedianLog10TrackAngle.push_back( AODCaloJetMedianLog10TrackAngle->at(i));
   }
   
-
+  
   if(isMC){
       
     float deltaAmax  = ( tag_maxAmax  / tag_shiftmaxAmax  ) - 1.    ;

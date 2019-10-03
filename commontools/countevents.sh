@@ -133,34 +133,34 @@ countalist () {
 
 
 ### Data
-#
-countalist "Data_DoubleMuon_A"        
-countalist "Data_DoubleMuon_B"        
-countalist "Data_DoubleMuon_C"        
-countalist "Data_DoubleMuon_D"        
-#
-countalist "Data_EGamma_A"        
-countalist "Data_EGamma_B"        
-countalist "Data_EGamma_C"        
-countalist "Data_EGamma_D"        
-#
-countalist "Data_MuonEG_A"        
-countalist "Data_MuonEG_B"        
-countalist "Data_MuonEG_C"        
-countalist "Data_MuonEG_D"        
+##
+#countalist "Data_DoubleMuon_A"        
+#countalist "Data_DoubleMuon_B"        
+#countalist "Data_DoubleMuon_C"        
+#countalist "Data_DoubleMuon_D"        
+##
+#countalist "Data_EGamma_A"        
+#countalist "Data_EGamma_B"        
+#countalist "Data_EGamma_C"        
+#countalist "Data_EGamma_D"        
+##
+#countalist "Data_MuonEG_A"        
+#countalist "Data_MuonEG_B"        
+#countalist "Data_MuonEG_C"        
+#countalist "Data_MuonEG_D"        
 ### MC backgrounds
 
-# QCD
-countalist "QCD_HT50to100"       ${xcQCD_HT50to100}
-countalist "QCD_HT100to200"       ${xcQCD_HT100to200}
-countalist "QCD_HT200to300"       ${xcQCD_HT200to300}
-countalist "QCD_HT300to500"       ${xcQCD_HT300to500}
-countalist "QCD_HT500to700"       ${xcQCD_HT500to700}
-countalist "QCD_HT700to1000"      ${xcQCD_HT700to1000}
-countalist "QCD_HT1000to1500"     ${xcQCD_HT1000to1500}
-countalist "QCD_HT1500to2000"     ${xcQCD_HT1500to2000}
-countalist "QCD_HT2000toInf"      ${xcQCD_HT2000toInf}
-
+## QCD
+#countalist "QCD_HT50to100"       ${xcQCD_HT50to100}
+#countalist "QCD_HT100to200"       ${xcQCD_HT100to200}
+#countalist "QCD_HT200to300"       ${xcQCD_HT200to300}
+#countalist "QCD_HT300to500"       ${xcQCD_HT300to500}
+#countalist "QCD_HT500to700"       ${xcQCD_HT500to700}
+#countalist "QCD_HT700to1000"      ${xcQCD_HT700to1000}
+#countalist "QCD_HT1000to1500"     ${xcQCD_HT1000to1500}
+#countalist "QCD_HT1500to2000"     ${xcQCD_HT1500to2000}
+#countalist "QCD_HT2000toInf"      ${xcQCD_HT2000toInf}
+#
 ### GJets
 ##countalist "GJets_HT-40To100"      ${xcGJets_HT40To100}  
 ##countalist "GJets_HT-100To200"     ${xcGJets_HT100To200} 
@@ -168,28 +168,29 @@ countalist "QCD_HT2000toInf"      ${xcQCD_HT2000toInf}
 ##countalist "GJets_HT-400To600"     ${xcGJets_HT400To600} 
 ##countalist "GJets_HT-600ToInf"     ${xcGJets_HT600ToInf} 
 # DY
+countalist "mad_DYJetsToLL_M-50"               ${xcDY50}                
 countalist "DYJetsToLL_M-50"                   ${xcDY50}                
-
-# TTbar
-countalist "TTJets"         ${xcTTJets}
-countalist "TTtoLL"         ${xcTTtoLL}        
-countalist "TTtoLfromTbar"  ${xcTTtoLfromTbar} 
-countalist "TTtoLfromT"     ${xcTTtoLfromT}   
-
-# Single Top
-countalist  "ST_s-channel_4f_leptonDecays"             ${xcST_s}
-countalist  "ST_t-channel_antitop_4f_inclusiveDecays"  ${xcSTbar_t}
-countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
-countalist  "ST_tW_antitop_5f_NoFullyHadronicDecays"   ${xcSTbar_tW}
-countalist  "ST_tW_top_5f_NoFullyHadronicDecays"       ${xcST_tW}
-
-# WJets
-countalist "WJetsToLNu"     ${xcWJetsToLNu}                      
-
-# Diboson
-countalist "WW"                 ${xcWW} 
-countalist "WZ"                 ${xcWZ} 
-countalist "ZZ"                 ${xcZZ} 
+#
+## TTbar
+#countalist "TTJets"         ${xcTTJets}
+#countalist "TTtoLL"         ${xcTTtoLL}        
+#countalist "TTtoLfromTbar"  ${xcTTtoLfromTbar} 
+#countalist "TTtoLfromT"     ${xcTTtoLfromT}   
+#
+## Single Top
+#countalist  "ST_s-channel_4f_leptonDecays"             ${xcST_s}
+#countalist  "ST_t-channel_antitop_4f_inclusiveDecays"  ${xcSTbar_t}
+##countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
+#countalist  "ST_tW_antitop_5f_NoFullyHadronicDecays"   ${xcSTbar_tW}
+#countalist  "ST_tW_top_5f_NoFullyHadronicDecays"       ${xcST_tW}
+#
+## WJets
+#countalist "WJetsToLNu"     ${xcWJetsToLNu}                      
+#
+## Diboson
+#countalist "WW"                 ${xcWW} 
+#countalist "WZ"                 ${xcWZ} 
+#countalist "ZZ"                 ${xcZZ} 
 ##countalist "WWToLNuQQ"                   ${xcWZ} 
 ##countalist "WWTo4Q"                      ${xcWZ} 
 ##countalist "WWTo2L2Nu"                   ${xcWZ} 
@@ -201,13 +202,13 @@ countalist "ZZ"                 ${xcZZ}
 ##countalist "ZZTo2L2Q"                    ${xcWZ} 
 ##countalist "ZZTo2L2Nu"                   ${xcWZ} 
 
-# VGamma
-countalist "ZGTo2LG"              ${xcZG} 
-countalist "WGToLNuG"             ${xcWG} 
-
-# ZH
-countalist "ggZH_HToBB_ZToLL"      ${xcggZH_HToBB_ZToLL} 
-countalist "ZH_HToBB_ZToLL"        ${xcZH_HToBB_ZToLL}   
+## VGamma
+#countalist "ZGTo2LG"              ${xcZG} 
+#countalist "WGToLNuG"             ${xcWG} 
+#
+## ZH
+#countalist "ggZH_HToBB_ZToLL"      ${xcggZH_HToBB_ZToLL} 
+#countalist "ZH_HToBB_ZToLL"        ${xcZH_HToBB_ZToLL}   
 
 
 ## Signal Samples

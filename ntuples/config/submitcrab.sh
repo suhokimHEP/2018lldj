@@ -56,33 +56,33 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-#"Data_EGamma_A"      \  
+#"Data_EGamma_A"              \  
 )
 #data
 
-#"Data_DoubleMuon_A"      \
-#"Data_DoubleMuon_B"      \
-#"Data_DoubleMuon_C"      \
-#"Data_DoubleMuon_D"      \
-#"Data_EGamma_A"      \  
-#"Data_EGamma_B"      \ 
-#"Data_EGamma_C"      \  
-#"Data_EGamma_D"      \  
-#"Data_MuonEG_A"      \    
-#"Data_MuonEG_B"      \    
-#"Data_MuonEG_C"      \    
-#"Data_MuonEG_D"      \    
+#"Data_DoubleMuon_A"          \
+#"Data_DoubleMuon_B"          \
+#"Data_DoubleMuon_C"          \
+#"Data_DoubleMuon_D"          \
+#"Data_EGamma_A"              \  
+#"Data_EGamma_B"              \ 
+#"Data_EGamma_C"              \  
+#"Data_EGamma_D"              \  
+#"Data_MuonEG_A"              \    
+#"Data_MuonEG_B"              \    
+#"Data_MuonEG_C"              \    
+#"Data_MuonEG_D"              \    
                    
 #BKG
-#"QCD_HT50to100"      \                   
-#"QCD_HT100to200"      \   
-#"QCD_HT200to300"      \   
-#"QCD_HT300to500"      \   
-#"QCD_HT500to700"      \   
-#"QCD_HT700to1000"      \  
-#"QCD_HT1000to1500"      \ 
-#"QCD_HT1500to2000"      \ 
-#"QCD_HT2000toInf"      \  
+#"QCD_HT50to100"              \                   
+#"QCD_HT100to200"             \   
+#"QCD_HT200to300"             \   
+#"QCD_HT300to500"             \   
+#"QCD_HT500to700"             \   
+#"QCD_HT700to1000"            \  
+#"QCD_HT1000to1500"           \ 
+#"QCD_HT1500to2000"           \ 
+#"QCD_HT2000toInf"            \  
                                   
 #"GJets_HT40To100"\ 
 #"GJets_HT100To200"\
@@ -90,59 +90,59 @@ samples=( \
 #"GJets_HT400To600"\
 #"GJets_HT600ToInf"\
                    
-#"DY50_1_MG"      \
-#"DY50_1"      \
-#"DY_0J"      \
-#"DY_1J"      \
-#"DY_2J"      \
-#"DY10to50"      \
-#"DY5to50"      \
+#"DY50_1_MG"                  \
+#"DY50_1"                     \
+#"DY_0J"                      \
+#"DY_1J"                      \
+#"DY_2J"                      \
+#"DY10to50"                   \
+#"DY5to50"                    \
   
-#"TTJets_MG"      \
-#"TTJets"      \
-#"TTtoLL_MG"      \
-#"TTtoLL"      \
-#"TTtoLfromT"      \
-#"TTtoLfromTbar"      \
+#"TTJets_MG"                  \
+#"TTJets"                     \
+#"TTtoLL_MG"                  \
+#"TTtoLL"                     \
+#"TTtoLfromT"                 \
+#"TTtoLfromTbar"              \
 
-#"STs_3"      \             
-#"STs"      \             
-#"STt"      \             
-#"STtbar"      \             
-#"STtW_2"      \             
-#"STtW"       \    
-#"STtW_inc"      \ 
-#"STtbarW_2"      \             
-#"STtbarW"      \    
-#"STtbarW_inc"      \             
+#"STs_3"                      \             
+#"STs"                        \             
+#"STt"                        \             
+#"STtbar"                     \             
+#"STtW_2"                     \             
+#"STtW"                       \    
+#"STtW_inc"                   \ 
+#"STtbarW_2"                  \             
+#"STtbarW"                    \    
+#"STtbarW_inc"                \             
 
-#"WJets"      \     
-                                    
-#"WW"      \              
-#"WZ"      \              
-#"ZZ"      \                                                 
-#"ZG"      \        
-#"WG"      \        
+#"WJets"                      \     
+                                                       
+#"WW"                         \              
+#"WZ"                         \              
+#"ZZ"                         \                                     
+#"ZG"                         \        
+#"WG"                         \        
 
-#"WWToLNuQQ"      \
-#"WWTo4Q"      \
-#"WWTo2L2Nu"      \
-#"WWTo1L1Nu2Q"      \
-#"WZTo3LNu_1"      \
-#"WZTo3LNu_powheg"      \
-#"WZTo3LNu"      \
-#"WZTo2L2Q"      \
-#"ZZTo4L"      \
-#"ZZTo4L_2"      \
-#"ZZTo2Q2Nu"      \
-#"ZZTo2L2Q"      \
-#"ZZTo2L2Nu"      \
-#"ZZTo2L2Nu_2"      \
+#"WWToLNuQQ"                  \
+#"WWTo4Q"                     \
+#"WWTo2L2Nu"                  \
+#"WWTo1L1Nu2Q"                \
+#"WZTo3LNu_1"                 \
+#"WZTo3LNu_powheg"            \
+#"WZTo3LNu"                   \
+#"WZTo2L2Q"                   \
+#"ZZTo4L"                     \
+#"ZZTo4L_2"                   \
+#"ZZTo2Q2Nu"                  \
+#"ZZTo2L2Q"                   \
+#"ZZTo2L2Nu"                  \
+#"ZZTo2L2Nu_2"                \
 
               
-#"ZH_Hbb_1"      \  
-#"ZH_Hbb"      \        
-#"ggZH_HToBB_ZToLL"\
+#"ZH_Hbb_1"                   \  
+#"ZH_Hbb"                     \
+#"ggZH_HToBB_ZToLL"           \
 
 #Signal
 
@@ -198,8 +198,8 @@ do
   then
    # DATA AOD
    CMSRUNCONFIG="'${dsubmitconfig}'" 
-   UPERJOB="50" #use when not automatic splitting
-   #UPERJOB="180"
+   #UPERJOB="50" #use when not automatic splitting
+   UPERJOB="180"
   elif [ ${dominiAOD} = true ]
   then
    # DATA miniAOD
@@ -211,8 +211,8 @@ do
    CMSRUNCONFIG="'${dsubmitconfig}'" 
    UPERJOB="100"
   fi
-  SPLITTING="'LumiBased'"
-  #SPLITTING="'Automatic'"
+  #SPLITTING="'LumiBased'"
+  SPLITTING="'Automatic'"
  else #if [ ${dodata} = true ]
   if [ ${doAOD} = true ]
   then

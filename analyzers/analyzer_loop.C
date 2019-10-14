@@ -319,11 +319,11 @@ TFile *outfile_bkgest = 0;
 
    if(isMC){
      // ok I'm sorry, this is terrible
-     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight;// * PUweight_DoubleEG;
-     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight;// * PUweight_DoubleMu;
-     if(i==18) fullweight = event_weight ;//* PUweight_MuonEG;
-     if(i==20) fullweight = event_weight ;//* PUweight_MuonEG;
-     if(i==19) fullweight = event_weight ;//* PUweight_SinglePhoton;
+     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight * PUweight_DoubleEG;
+     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
+     if(i==18) fullweight = event_weight * PUweight_MuonEG;
+     if(i==20) fullweight = event_weight * PUweight_MuonEG;
+     if(i==19) fullweight = event_weight * PUweight_SinglePhoton;
    }
    else{
      fullweight = event_weight;
@@ -492,7 +492,7 @@ TFile *outfile_bkgest = 0;
     //scaleVariableBinHistograms( i ); //broken
      
      writeSelectedHistograms( i );
-     //writeCutflowHistograms( i );
+     writeCutflowHistograms( i );
 
      //jet
      if(jetMultOn){
@@ -505,7 +505,7 @@ TFile *outfile_bkgest = 0;
 
      //tag
      for( unsigned int k=0; k<tagmultnames.size(); ++k){
-      // writeSelectedTagHistograms( i, k );
+       writeSelectedTagHistograms( i, k );
      }
 
   } 

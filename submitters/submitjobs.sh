@@ -6,9 +6,9 @@
 # source xx/LLDJ/setup.sh for ${aversion}
 
 doSubmit=true
-lumi=59170.0 # 7.57582+8.43466+0.2156965 
+lumi=58670 # 7.57582+8.43466+0.2156965 
 nevents=-1
-maxfilesperjob=40   # 500=6h
+maxfilesperjob=100  # 500=6h
 
 samples=(  \
 # "Data_DoubleMuon_A"         \
@@ -23,8 +23,8 @@ samples=(  \
 # "Data_MuonEG_B"         \
 # "Data_MuonEG_C"         \
 # "Data_MuonEG_D"         \
-# "DYJetsToLL_M-50"            \
 # "mad_DYJetsToLL_M-50"            \
+# "DYJetsToLL_M-50"            \
 # "WJetsToLNu"     \
 # "TTJets"          \
 # "ST_s-channel_4f_leptonDecays"             \
@@ -44,9 +44,9 @@ samples=(  \
 ## "QCD_HT300to500"        \
 ## "QCD_HT500to700"        \
 ## "QCD_HT700to1000"       \
-## "QCD_HT1000to1500"      \
-## "QCD_HT1500to2000"      \
-## "QCD_HT2000toInf"       \
+# "QCD_HT1000to1500"      \
+# "QCD_HT1500to2000"      \
+# "QCD_HT2000toInf"       \
 )
 
 printf "Version: ${aversion}\n"

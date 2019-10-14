@@ -167,11 +167,12 @@ countalist () {
 ##countalist "GJets_HT-200To400"     ${xcGJets_HT200To400} 
 ##countalist "GJets_HT-400To600"     ${xcGJets_HT400To600} 
 ##countalist "GJets_HT-600ToInf"     ${xcGJets_HT600ToInf} 
-# DY
-countalist "mad_DYJetsToLL_M-50"               ${xcDY50}                
-countalist "DYJetsToLL_M-50"                   ${xcDY50}                
-#
+## DY
+#countalist "mad_DYJetsToLL_M-50"               ${xcDY50}                
+#countalist "DYJetsToLL_M-50"                   ${xcDY50}                
+##
 ## TTbar
+#countalist "mad_TTJets"     ${xcTTJets}
 #countalist "TTJets"         ${xcTTJets}
 #countalist "TTtoLL"         ${xcTTtoLL}        
 #countalist "TTtoLfromTbar"  ${xcTTtoLfromTbar} 
@@ -191,16 +192,16 @@ countalist "DYJetsToLL_M-50"                   ${xcDY50}
 #countalist "WW"                 ${xcWW} 
 #countalist "WZ"                 ${xcWZ} 
 #countalist "ZZ"                 ${xcZZ} 
-##countalist "WWToLNuQQ"                   ${xcWZ} 
-##countalist "WWTo4Q"                      ${xcWZ} 
-##countalist "WWTo2L2Nu"                   ${xcWZ} 
-##countalist "WWTo1L1Nu2Q"                 ${xcWZ} 
-##countalist "WZTo3LNu"                    ${xcWZ} 
-##countalist "WZTo2L2Q"                    ${xcWZ} 
-##countalist "ZZTo4L"                      ${xcWZ} 
-##countalist "ZZTo2Q2Nu"                   ${xcWZ} 
-##countalist "ZZTo2L2Q"                    ${xcWZ} 
-##countalist "ZZTo2L2Nu"                   ${xcWZ} 
+#countalist "WWToLNuQQ"                   ${xcWZ} 
+#countalist "WWTo4Q"                      ${xcWZ} 
+#countalist "WWTo2L2Nu"                   ${xcWZ} 
+#countalist "WWTo1L1Nu2Q"                 ${xcWZ} 
+#countalist "WZTo3LNu"                    ${xcWZ} 
+#countalist "WZTo2L2Q"                    ${xcWZ} 
+#countalist "ZZTo4L"                      ${xcWZ} 
+#countalist "ZZTo2Q2Nu"                   ${xcWZ} 
+#countalist "ZZTo2L2Q"                    ${xcWZ} 
+#countalist "ZZTo2L2Nu"                   ${xcWZ} 
 
 ## VGamma
 #countalist "ZGTo2LG"              ${xcZG} 

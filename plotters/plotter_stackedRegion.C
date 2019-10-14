@@ -78,13 +78,11 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  else if( region.Contains("OSOF") )  {MCSF = (Lumi)/59170.;}
  else                                {MCSF =  Lumi/10000.;}
  cout <<"MCSF:     " << MCSF<<endl;
- 
  //TString extraname = "";
  if(dolog){
   extraname+="_log";
   outpath = outpath+"log/";
  }
-
  TString mdcommand = (TString)"mkdir -p "+outpath.Data();
  const int dir_err = system(mdcommand);
  TString mdcommandtable = (TString)"mkdir -p "+outpath.Data()+"tables/";
@@ -112,13 +110,15 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  variables.clear();
 
  //variables.push_back("nSelectedAODCaloJetTag");
- variables.push_back("AOD_dilepton_Mass");
- variables.push_back("AOD_dilepton_Pt");
- variables.push_back("AllJets_AODCaloJetMedianLog10IPSig");
- variables.push_back("AllJets_AODCaloJetMedianLog10TrackAngle");
- variables.push_back("AllJets_AODCaloJetAlphaMax");
+ //variables.push_back("AOD_dilepton_Mass");
+ //variables.push_back("AOD_OSOFdilepton_Mass");
+ //variables.push_back("AOD_dilepton_Pt");
+ variables.push_back("AOD_OSOFdilepton_Pt");
+ //variables.push_back("AllJets_AODCaloJetMedianLog10IPSig");
+ //variables.push_back("AllJets_AODCaloJetMedianLog10TrackAngle");
+ //variables.push_back("AllJets_AODCaloJetAlphaMax");
  //variables.push_back("AllJets_AODCaloJetPt");                      
-// variables.push_back("AllJets_AODCaloJetEta");                      
+ //variables.push_back("AllJets_AODCaloJetEta");                      
  //variables.push_back("AOD_dilepton_Mass");
  //variables.push_back("AOD_dilepton_Pt");
  //variables.push_back("AODnVtx");                      
@@ -289,7 +289,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TFile* file_QCD_HT300to500                    ;
  TFile* file_QCD_HT500to700                    ;
  TFile* file_QCD_HT700to1000                   ;
-// TFile* file_QCD_HT1000to1500                  ;
+ TFile* file_QCD_HT1000to1500                  ;
  TFile* file_QCD_HT1500to2000                  ;
  TFile* file_QCD_HT2000toInf                   ;
 
@@ -340,7 +340,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_QCD_HT300to500                      ;
  TH1F* h_QCD_HT500to700                      ;
  TH1F* h_QCD_HT700to1000                     ;
-// TH1F* h_QCD_HT1000to1500                    ;
+ TH1F* h_QCD_HT1000to1500                    ;
  TH1F* h_QCD_HT1500to2000                    ;
  TH1F* h_QCD_HT2000toInf                     ;
 
@@ -444,9 +444,9 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 // file_QCD_HT300to500          = TFile::Open( inpath + "QCD_HT300to500_"+region+"_histograms.root"   ) ;
 // file_QCD_HT500to700          = TFile::Open( inpath + "QCD_HT500to700_"+region+"_histograms.root"   ) ;
 // file_QCD_HT700to1000         = TFile::Open( inpath + "QCD_HT700to1000_"+region+"_histograms.root"  ) ;
-//// file_QCD_HT1000to1500        = TFile::Open( inpath + "QCD_HT1000to1500_"+region+"_histograms.root" ) ;
-// file_QCD_HT1500to2000        = TFile::Open( inpath + "QCD_HT1500to2000_"+region+"_histograms.root" ) ;
-// file_QCD_HT2000toInf         = TFile::Open( inpath + "QCD_HT2000toInf_"+region+"_histograms.root"  ) ;
+ file_QCD_HT1000to1500        = TFile::Open( inpath + "QCD_HT1000to1500_"+region+"_histograms.root" ) ;
+ file_QCD_HT1500to2000        = TFile::Open( inpath + "QCD_HT1500to2000_"+region+"_histograms.root" ) ;
+ file_QCD_HT2000toInf         = TFile::Open( inpath + "QCD_HT2000toInf_"+region+"_histograms.root"  ) ;
 
  file_Sig_ZH_MS15ct1000  = TFile::Open( inpath + "ZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-1000_"+region+"_histograms.root"   ) ; 
  file_Sig_ZH_MS15ct100   = TFile::Open( inpath + "ZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-100_"+region+"_histograms.root"   ) ; 
@@ -555,9 +555,9 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 //     h_QCD_HT300to500                  = (TH1F*)file_QCD_HT300to500                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT300to500"                +uncbin   ) ;
 //     h_QCD_HT500to700                  = (TH1F*)file_QCD_HT500to700                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT500to700"                +uncbin   ) ;
 //     h_QCD_HT700to1000                 = (TH1F*)file_QCD_HT700to1000                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT700to1000"               +uncbin   ) ;
-////     h_QCD_HT1000to1500                = (TH1F*)file_QCD_HT1000to1500                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1000to1500"              +uncbin   ) ;
-//     h_QCD_HT1500to2000                = (TH1F*)file_QCD_HT1500to2000                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1500to2000"              +uncbin   ) ;
-//     h_QCD_HT2000toInf                 = (TH1F*)file_QCD_HT2000toInf                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT2000toInf"               +uncbin   ) ;
+      h_QCD_HT1000to1500                = (TH1F*)file_QCD_HT1000to1500                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1000to1500"              +uncbin   ) ;
+     h_QCD_HT1500to2000                = (TH1F*)file_QCD_HT1500to2000                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1500to2000"              +uncbin   ) ;
+     h_QCD_HT2000toInf                 = (TH1F*)file_QCD_HT2000toInf                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT2000toInf"               +uncbin   ) ;
 
      h_Sig_ZH_MS15ct1000   = (TH1F*)file_Sig_ZH_MS15ct1000   ->Get("h_"+varname+uncbin )->Clone( "Sig_ZH_MS15ct1000"+uncbin ) ;
      h_Sig_ZH_MS15ct100    = (TH1F*)file_Sig_ZH_MS15ct100    ->Get("h_"+varname+uncbin )->Clone( "Sig_ZH_MS15ct100" +uncbin ) ;
@@ -629,14 +629,14 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VG = (TH1F*)h_WG->Clone("VG");
       h_VG->Add(h_ZG);
 
-    // h_QCD = (TH1F*)h_QCD_HT100to200->Clone("QCD");
+     h_QCD = (TH1F*)h_QCD_HT1000to1500->Clone("QCD");
     // // h_QCD->Add(h_QCD_HT200to300   );
     //  h_QCD->Add(h_QCD_HT300to500   );
     //  h_QCD->Add(h_QCD_HT500to700   );
     //  h_QCD->Add(h_QCD_HT700to1000  );
     // // h_QCD->Add(h_QCD_HT1000to1500 );
-    //  h_QCD->Add(h_QCD_HT1500to2000 );
-    //  h_QCD->Add(h_QCD_HT2000toInf  );
+      h_QCD->Add(h_QCD_HT1500to2000 );
+      h_QCD->Add(h_QCD_HT2000toInf  );
 
      h_Sig_MS15ct1000  = (TH1F*) h_Sig_ZH_MS15ct1000   ->Clone( "Sig_MS15ct1000" ) ;
      h_Sig_MS15ct100   = (TH1F*) h_Sig_ZH_MS15ct100    ->Clone( "Sig_MS15ct100 " ) ;
@@ -671,7 +671,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV         ->Scale(MCSF); 
      h_TT         ->Scale(MCSF); 
      h_VG         ->Scale(MCSF); 
-    // h_QCD        ->Scale(MCSF); 
+     h_QCD        ->Scale(MCSF); 
      h_WJetsToLNu ->Scale(MCSF); 
      h_altDY      ->Scale(MCSF);
      h_altVV      ->Scale(MCSF);
@@ -714,7 +714,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_bkgtotal2->Add(h_altVV ) ;
       h_bkgtotal2->Add(h_TT    ) ;
       h_bkgtotal2->Add(h_VG    ) ;
-    //  h_bkgtotal2->Add(h_QCD   ) ;
+      h_bkgtotal2->Add(h_QCD   ) ;
       h_bkgtotal2->Add(h_WJetsToLNu    ) ;
 //cout <<"BKG Integral: "<<h_bkgtotal2->Integral(0,-1)<<endl;
 //cout <<"Data Integral: "<<h_Data->Integral(0,-1)<<endl;
@@ -732,7 +732,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_bkgtotal->Add(h_altVV    ) ;
       h_bkgtotal->Add(h_TT    ) ;
       h_bkgtotal->Add(h_VG    ) ;
-    //  h_bkgtotal->Add(h_QCD   ) ;
+      h_bkgtotal->Add(h_QCD   ) ;
       h_bkgtotal->Add(h_WJetsToLNu      ) ;
 
       //fprintf (kfact,   region+"____"+variable+     "-------->   %3.6f \n", DYScale        ) ; 
@@ -744,14 +744,14 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
      h_other=(TH1F*)h_VV->Clone("other");
       h_other->Add(h_WG);
-      //h_other->Add(h_QCD);
+      h_other->Add(h_QCD);
       h_other->Add(h_WJetsToLNu);
       h_other->Add(h_ZH    ) ;
       //h_other->Add(h_GJets ) ;
 
      h_other_alt=(TH1F*)h_altVV->Clone("other_alt");
       h_other_alt->Add(h_WG);
-      //h_other_alt->Add(h_QCD);
+      h_other_alt->Add(h_QCD);
       h_other_alt->Add(h_WJetsToLNu);
       h_other_alt->Add(h_ZH    ) ;
       //h_other_alt->Add(h_GJets ) ;
@@ -873,7 +873,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      Float_t int_TT        = h_TT       ->Integral(0,-1); 
      Float_t int_altTT     = h_altTT    ->Integral(0,-1); 
      Float_t int_VG        = h_VG       ->Integral(0,-1); 
-     //Float_t int_QCD       = h_QCD      ->Integral(0,-1); 
+     Float_t int_QCD       = h_QCD      ->Integral(0,-1); 
      Float_t int_bkgtotal  = h_bkgtotal ->Integral(0,-1); 
      Float_t int_Data      = h_Data     ->Integral(0,-1); 
      Float_t int_bkgOnData = (double)int_bkgtotal / int_Data ;
@@ -1115,7 +1115,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        fprintf (summarytable, "TT              & %3.1f \\\\\n", int_TT             ) ; 
        fprintf (summarytable, "altTT           & %3.1f \\\\\n", int_altTT          ) ; 
        fprintf (summarytable, "VG              & %3.1f \\\\\n", int_VG             ) ; 
-       //fprintf (summarytable, "QCD             & %3.1f \\\\\n", int_QCD            ) ; 
+       fprintf (summarytable, "QCD             & %3.1f \\\\\n", int_QCD            ) ; 
        fprintf (summarytable, " \\hline \n");
        fprintf (summarytable, "Sig MS15ct1000  & %3.1f \\\\\n", int_Sig_MS15ct1000 ) ; 
        fprintf (summarytable, "Sig MS15ct100   & %3.1f \\\\\n", int_Sig_MS15ct100  ) ; 
@@ -1154,7 +1154,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        fprintf (tinytable, "WW,WZ,ZZ & %3.1f \\\\\n", int_VV             ) ; 
        fprintf (tinytable, "$t\\bar{t}$      & %3.1f \\\\\n", int_TT             ) ; 
        fprintf (tinytable, "V$\\gamma$              & %3.1f \\\\\n", int_VG             ) ; 
-       //fprintf (tinytable, "QCD              & %3.1f \\\\\n", int_QCD             ) ; 
+       fprintf (tinytable, "QCD              & %3.1f \\\\\n", int_QCD             ) ; 
        fprintf (tinytable, " \\hline \n");
        fprintf (tinytable, "Total Backgrounds    & %3.1f \\\\\n", int_bkgtotal ) ; 
        fprintf (tinytable, " \\hline \n");
@@ -1176,7 +1176,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV         -> SetLineColor(kBlack); 
      h_altVV      -> SetLineColor(kBlack); 
      h_VG         -> SetLineColor(kBlack); 
-     //h_QCD        -> SetLineColor(kBlack); 
+     h_QCD        -> SetLineColor(kBlack); 
      h_ZH         -> SetLineColor(kBlack);
 
      h_Data  -> SetLineColor(kBlack);
@@ -1193,7 +1193,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV        ->SetFillStyle(1001);
      h_altVV     ->SetFillStyle(1001);
      h_VG        ->SetFillStyle(1001);
-     //h_QCD       ->SetFillStyle(1001);
+     h_QCD       ->SetFillStyle(1001);
      h_ZH        ->SetFillStyle(1001);
 
      h_DY        ->SetFillColor(kAzure-3);
@@ -1205,7 +1205,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV        ->SetFillColor(kRed);
      h_altVV     ->SetFillColor(kRed);
      h_VG        ->SetFillColor(kPink+9);
-    // h_QCD       ->SetFillColor(kGray+1);
+     h_QCD       ->SetFillColor(kGray+1);
      h_ZH        ->SetFillColor(kCyan);
 
      h_DY        ->SetLineColor(kBlack); 
@@ -1217,7 +1217,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV        ->SetLineColor(kBlack); 
      h_altVV     ->SetLineColor(kBlack); 
      h_VG        ->SetLineColor(kBlack); 
-    // h_QCD       ->SetLineColor(kBlack); 
+     h_QCD       ->SetLineColor(kBlack); 
      h_ZH        ->SetLineColor(kBlack); 
 
      h_DY        ->SetLineWidth(2);
@@ -1229,7 +1229,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_VV        ->SetLineWidth(2);
      h_altVV     ->SetLineWidth(2);
      h_VG        ->SetLineWidth(2);
-    // h_QCD       ->SetLineWidth(2);
+     h_QCD       ->SetLineWidth(2);
      h_ZH        ->SetLineWidth(2);
 
      h_bkgtotal->SetFillColorAlpha(kYellow+1, 0.7);
@@ -1255,7 +1255,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        v.push_back(h_WJetsToLNu);
        v.push_back(h_altVV);
        v.push_back(h_VG); 
-      // v.push_back(h_QCD); 
+       v.push_back(h_QCD); 
        v.push_back(h_ZH);
      }
 
@@ -1290,7 +1290,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
          bgstack->Add(h_WJetsToLNu ); 
          bgstack->Add(h_altVV         ); 
          bgstack->Add(h_VG         );
-       //  bgstack->Add(h_QCD        );
+         bgstack->Add(h_QCD        );
          bgstack->Add(h_ZH         );
        }
      }
@@ -1311,7 +1311,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
      // make legend
      TLegend *leg;
-     leg = new TLegend(0.2,0.7,0.88,0.88);
+     leg = new TLegend(0.35,0.7,0.88,0.88);
      leg->SetBorderSize(0);
      leg->SetNColumns(2);
      leg->SetFillColor(kWhite);
@@ -1338,7 +1338,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        leg->AddEntry(h_WJetsToLNu   , "W+Jets", "f"); 
        leg->AddEntry(h_altVV           , "Diboson", "f"); 
        leg->AddEntry(h_VG           , "V#gamma", "f");
-      // leg->AddEntry(h_QCD          , "QCD", "f");
+       leg->AddEntry(h_QCD          , "QCD", "f");
        leg->AddEntry(h_ZH           , "ZH#rightarrowLLbb", "f");
        leg->AddEntry(h_bkgtotal     , "MC bkg. stat. err.", "f");
      }
@@ -1409,7 +1409,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      extra2->DrawTextNDC(0.51,0.91,"2018");
      dummy=sprintf (lumistring, "%0.1f", Lumi/1000.);
      //lumi->DrawTextNDC(0.9,0.91,(TString)lumistring+" /fb (13 TeV)");
-     lumi->DrawTextNDC(0.9,0.91," 117.34/fb (13 TeV)");
+     lumi->DrawTextNDC(0.9,0.91," 58.67/fb (13 TeV)");
      
      if(drawData){
        ratiopad->cd();
@@ -1429,12 +1429,13 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        // X axis ratio plot settings
        h_ratio->GetXaxis()->SetTitleSize(40);
        h_ratio->GetXaxis()->SetTitleFont(43);
-       h_ratio->GetXaxis()->SetTitle(region+":   "+(TString)h_Data->GetTitle()+description);
+       //h_ratio->GetXaxis()->SetTitle(region+":   "+(TString)h_Data->GetTitle()+description);
+       h_ratio->GetXaxis()->SetTitle("EleMuOSOF"+(TString)h_Data->GetTitle()+description);
        h_ratio->GetXaxis()->SetTitleOffset(4.0);
        h_ratio->GetXaxis()->SetLabelFont(43); //43 Absolute font size in pixel (precision 3)
        h_ratio->GetXaxis()->SetLabelSize(30);//20
        h_ratio->SetMarkerStyle(20);
-       h_ratio->SetMarkerColor(kRed);
+       h_ratio->SetMarkerColor(kBlack);
        h_ratio->SetMarkerSize(1);
        h_ratio->GetYaxis()->SetRangeUser(0.0,2.0);
        h_ratio->Draw("ep");  // draw first to get ranges set internally inside root
@@ -1469,7 +1470,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_WJetsToLNu  ->Write();
      h_VV          ->Write();
      h_VG          ->Write();
-     //h_QCD         ->Write();
+     h_QCD         ->Write();
      h_ZH          ->Write();
      h_bkgtotal    ->Write();
      h_light       ->Write();

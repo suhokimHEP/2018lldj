@@ -28,7 +28,7 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
  inpath = inpath+aversion+"/"+region+"/";
  outpath = outpath+aversion+"/"+region+"/";
 
- Float_t lumiABCD = 59691. ;
+ Float_t lumiABCD = 58670. ;
 
  Int_t rebin=1;
 
@@ -153,7 +153,7 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
  h_ST             = (TH1F*)file_input->Get("ST"            )->Clone("ST"            )  ;
  //h_VV             = (TH1F*)file_input->Get("VV"            )->Clone("VV"            )  ;
  h_VG             = (TH1F*)file_input->Get("VG"            )->Clone("VG"            )  ;
- //h_QCD            = (TH1F*)file_input->Get("QCD"           )->Clone("QCD"           )  ;
+ h_QCD            = (TH1F*)file_input->Get("QCD"           )->Clone("QCD"           )  ;
  h_ZH             = (TH1F*)file_input->Get("ZH"            )->Clone("ZH"            )  ;
  h_TT             = (TH1F*)file_input->Get("TT"            )->Clone("TT"            )  ;
  h_altDY          = (TH1F*)file_input->Get("altDY"         )->Clone("altDY"         )  ;
@@ -167,7 +167,7 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
  h_ST         ->Rebin(rebin); 
  //h_VV         ->Rebin(rebin); 
  h_VG         ->Rebin(rebin); 
- //h_QCD        ->Rebin(rebin);
+ h_QCD        ->Rebin(rebin);
  h_ZH         ->Rebin(rebin); 
  h_TT         ->Rebin(rebin); 
  h_altDY      ->Rebin(rebin); 
@@ -212,7 +212,7 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
    //bgstack          = (THStack*)file_input->Get("bgstack"    )->Clone("bgstack"       )  ;
 
    h_bkgtotal       = (TH1F*)file_input->Get("bkgtotal"      )->Clone("bkgtotal"      )  ;
-   h_bkgtotal->Add(h_Sig);
+   //h_bkgtotal->Add(h_Sig);
 
    h_Sig     -> Rebin(rebin); 
    h_Sig40   -> Rebin(rebin);  
@@ -229,9 +229,9 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
    bgstack->Add(h_altVV         );
    //bgstack->Add(h_VV         );
    bgstack->Add(h_VG         );
-   //bgstack->Add(h_QCD        );
+   bgstack->Add(h_QCD        );
    bgstack->Add(h_ZH         );
-   bgstack->Add(h_Sig); 
+   //bgstack->Add(h_Sig); 
 
    //h_bkgtotal->SetFillColorAlpha(kYellow+1, 0.7);
    //h_bkgtotal->SetFillStyle(1001);
@@ -378,13 +378,13 @@ void plotter_tagvarUnc(TString region, TString varname, Bool_t dolog)
     // Orignal cut value
     float origcutval=-99;
     if( varname.Contains("AllJets_AODCaloJetMedianLog10IPSig"     ) ) { 
-     origcutval = 1.15;
+     origcutval = 0.9;
     }   
     if( varname.Contains("AllJets_AODCaloJetMedianLog10TrackAngle") ) {    
-     origcutval = -1.75;
+     origcutval = -1.45;
     }   
     if( varname.Contains("AllJets_AODCaloJetAlphaMax"             ) ) { 
-     origcutval = 0.75;
+     origcutval = 0.5;
     }   
 
 //    h_NormDataInt = (TH1F*)h_DataInt->Clone("h_NormDataInt");

@@ -381,6 +381,6 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    fChain->SetBranchAddress("AOD_CaloMET_phi", &AOD_CaloMET_phi, &b_AOD_CaloMET_phi);
 //   fChain->SetBranchAddress("AOD_pfChMET_phi", &AOD_pfChMET_phi, &b_AOD_pfChMET_phi);
 //   fChain->SetBranchAddress("AOD_pfMET_phi", &AOD_pfMET_phi, &b_AOD_pfMET_phi);
-   if(Tsample == "DYJetsToLL_M-50")fChain->SetBranchAddress("AODGenEventWeight", &AODGenEventWeight, &b_AODGenEventWeight);
+   if(Tsample == "DYJetsToLL_M-50" || Tsample == "ZGTo2LG"|| Tsample == "TTtoLL"|| Tsample == "TTJets")fChain->SetBranchAddress("AODGenEventWeight", &AODGenEventWeight, &b_AODGenEventWeight);
 
 }

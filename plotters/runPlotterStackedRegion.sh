@@ -4,10 +4,10 @@ regions=( \
 # "EleMuOSOF"     \
 # "EleMuOSOFL"    \
 # "OnePho"        \
- "TwoEleDY"      \
+# "TwoEleDY"      \
 # "TwoEleSig"     \
 # "TwoEleZH"      \
- "TwoMuDY"       \
+# "TwoMuDY"       \
 # "TwoMuSig"      \
 # "TwoMuZH"       \
 ) 

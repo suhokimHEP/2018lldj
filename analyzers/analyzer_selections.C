@@ -292,9 +292,7 @@ Bool_t analyzer_selections::askPassMuEG()
    doespass = kTRUE;
   } // if(TTOC)
   else{
-   if( isMC ){
     doespass =  (Bool_t)( (AOD_HLT_Mu12Ele23_DZ > 0) || (AOD_HLT_Mu23Ele12_noDZ > 0) );
-   } // if( isMC )
   } // if(!TTOC)
  } // if(muon_list.size()>0 && electron_list.size()>0)
  return doespass;

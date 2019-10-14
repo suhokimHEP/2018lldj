@@ -3,9 +3,9 @@
 regions=( \ 
 # "EleMuOSOF"     \   
 # "OnePho"        \
-# "TwoEleDY"      \   
+ "TwoEleDY"      \   
  "TwoMuDY"       \
- "TwoMuZH"       \
+# "TwoMuZH"       \
 ) 
 
 variables=( \

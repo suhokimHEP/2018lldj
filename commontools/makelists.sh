@@ -16,8 +16,8 @@ makealist() {
  sed -i -e "s@/eos/uscms@@" ${listdir}/$1.list
 }
 
-#### MC backgrounds
-##
+### MC backgrounds
+#
 ###QCD 
 #makealist "QCD_HT50to100"      "/QCD_HT50to100_"
 #makealist "QCD_HT100to200"      "/QCD_HT100to200_"
@@ -38,8 +38,9 @@ makealist() {
 #makealist "DYJetsToLL_M-50"         "/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-"
 #makealist "mad_DYJetsToLL_M-50"         "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-"
 ###
-### TTbar
-#makealist "TTJets"          "/TTJets_TuneCP5"
+## TTbar
+#makealist "TTJets"          "/TTJets_TuneCP5_13TeV-amcatnloFXFX-"
+#makealist "mad_TTJets"      "/TTJets_TuneCP5_13TeV-madgraphMLM-"
 #makealist "TTtoLL"          "/TTJets_DiLept_"
 #makealist "TTtoLfromTbar"   "/TTJets_SingleLeptFromTbar_"
 #makealist "TTtoLfromT"      "/TTJets_SingleLeptFromT_"
@@ -57,19 +58,19 @@ makealist() {
 #makealist "WW"                    "/WW_"
 #makealist "WZ"                    "/WZ_"
 #makealist "ZZ"                    "/ZZ_"
-####makealist "WWToLNuQQ"                    "/WWToLNuQQ_"
-####makealist "WWTo4Q"                    "/WWTo4Q_"
-####makealist "WWTo2L2Nu"                    "/WWTo2L2Nu_"
-####makealist "WWTo1L1Nu2Q"                    "/WWTo1L1Nu2Q_"
-####makealist "WZTo3LNu"                    "/WZTo3LNu_"
-####makealist "WZTo2L2Q"                    "/WZTo2L2Q_"
-####makealist "ZZTo4L"                    "/ZZTo4L_"
-####makealist "ZZTo2Q2Nu"                    "/ZZTo2Q2Nu_"
-####makealist "ZZTo2L2Q"                    "/ZZTo2L2Q_"
-####makealist "ZZTo2L2Nu"                    "/ZZTo2L2Nu_"
-###
-### VGamma
-#makealist "ZGTo2LG"                "/ZGTo2LG_"
+###makealist "WWToLNuQQ"                    "/WWToLNuQQ_"
+###makealist "WWTo4Q"                    "/WWTo4Q_"
+###makealist "WWTo2L2Nu"                    "/WWTo2L2Nu_"
+###makealist "WWTo1L1Nu2Q"                    "/WWTo1L1Nu2Q_"
+###makealist "WZTo3LNu"                    "/WZTo3LNu_"
+###makealist "WZTo2L2Q"                    "/WZTo2L2Q_"
+###makealist "ZZTo4L"                    "/ZZTo4L_"
+###makealist "ZZTo2Q2Nu"                    "/ZZTo2Q2Nu_"
+###makealist "ZZTo2L2Q"                    "/ZZTo2L2Q_"
+###makealist "ZZTo2L2Nu"                    "/ZZTo2L2Nu_"
+##
+## VGamma
+#makealist "ZGTo2LG"                "/ZGToLLG_"
 #makealist "WGToLNuG"               "/WGToLNuG_"
 ##
 ### ZH
@@ -101,7 +102,7 @@ makealist() {
 ###makealist "ZH_HToSSTobbbb_ZToLL_MH-125_MS-55_ctauS-100"       "/ZH_HToSSTobbbb_ZToLL_MH-125_MS-55_ctauS-100_"
 ###makealist "ZH_HToSSTobbbb_ZToLL_MH-125_MS-55_ctauS-1000"      "/ZH_HToSSTobbbb_ZToLL_MH-125_MS-55_ctauS-1000_"
 ##
-###
+####
 ## Data
 ##
 #makealist "Data_DoubleMuon_A"          "/DoubleMuon/crab_Data_DoubleMuon_A"
@@ -112,7 +113,7 @@ makealist() {
 #makealist "Data_EGamma_A"          "/EGamma/crab_Data_EGamma_A"
 #makealist "Data_EGamma_B"          "/EGamma/crab_Data_EGamma_B"
 #makealist "Data_EGamma_C"          "/EGamma/crab_Data_EGamma_C"
-makealist "Data_EGamma_D"          "/EGamma/crab_Data_EGamma_D"
+#makealist "Data_EGamma_D"          "/EGamma/crab_Data_EGamma_D"
 ##
 #makealist "Data_MuonEG_A"          "/MuonEG/crab_Data_MuonEG_A"
 #makealist "Data_MuonEG_B"          "/MuonEG/crab_Data_MuonEG_B"

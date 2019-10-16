@@ -5,7 +5,6 @@ regions=( \
 # "OnePho"        \
  "TwoEleDY"      \   
  "TwoMuDY"       \
-# "TwoMuZH"       \
 ) 
 
 variables=( \
@@ -19,7 +18,7 @@ do
  for variable in ${variables[@]}
  do
   #root -l -b -q  'plotter_tagvarUnc.C('\""${region}"\"', '\""${variable}"\"' , kTRUE, kFALSE)'
-  root -l -b -q  'plotter_tagvarUnc.C('\""${region}"\"', '\""${variable}"\"' , kFALSE)'
+  root -l -b -q  'plotter_tagvarUnc.C('\""${region}"\"', '\""${variable}"\"' , kFALSE, kFALSE)'
 
  done
 done

@@ -32,7 +32,7 @@ do
  do
   for doHIP in ${doHIPs[@]}
   do
-   root -l -b -q  'plotter_stackedRegion.C('\""${region}"\"', '"${dolog}"', '"${useEOS}"', '\""${description}"\"')'
+   root -l -b -q  'plotter_stackedRegion.C('\""${region}"\"', '"${dolog}"','"${useEOS}"', '\""${description}"\"')'
   done
  done
 done

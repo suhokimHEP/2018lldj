@@ -1389,428 +1389,424 @@ Bool_t analyzer_histograms::deleteCutflowHistograms(int selbin)
 
 //----------------------------initTTOCHistograms
 Bool_t analyzer_histograms::initTTOCHistograms( TString uncbin ){
-//
-// for(unsigned int i=0; i<selbinnames.size(); ++i){
-//   //deleteTTOCHistograms(i);
-//   //Basic histograms
-//   TString hname_TTOCMu1Pt           = "h_"+selbinnames[i]+"_TTOCMu1Pt"      +uncbin; 
-//   TString hname_TTOCMu2Pt           = "h_"+selbinnames[i]+"_TTOCMu2Pt"      +uncbin; 
-//   TString hname_TTOCMuPt            = "h_"+selbinnames[i]+"_TTOCMuPt"       +uncbin; 
-//   TString hname_TTOCMu1Eta          = "h_"+selbinnames[i]+"_TTOCMu1Eta"     +uncbin; 
-//   TString hname_TTOCMu2Eta          = "h_"+selbinnames[i]+"_TTOCMu2Eta"     +uncbin; 
-//   TString hname_TTOCMuEta           = "h_"+selbinnames[i]+"_TTOCMuEta"      +uncbin; 
-//   TString hname_TTOCEle1Pt          = "h_"+selbinnames[i]+"_TTOCEle1Pt"     +uncbin; 
-//   TString hname_TTOCEle2Pt          = "h_"+selbinnames[i]+"_TTOCEle2Pt"     +uncbin; 
-//   TString hname_TTOCElePt           = "h_"+selbinnames[i]+"_TTOCElePt"      +uncbin; 
-//   TString hname_TTOCEle1Eta         = "h_"+selbinnames[i]+"_TTOCEle1Eta"    +uncbin; 
-//   TString hname_TTOCEle2Eta         = "h_"+selbinnames[i]+"_TTOCEle2Eta"    +uncbin; 
-//   TString hname_TTOCEleEta          = "h_"+selbinnames[i]+"_TTOCEleEta"     +uncbin; 
-//   TString hname_TTOCEMu_ElePt       = "h_"+selbinnames[i]+"_TTOCEMu_ElePt"  +uncbin;
-//   TString hname_TTOCEMu_MuPt        = "h_"+selbinnames[i]+"_TTOCEMu_MuPt"   +uncbin;
-//   TString hname_TTOCEMuPt           = "h_"+selbinnames[i]+"_TTOCEMuPt"      +uncbin;
-//   TString hname_TTOCEMu_EleEta      = "h_"+selbinnames[i]+"_TTOCEMu_EleEta" +uncbin;
-//   TString hname_TTOCEMu_MuEta       = "h_"+selbinnames[i]+"_TTOCEMu_MuEta"  +uncbin;
-//   TString hname_TTOCEMuEta          = "h_"+selbinnames[i]+"_TTOCEMuEta"     +uncbin;
-//   TString hname_TTOCMuE_ElePt       = "h_"+selbinnames[i]+"_TTOCMuE_ElePt"  +uncbin;
-//   TString hname_TTOCMuE_MuPt        = "h_"+selbinnames[i]+"_TTOCMuE_MuPt"   +uncbin;
-//   TString hname_TTOCMuEPt           = "h_"+selbinnames[i]+"_TTOCMuEPt"      +uncbin;
-//   TString hname_TTOCMuE_EleEta      = "h_"+selbinnames[i]+"_TTOCMuE_EleEta" +uncbin;
-//   TString hname_TTOCMuE_MuEta       = "h_"+selbinnames[i]+"_TTOCMuE_MuEta"  +uncbin;
-//   TString hname_TTOCMuEEta          = "h_"+selbinnames[i]+"_TTOCMuEEta"     +uncbin;
-//   TString hname_TTOCPhoPt           = "h_"+selbinnames[i]+"_TTOCPhoPt"      +uncbin;
-//   TString hname_TTOCPhoEta          = "h_"+selbinnames[i]+"_TTOCPhoEta"     +uncbin;
-//   //-------trigger specific
-//   //Double muon
-//   TString hname_TTOCTriggerDMu1Pt        = "h_"+selbinnames[i]+"_TTOCMuTriggerDMu1Pt"        +uncbin; 
-//   TString hname_TTOCTriggerDMu2Pt        = "h_"+selbinnames[i]+"_TTOCMuTriggerDMu2Pt"        +uncbin; 
-//   TString hname_TTOCTriggerDMuPt         = "h_"+selbinnames[i]+"_TTOCMuTriggerDMuPt"         +uncbin; 
-//   TString hname_TTOCTriggerDMu1Eta       = "h_"+selbinnames[i]+"_TTOCMuTriggerDMu1Eta"       +uncbin; 
-//   TString hname_TTOCTriggerDMu2Eta       = "h_"+selbinnames[i]+"_TTOCMuTriggerDMu2Eta"       +uncbin; 
-//   TString hname_TTOCTriggerDMuEta        = "h_"+selbinnames[i]+"_TTOCMuTriggerDMuEta"        +uncbin; 
-//   TString hname_TTOCTriggerDTkMu1Pt      = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu1Pt"      +uncbin; 
-//   TString hname_TTOCTriggerDTkMu2Pt      = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu2Pt"      +uncbin; 
-//   TString hname_TTOCTriggerDTkMu1Eta     = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu1Eta"     +uncbin; 
-//   TString hname_TTOCTriggerDTkMu2Eta     = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu2Eta"     +uncbin; 
-//   TString hname_TTOCTriggerNoDZMu1Pt     = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu1Pt"     +uncbin; 
-//   TString hname_TTOCTriggerNoDZMu2Pt     = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu2Pt"     +uncbin; 
-//   TString hname_TTOCTriggerNoDZMu1Eta    = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu1Eta"    +uncbin; 
-//   TString hname_TTOCTriggerNoDZMu2Eta    = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu2Eta"    +uncbin; 
-//   TString hname_TTOCTriggerNoDZTkMu1Pt   = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu1Pt"   +uncbin; 
-//   TString hname_TTOCTriggerNoDZTkMu2Pt   = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu2Pt"   +uncbin; 
-//   TString hname_TTOCTriggerNoDZTkMu1Eta  = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu1Eta"  +uncbin; 
-//   TString hname_TTOCTriggerNoDZTkMu2Eta  = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu2Eta"  +uncbin; 
-//   //--Single Mu
-//   TString hname_TTOCTrigger22MuPt        = "h_"+selbinnames[i]+"_TTOCMuTrigger22MuPt"        +uncbin; 
-//   TString hname_TTOCTrigger22MuEta       = "h_"+selbinnames[i]+"_TTOCMuTrigger22MuEta"       +uncbin; 
-//   TString hname_TTOCTrigger22TkMuPt      = "h_"+selbinnames[i]+"_TTOCMuTrigger22TkMuPt"      +uncbin; 
-//   TString hname_TTOCTrigger22TkMuEta     = "h_"+selbinnames[i]+"_TTOCMuTrigger22TkMuEta"     +uncbin; 
-//   TString hname_TTOCTrigger24MuPt        = "h_"+selbinnames[i]+"_TTOCMuTrigger24MuPt"        +uncbin; 
-//   TString hname_TTOCTrigger24MuEta       = "h_"+selbinnames[i]+"_TTOCMuTrigger24MuEta"       +uncbin; 
-//   TString hname_TTOCTrigger24TkMuPt      = "h_"+selbinnames[i]+"_TTOCMuTrigger24TkMuPt"      +uncbin; 
-//   TString hname_TTOCTrigger24TkMuEta     = "h_"+selbinnames[i]+"_TTOCMuTrigger24TkMuEta"     +uncbin; 
-//   //Double Electron
-//   TString hname_TTOCTrigger23DEle1Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger23DEle1Pt"    +uncbin; 
-//   TString hname_TTOCTrigger23DEle2Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger23DEle2Pt"    +uncbin; 
-//   TString hname_TTOCTrigger23DElePt      = "h_"+selbinnames[i]+"_TTOCEleTrigger23DElePt"     +uncbin; 
-//   TString hname_TTOCTrigger23DEle1Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger23DEle1Eta"   +uncbin; 
-//   TString hname_TTOCTrigger23DEle2Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger23DEle2Eta"   +uncbin; 
-//   TString hname_TTOCTrigger23DEleEta     = "h_"+selbinnames[i]+"_TTOCEleTrigger23DEleEta"    +uncbin; 
-//   TString hname_TTOCTrigger17DEle1Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle1Pt"    +uncbin; 
-//   TString hname_TTOCTrigger17DEle2Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle2Pt"    +uncbin; 
-//   TString hname_TTOCTrigger17DEle1Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle1Eta"   +uncbin; 
-//   TString hname_TTOCTrigger17DEle2Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle2Eta"   +uncbin; 
-//   //-------------Single Electron
-//   TString hname_TTOCTrigger23ElePt       = "h_"+selbinnames[i]+"_TTOCEleTrigger23ElePt"      +uncbin; 
-//   TString hname_TTOCTrigger23EleEta      = "h_"+selbinnames[i]+"_TTOCEleTrigger23EleEta"     +uncbin; 
-//   TString hname_TTOCTrigger27ElePt       = "h_"+selbinnames[i]+"_TTOCEleTrigger27ElePt"      +uncbin; 
-//   TString hname_TTOCTrigger27EleEta      = "h_"+selbinnames[i]+"_TTOCEleTrigger27EleEta"     +uncbin; 
-//   
-//   TString hname_TTOCTriggerEMu_ElePt     = "h_"+selbinnames[i]+"_TTOCTriggerEMu_ElePt"       +uncbin;
-//   TString hname_TTOCTriggerEMu_MuPt      = "h_"+selbinnames[i]+"_TTOCTriggerEMu_MuPt"        +uncbin;
-//   TString hname_TTOCTriggerEMuPt         = "h_"+selbinnames[i]+"_TTOCTriggerEMuPt"           +uncbin;
-//   TString hname_TTOCTriggerEMu_EleEta    = "h_"+selbinnames[i]+"_TTOCTriggerEMu_EleEta"      +uncbin;
-//   TString hname_TTOCTriggerEMu_MuEta     = "h_"+selbinnames[i]+"_TTOCTriggerEMu_MuEta"       +uncbin;
-//   TString hname_TTOCTriggerEMuEta        = "h_"+selbinnames[i]+"_TTOCTriggerEMuEta"          +uncbin;
-//   TString hname_TTOCTriggerMuE_ElePt     = "h_"+selbinnames[i]+"_TTOCTriggerMuE_ElePt"       +uncbin;
-//   TString hname_TTOCTriggerMuE_MuPt      = "h_"+selbinnames[i]+"_TTOCTriggerMuE_MuPt"        +uncbin;
-//   TString hname_TTOCTriggerMuEPt         = "h_"+selbinnames[i]+"_TTOCTriggerMuEPt"           +uncbin;
-//   TString hname_TTOCTriggerMuE_EleEta    = "h_"+selbinnames[i]+"_TTOCTriggerMuE_EleEta"      +uncbin;
-//   TString hname_TTOCTriggerMuE_MuEta     = "h_"+selbinnames[i]+"_TTOCTriggerMuE_MuEta"       +uncbin;
-//   TString hname_TTOCTriggerMuEEta        = "h_"+selbinnames[i]+"_TTOCTriggerMuEEta"          +uncbin;
-//   TString hname_TTOCTriggerPhoPt         = "h_"+selbinnames[i]+"_TTOCTriggerPhoPt"           +uncbin;
-//   TString hname_TTOCTriggerPhoEta        = "h_"+selbinnames[i]+"_TTOCTriggerPhoEta"          +uncbin;
-//
-//   h_TTOCMu1Pt                [i] = initSingleHistogramTH1F( hname_TTOCMu1Pt     , "TTOCMu1Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCMu2Pt                [i] = initSingleHistogramTH1F( hname_TTOCMu2Pt     , "TTOCMu2Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCMuPt                 [i] = initSingleHistogramTH2F( hname_TTOCMuPt      , "TTOCMuPt" ,       MuPtBin ,MuPtBinMin ,MuPtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCMu1Eta               [i] = initSingleHistogramTH1F( hname_TTOCMu1Eta    , "TTOCMu1Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCMu2Eta               [i] = initSingleHistogramTH1F( hname_TTOCMu2Eta    , "TTOCMu2Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCMuEta                [i] = initSingleHistogramTH2F( hname_TTOCMuEta     , "TTOCMuEta" ,      MuEtaBin,MuEtaBinMin,MuEtaBinMax,MuEtaBin ,MuEtaBinMin ,MuEtaBinMax);
-//   h_TTOCEle1Pt               [i] = initSingleHistogramTH1F( hname_TTOCEle1Pt    , "TTOCEle1Pt",      ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCEle2Pt               [i] = initSingleHistogramTH1F( hname_TTOCEle2Pt    , "TTOCEle2Pt",      ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCElePt                [i] = initSingleHistogramTH2F( hname_TTOCElePt     , "TTOCElePt" ,      ElePtBin,ElePtBinMin,ElePtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCEle1Eta              [i] = initSingleHistogramTH1F( hname_TTOCEle1Eta   , "TTOCEle1Eta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCEle2Eta              [i] = initSingleHistogramTH1F( hname_TTOCEle2Eta   , "TTOCEle2Eta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCEleEta               [i] = initSingleHistogramTH2F( hname_TTOCEleEta    , "TTOCEleEta" ,     EleEtaBin,EleEtaBinMin,EleEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCEMu_ElePt            [i] = initSingleHistogramTH1F( hname_TTOCEMu_ElePt , "_TTOCEMu_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCEMu_MuPt             [i] = initSingleHistogramTH1F( hname_TTOCEMu_MuPt  , "_TTOCEMu_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCEMuPt                [i] = initSingleHistogramTH2F( hname_TTOCEMuPt     , "_TTOCEMuPt",      ElePtBin,ElePtBinMin,ElePtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCEMu_EleEta           [i] = initSingleHistogramTH1F( hname_TTOCEMu_EleEta, "_TTOCEMu_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCEMu_MuEta            [i] = initSingleHistogramTH1F( hname_TTOCEMu_MuEta , "_TTOCEMu_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCEMuEta               [i] = initSingleHistogramTH2F( hname_TTOCEMuEta    , "_TTOCEMuEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax, MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCMuE_ElePt            [i] = initSingleHistogramTH1F( hname_TTOCMuE_ElePt , "_TTOCMuE_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCMuE_MuPt             [i] = initSingleHistogramTH1F( hname_TTOCMuE_MuPt  , "_TTOCMuE_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCMuEPt                [i] = initSingleHistogramTH2F( hname_TTOCMuEPt     , "_TTOCMuEPt",      MuPtBin ,MuPtBinMin ,MuPtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCMuE_EleEta           [i] = initSingleHistogramTH1F( hname_TTOCMuE_EleEta, "_TTOCMuE_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCMuE_MuEta            [i] = initSingleHistogramTH1F( hname_TTOCMuE_MuEta , "_TTOCMuE_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCMuEEta               [i] = initSingleHistogramTH2F( hname_TTOCMuEEta    , "_TTOCMuEEta",     MuEtaBin,MuEtaBinMin,MuEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCPhoPt                [i] = initSingleHistogramTH1F( hname_TTOCPhoPt     , "_TTOCPhoPt",      PhoPtBin,PhoPtBinMin,PhoPtBinMax);
-//   h_TTOCPhoEta               [i] = initSingleHistogramTH1F( hname_TTOCPhoEta    , "_TTOCPhoEta",     PhoEtaBin,PhoEtaBinMin,PhoEtaBinMax);    
-//   //--------------Double Mu
-//   h_TTOCTriggerDMu1Pt        [i] = initSingleHistogramTH1F( hname_TTOCTriggerDMu1Pt       ,  "TTOCTriggerDMu1Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerDMu2Pt        [i] = initSingleHistogramTH1F( hname_TTOCTriggerDMu2Pt       ,  "TTOCTriggerDMu2Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerDMuPt         [i] = initSingleHistogramTH2F( hname_TTOCTriggerDMuPt        ,  "TTOCTriggerDMuPt" ,       MuPtBin ,MuPtBinMin ,MuPtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerDMu1Eta       [i] = initSingleHistogramTH1F( hname_TTOCTriggerDMu1Eta      ,  "TTOCTriggerDMu1Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerDMu2Eta       [i] = initSingleHistogramTH1F( hname_TTOCTriggerDMu2Eta      ,  "TTOCTriggerDMu2Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerDMuEta        [i] = initSingleHistogramTH2F( hname_TTOCTriggerDMuEta       ,  "TTOCTriggerDMuEta" ,      MuEtaBin,MuEtaBinMin,MuEtaBinMax,MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerDTkMu1Pt      [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu1Pt     ,  "TTOCTriggerDTkMu1Pt",     MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerDTkMu2Pt      [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu2Pt     ,  "TTOCTriggerDTkMu2Pt",     MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerDTkMu1Eta     [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu1Eta    ,  "TTOCTriggerDTkMu1Eta",    MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerDTkMu2Eta     [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu2Eta    ,  "TTOCTriggerDTkMu2Eta",    MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerNoDZMu1Pt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu1Pt    ,  "TTOCTriggerNoDZMu1Pt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerNoDZMu2Pt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu2Pt    ,  "TTOCTriggerNoDZMu2Pt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerNoDZMu1Eta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu1Eta   ,  "TTOCTriggerNoDZMu1Eta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerNoDZMu2Eta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu2Eta   ,  "TTOCTriggerNoDZMu2Eta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerNoDZTkMu1Pt   [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu1Pt  ,  "TTOCTriggerNoDZTkMu1Pt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerNoDZTkMu2Pt   [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu2Pt  ,  "TTOCTriggerNoDZTkMu2Pt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerNoDZTkMu1Eta  [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu1Eta ,  "TTOCTriggerNoDZTkMu1Eta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerNoDZTkMu2Eta  [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu2Eta ,  "TTOCTriggerNoDZTkMu2Eta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   //--Single Mu
-//   h_TTOCTrigger22MuPt       [i] = initSingleHistogramTH1F( hname_TTOCTrigger22MuPt        ,  "TTOCTrigger22MuPt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTrigger22MuEta      [i] = initSingleHistogramTH1F( hname_TTOCTrigger22MuEta       ,  "TTOCTrigger22MuEta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTrigger22TkMuPt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger22TkMuPt      ,  "TTOCTrigger22TkMuPt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTrigger22TkMuEta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger22TkMuEta     ,  "TTOCTrigger22TkMuEta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTrigger24MuPt       [i] = initSingleHistogramTH1F( hname_TTOCTrigger24MuPt        ,  "TTOCTrigger24MuPt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTrigger24MuEta      [i] = initSingleHistogramTH1F( hname_TTOCTrigger24MuEta       ,  "TTOCTrigger24MuEta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTrigger24TkMuPt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger24TkMuPt      ,  "TTOCTrigger24TkMuPt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTrigger24TkMuEta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger24TkMuEta     ,  "TTOCTrigger24TkMuEta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   //--------------Double Electron
-//   h_TTOCTrigger23DEle1Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger23DEle1Pt    ,  "TTOCTrigger23DEle1Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger23DEle2Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger23DEle2Pt    ,  "TTOCTrigger23DEle2Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger23DElePt      [i] = initSingleHistogramTH2F( hname_TTOCTrigger23DElePt     ,  "TTOCTrigger23DElePt" ,   ElePtBin ,ElePtBinMin ,ElePtBinMax, ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger23DEle1Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger23DEle1Eta   ,  "TTOCTrigger23DEle1Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTrigger23DEle2Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger23DEle2Eta   ,  "TTOCTrigger23DEle2Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTrigger23DEleEta     [i] = initSingleHistogramTH2F( hname_TTOCTrigger23DEleEta    ,  "TTOCTrigger23DEleEta" ,  EleEtaBin,EleEtaBinMin,EleEtaBinMax,EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTrigger17DEle1Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle1Pt    ,  "TTOCTrigger17DEle1Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger17DEle2Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle2Pt    ,  "TTOCTrigger17DEle2Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger17DEle1Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle1Eta   ,  "TTOCTrigger17DEle1Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTrigger17DEle2Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle2Eta   ,  "TTOCTrigger17Dele2Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   //--Single Electron
-//   h_TTOCTrigger23ElePt      [i] = initSingleHistogramTH1F( hname_TTOCTrigger23ElePt       ,  "TTOCTrigger23ElePt",      ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger23EleEta     [i] = initSingleHistogramTH1F( hname_TTOCTrigger23EleEta      ,  "TTOCTrigger23EleEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTrigger27ElePt      [i] = initSingleHistogramTH1F( hname_TTOCTrigger27ElePt       ,  "TTOCTrigger27ElePt",      ElePtBin ,ElePtBinMin ,ElePtBinMax);
-//   h_TTOCTrigger27EleEta     [i] = initSingleHistogramTH1F( hname_TTOCTrigger27EleEta      ,  "TTOCTrigger27EleEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   
-//   h_TTOCTriggerEMu_ElePt    [i] = initSingleHistogramTH1F( hname_TTOCTriggerEMu_ElePt     , "_TTOCTriggerEMu_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCTriggerEMu_MuPt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerEMu_MuPt      , "_TTOCTriggerEMu_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerEMuPt        [i] = initSingleHistogramTH2F( hname_TTOCTriggerEMuPt         , "_TTOCTriggerEMuPt",      ElePtBin,ElePtBinMin,ElePtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerEMu_EleEta   [i] = initSingleHistogramTH1F( hname_TTOCTriggerEMu_EleEta    , "_TTOCTriggerEMu_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTriggerEMu_MuEta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerEMu_MuEta     , "_TTOCTriggerEMu_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerEMuEta       [i] = initSingleHistogramTH2F( hname_TTOCTriggerEMuEta        , "_TTOCTriggerEMuEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax, MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerMuE_ElePt    [i] = initSingleHistogramTH1F( hname_TTOCTriggerMuE_ElePt     , "_TTOCTriggerMuE_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCTriggerMuE_MuPt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerMuE_MuPt      , "_TTOCTriggerMuE_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
-//   h_TTOCTriggerMuEPt        [i] = initSingleHistogramTH2F( hname_TTOCTriggerMuEPt         , "_TTOCTriggerMuEPt",      MuPtBin ,MuPtBinMin ,MuPtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
-//   h_TTOCTriggerMuE_EleEta   [i] = initSingleHistogramTH1F( hname_TTOCTriggerMuE_EleEta    , "_TTOCTriggerMuE_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTriggerMuE_MuEta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerMuE_MuEta     , "_TTOCTriggerMuE_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
-//   h_TTOCTriggerMuEEta       [i] = initSingleHistogramTH2F( hname_TTOCTriggerMuEEta        , "_TTOCTriggerMuEEta",     MuEtaBin,MuEtaBinMin,MuEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
-//   h_TTOCTriggerPhoPt        [i] = initSingleHistogramTH1F( hname_TTOCTriggerPhoPt         , "_TTOCTriggerPhoPt",      PhoPtBin,PhoPtBinMin,PhoPtBinMax);
-//   h_TTOCTriggerPhoEta       [i] = initSingleHistogramTH1F( hname_TTOCTriggerPhoEta        , "_TTOCTriggerPhoEta",     PhoEtaBin,PhoEtaBinMin,PhoEtaBinMax);    
-// }
-//
+
+ for(unsigned int i=0; i<selbinnames.size(); ++i){
+   //deleteTTOCHistograms(i);
+   //Basic histograms
+   TString hname_TTOCMu1Pt           = "h_"+selbinnames[i]+"_TTOCMu1Pt"      +uncbin; 
+   TString hname_TTOCMu2Pt           = "h_"+selbinnames[i]+"_TTOCMu2Pt"      +uncbin; 
+   TString hname_TTOCMuPt            = "h_"+selbinnames[i]+"_TTOCMuPt"       +uncbin; 
+   TString hname_TTOCMu1Eta          = "h_"+selbinnames[i]+"_TTOCMu1Eta"     +uncbin; 
+   TString hname_TTOCMu2Eta          = "h_"+selbinnames[i]+"_TTOCMu2Eta"     +uncbin; 
+   TString hname_TTOCMuEta           = "h_"+selbinnames[i]+"_TTOCMuEta"      +uncbin; 
+   TString hname_TTOCEle1Pt          = "h_"+selbinnames[i]+"_TTOCEle1Pt"     +uncbin; 
+   TString hname_TTOCEle2Pt          = "h_"+selbinnames[i]+"_TTOCEle2Pt"     +uncbin; 
+   TString hname_TTOCElePt           = "h_"+selbinnames[i]+"_TTOCElePt"      +uncbin; 
+   TString hname_TTOCEle1Eta         = "h_"+selbinnames[i]+"_TTOCEle1Eta"    +uncbin; 
+   TString hname_TTOCEle2Eta         = "h_"+selbinnames[i]+"_TTOCEle2Eta"    +uncbin; 
+   TString hname_TTOCEleEta          = "h_"+selbinnames[i]+"_TTOCEleEta"     +uncbin; 
+   TString hname_TTOCEMu_ElePt       = "h_"+selbinnames[i]+"_TTOCEMu_ElePt"  +uncbin;
+   TString hname_TTOCEMu_MuPt        = "h_"+selbinnames[i]+"_TTOCEMu_MuPt"   +uncbin;
+   TString hname_TTOCEMuPt           = "h_"+selbinnames[i]+"_TTOCEMuPt"      +uncbin;
+   TString hname_TTOCEMu_EleEta      = "h_"+selbinnames[i]+"_TTOCEMu_EleEta" +uncbin;
+   TString hname_TTOCEMu_MuEta       = "h_"+selbinnames[i]+"_TTOCEMu_MuEta"  +uncbin;
+   TString hname_TTOCEMuEta          = "h_"+selbinnames[i]+"_TTOCEMuEta"     +uncbin;
+   TString hname_TTOCMuE_ElePt       = "h_"+selbinnames[i]+"_TTOCMuE_ElePt"  +uncbin;
+   TString hname_TTOCMuE_MuPt        = "h_"+selbinnames[i]+"_TTOCMuE_MuPt"   +uncbin;
+   TString hname_TTOCMuEPt           = "h_"+selbinnames[i]+"_TTOCMuEPt"      +uncbin;
+   TString hname_TTOCMuE_EleEta      = "h_"+selbinnames[i]+"_TTOCMuE_EleEta" +uncbin;
+   TString hname_TTOCMuE_MuEta       = "h_"+selbinnames[i]+"_TTOCMuE_MuEta"  +uncbin;
+   TString hname_TTOCMuEEta          = "h_"+selbinnames[i]+"_TTOCMuEEta"     +uncbin;
+   //TString hname_TTOCPhoPt           = "h_"+selbinnames[i]+"_TTOCPhoPt"      +uncbin;
+   //TString hname_TTOCPhoEta          = "h_"+selbinnames[i]+"_TTOCPhoEta"     +uncbin;
+   //-------trigger specific
+   //Double muon
+   TString hname_TTOC_Mu17Mu8_DMu1Pt        = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMu1Pt"        +uncbin; 
+   TString hname_TTOC_Mu17Mu8_DMu2Pt        = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMu2Pt"        +uncbin; 
+   TString hname_TTOC_Mu17Mu8_DMuPt         = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMuPt"         +uncbin; 
+   TString hname_TTOC_Mu17Mu8_DMu1Eta       = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMu1Eta"       +uncbin; 
+   TString hname_TTOC_Mu17Mu8_DMu2Eta       = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMu2Eta"       +uncbin; 
+   TString hname_TTOC_Mu17Mu8_DMuEta        = "h_"+selbinnames[i]+"_TTOC_Mu17Mu8_DMuEta"        +uncbin; 
+   TString hname_TTOCTriggerDTkMu1Pt      = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu1Pt"      +uncbin; 
+   TString hname_TTOCTriggerDTkMu2Pt      = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu2Pt"      +uncbin; 
+   TString hname_TTOCTriggerDTkMu1Eta     = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu1Eta"     +uncbin; 
+   TString hname_TTOCTriggerDTkMu2Eta     = "h_"+selbinnames[i]+"_TTOCMuTriggerDTkMu2Eta"     +uncbin; 
+   TString hname_TTOCTriggerNoDZMu1Pt     = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu1Pt"     +uncbin; 
+   TString hname_TTOCTriggerNoDZMu2Pt     = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu2Pt"     +uncbin; 
+   TString hname_TTOCTriggerNoDZMu1Eta    = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu1Eta"    +uncbin; 
+   TString hname_TTOCTriggerNoDZMu2Eta    = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZMu2Eta"    +uncbin; 
+   TString hname_TTOCTriggerNoDZTkMu1Pt   = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu1Pt"   +uncbin; 
+   TString hname_TTOCTriggerNoDZTkMu2Pt   = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu2Pt"   +uncbin; 
+   TString hname_TTOCTriggerNoDZTkMu1Eta  = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu1Eta"  +uncbin; 
+   TString hname_TTOCTriggerNoDZTkMu2Eta  = "h_"+selbinnames[i]+"_TTOCMuTriggerNoDZTkMu2Eta"  +uncbin; 
+   //--Single Mu
+   //TString hname_TTOCTrigger22MuPt        = "h_"+selbinnames[i]+"_TTOCMuTrigger22MuPt"        +uncbin; 
+   //TString hname_TTOCTrigger22MuEta       = "h_"+selbinnames[i]+"_TTOCMuTrigger22MuEta"       +uncbin; 
+   //TString hname_TTOCTrigger22TkMuPt      = "h_"+selbinnames[i]+"_TTOCMuTrigger22TkMuPt"      +uncbin; 
+   //TString hname_TTOCTrigger22TkMuEta     = "h_"+selbinnames[i]+"_TTOCMuTrigger22TkMuEta"     +uncbin; 
+   //TString hname_TTOCTrigger24MuPt        = "h_"+selbinnames[i]+"_TTOCMuTrigger24MuPt"        +uncbin; 
+   //TString hname_TTOCTrigger24MuEta       = "h_"+selbinnames[i]+"_TTOCMuTrigger24MuEta"       +uncbin; 
+   //TString hname_TTOCTrigger24TkMuPt      = "h_"+selbinnames[i]+"_TTOCMuTrigger24TkMuPt"      +uncbin; 
+   //TString hname_TTOCTrigger24TkMuEta     = "h_"+selbinnames[i]+"_TTOCMuTrigger24TkMuEta"     +uncbin; 
+   //Double Electron
+   TString hname_TTOC_Ele23Ele12_DEle1Pt     = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DEle1Pt"    +uncbin; 
+   TString hname_TTOC_Ele23Ele12_DEle2Pt     = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DEle2Pt"    +uncbin; 
+   TString hname_TTOC_Ele23Ele12_DElePt      = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DElePt"     +uncbin; 
+   TString hname_TTOC_Ele23Ele12_DEle1Eta    = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DEle1Eta"   +uncbin; 
+   TString hname_TTOC_Ele23Ele12_DEle2Eta    = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DEle2Eta"   +uncbin; 
+   TString hname_TTOC_Ele23Ele12_DEleEta     = "h_"+selbinnames[i]+"_TTOC_Ele23Ele12_DEleEta"    +uncbin; 
+   TString hname_TTOCTrigger17DEle1Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle1Pt"    +uncbin; 
+   TString hname_TTOCTrigger17DEle2Pt     = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle2Pt"    +uncbin; 
+   TString hname_TTOCTrigger17DEle1Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle1Eta"   +uncbin; 
+   TString hname_TTOCTrigger17DEle2Eta    = "h_"+selbinnames[i]+"_TTOCEleTrigger17DEle2Eta"   +uncbin; 
+   //-------------Single Electron
+   //TString hname_TTOCTrigger23ElePt       = "h_"+selbinnames[i]+"_TTOCEleTrigger23ElePt"      +uncbin; 
+   //TString hname_TTOCTrigger23EleEta      = "h_"+selbinnames[i]+"_TTOCEleTrigger23EleEta"     +uncbin; 
+   //TString hname_TTOCTrigger27ElePt       = "h_"+selbinnames[i]+"_TTOCEleTrigger27ElePt"      +uncbin; 
+   //TString hname_TTOCTrigger27EleEta      = "h_"+selbinnames[i]+"_TTOCEleTrigger27EleEta"     +uncbin; 
+   
+   TString hname_TTOC_Ele23Mu12_EMu_ElePt     = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMu_ElePt"       +uncbin;
+   TString hname_TTOC_Ele23Mu12_EMu_MuPt      = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMu_MuPt"        +uncbin;
+   TString hname_TTOC_Ele23Mu12_EMuPt         = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMuPt"           +uncbin;
+   TString hname_TTOC_Ele23Mu12_EMu_EleEta    = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMu_EleEta"      +uncbin;
+   TString hname_TTOC_Ele23Mu12_EMu_MuEta     = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMu_MuEta"       +uncbin;
+   TString hname_TTOC_Ele23Mu12_EMuEta        = "h_"+selbinnames[i]+"_TTOC_Ele23Mu12_EMuEta"          +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuE_ElePt     = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuE_ElePt"       +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuE_MuPt      = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuE_MuPt"        +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuEPt         = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuEPt"           +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuE_EleEta    = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuE_EleEta"      +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuE_MuEta     = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuE_MuEta"       +uncbin;
+   TString hname_TTOC_Ele12Mu23_MuEEta        = "h_"+selbinnames[i]+"_TTOC_Ele12Mu23_MuEEta"          +uncbin;
+   //TString hname_TTOCTriggerPhoPt         = "h_"+selbinnames[i]+"_TTOCTriggerPhoPt"           +uncbin;
+   //TString hname_TTOCTriggerPhoEta        = "h_"+selbinnames[i]+"_TTOCTriggerPhoEta"          +uncbin;
+
+   h_TTOCMu1Pt                [i] = initSingleHistogramTH1F( hname_TTOCMu1Pt     , "TTOCMu1Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCMu2Pt                [i] = initSingleHistogramTH1F( hname_TTOCMu2Pt     , "TTOCMu2Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCMuPt                 [i] = initSingleHistogramTH2F( hname_TTOCMuPt      , "TTOCMuPt" ,       MuPtBin ,MuPtBinMin ,MuPtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCMu1Eta               [i] = initSingleHistogramTH1F( hname_TTOCMu1Eta    , "TTOCMu1Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCMu2Eta               [i] = initSingleHistogramTH1F( hname_TTOCMu2Eta    , "TTOCMu2Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCMuEta                [i] = initSingleHistogramTH2F( hname_TTOCMuEta     , "TTOCMuEta" ,      MuEtaBin,MuEtaBinMin,MuEtaBinMax,MuEtaBin ,MuEtaBinMin ,MuEtaBinMax);
+   h_TTOCEle1Pt               [i] = initSingleHistogramTH1F( hname_TTOCEle1Pt    , "TTOCEle1Pt",      ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCEle2Pt               [i] = initSingleHistogramTH1F( hname_TTOCEle2Pt    , "TTOCEle2Pt",      ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCElePt                [i] = initSingleHistogramTH2F( hname_TTOCElePt     , "TTOCElePt" ,      ElePtBin,ElePtBinMin,ElePtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCEle1Eta              [i] = initSingleHistogramTH1F( hname_TTOCEle1Eta   , "TTOCEle1Eta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCEle2Eta              [i] = initSingleHistogramTH1F( hname_TTOCEle2Eta   , "TTOCEle2Eta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCEleEta               [i] = initSingleHistogramTH2F( hname_TTOCEleEta    , "TTOCEleEta" ,     EleEtaBin,EleEtaBinMin,EleEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCEMu_ElePt            [i] = initSingleHistogramTH1F( hname_TTOCEMu_ElePt , "_TTOCEMu_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCEMu_MuPt             [i] = initSingleHistogramTH1F( hname_TTOCEMu_MuPt  , "_TTOCEMu_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCEMuPt                [i] = initSingleHistogramTH2F( hname_TTOCEMuPt     , "_TTOCEMuPt",      ElePtBin,ElePtBinMin,ElePtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCEMu_EleEta           [i] = initSingleHistogramTH1F( hname_TTOCEMu_EleEta, "_TTOCEMu_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCEMu_MuEta            [i] = initSingleHistogramTH1F( hname_TTOCEMu_MuEta , "_TTOCEMu_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCEMuEta               [i] = initSingleHistogramTH2F( hname_TTOCEMuEta    , "_TTOCEMuEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax, MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCMuE_ElePt            [i] = initSingleHistogramTH1F( hname_TTOCMuE_ElePt , "_TTOCMuE_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCMuE_MuPt             [i] = initSingleHistogramTH1F( hname_TTOCMuE_MuPt  , "_TTOCMuE_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCMuEPt                [i] = initSingleHistogramTH2F( hname_TTOCMuEPt     , "_TTOCMuEPt",      MuPtBin ,MuPtBinMin ,MuPtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOCMuE_EleEta           [i] = initSingleHistogramTH1F( hname_TTOCMuE_EleEta, "_TTOCMuE_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCMuE_MuEta            [i] = initSingleHistogramTH1F( hname_TTOCMuE_MuEta , "_TTOCMuE_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCMuEEta               [i] = initSingleHistogramTH2F( hname_TTOCMuEEta    , "_TTOCMuEEta",     MuEtaBin,MuEtaBinMin,MuEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   //h_TTOCPhoPt                [i] = initSingleHistogramTH1F( hname_TTOCPhoPt     , "_TTOCPhoPt",      PhoPtBin,PhoPtBinMin,PhoPtBinMax);
+   //h_TTOCPhoEta               [i] = initSingleHistogramTH1F( hname_TTOCPhoEta    , "_TTOCPhoEta",     PhoEtaBin,PhoEtaBinMin,PhoEtaBinMax);    
+   //--------------Double Mu
+   h_TTOC_Mu17Mu8_DMu1Pt        [i] = initSingleHistogramTH1F( hname_TTOC_Mu17Mu8_DMu1Pt       ,  "TTOC_Mu17Mu8_DMu1Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Mu17Mu8_DMu2Pt        [i] = initSingleHistogramTH1F( hname_TTOC_Mu17Mu8_DMu2Pt       ,  "TTOC_Mu17Mu8_DMu2Pt",       MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Mu17Mu8_DMuPt         [i] = initSingleHistogramTH2F( hname_TTOC_Mu17Mu8_DMuPt        ,  "TTOC_Mu17Mu8_DMuPt" ,       MuPtBin ,MuPtBinMin ,MuPtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Mu17Mu8_DMu1Eta       [i] = initSingleHistogramTH1F( hname_TTOC_Mu17Mu8_DMu1Eta      ,  "TTOC_Mu17Mu8_DMu1Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOC_Mu17Mu8_DMu2Eta       [i] = initSingleHistogramTH1F( hname_TTOC_Mu17Mu8_DMu2Eta      ,  "TTOC_Mu17Mu8_DMu2Eta",      MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOC_Mu17Mu8_DMuEta        [i] = initSingleHistogramTH2F( hname_TTOC_Mu17Mu8_DMuEta       ,  "TTOC_Mu17Mu8_DMuEta" ,      MuEtaBin,MuEtaBinMin,MuEtaBinMax,MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerDTkMu1Pt      [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu1Pt     ,  "TTOCTriggerDTkMu1Pt",     MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerDTkMu2Pt      [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu2Pt     ,  "TTOCTriggerDTkMu2Pt",     MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerDTkMu1Eta     [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu1Eta    ,  "TTOCTriggerDTkMu1Eta",    MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerDTkMu2Eta     [i] = initSingleHistogramTH1F( hname_TTOCTriggerDTkMu2Eta    ,  "TTOCTriggerDTkMu2Eta",    MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerNoDZMu1Pt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu1Pt    ,  "TTOCTriggerNoDZMu1Pt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerNoDZMu2Pt     [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu2Pt    ,  "TTOCTriggerNoDZMu2Pt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerNoDZMu1Eta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu1Eta   ,  "TTOCTriggerNoDZMu1Eta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerNoDZMu2Eta    [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZMu2Eta   ,  "TTOCTriggerNoDZMu2Eta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerNoDZTkMu1Pt   [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu1Pt  ,  "TTOCTriggerNoDZTkMu1Pt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerNoDZTkMu2Pt   [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu2Pt  ,  "TTOCTriggerNoDZTkMu2Pt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOCTriggerNoDZTkMu1Eta  [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu1Eta ,  "TTOCTriggerNoDZTkMu1Eta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOCTriggerNoDZTkMu2Eta  [i] = initSingleHistogramTH1F( hname_TTOCTriggerNoDZTkMu2Eta ,  "TTOCTriggerNoDZTkMu2Eta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   //--Single Mu
+   //h_TTOCTrigger22MuPt       [i] = initSingleHistogramTH1F( hname_TTOCTrigger22MuPt        ,  "TTOCTrigger22MuPt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   //h_TTOCTrigger22MuEta      [i] = initSingleHistogramTH1F( hname_TTOCTrigger22MuEta       ,  "TTOCTrigger22MuEta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   //h_TTOCTrigger22TkMuPt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger22TkMuPt      ,  "TTOCTrigger22TkMuPt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   //h_TTOCTrigger22TkMuEta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger22TkMuEta     ,  "TTOCTrigger22TkMuEta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   //h_TTOCTrigger24MuPt       [i] = initSingleHistogramTH1F( hname_TTOCTrigger24MuPt        ,  "TTOCTrigger24MuPt",    MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   //h_TTOCTrigger24MuEta      [i] = initSingleHistogramTH1F( hname_TTOCTrigger24MuEta       ,  "TTOCTrigger24MuEta",   MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   //h_TTOCTrigger24TkMuPt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger24TkMuPt      ,  "TTOCTrigger24TkMuPt",  MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   //h_TTOCTrigger24TkMuEta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger24TkMuEta     ,  "TTOCTrigger24TkMuEta", MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   //--------------Double Electron
+   h_TTOC_Ele23Ele12_DEle1Pt     [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Ele12_DEle1Pt    ,  "TTOC_Ele23Ele12_DEle1Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   h_TTOC_Ele23Ele12_DEle2Pt     [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Ele12_DEle2Pt    ,  "TTOC_Ele23Ele12_DEle2Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   h_TTOC_Ele23Ele12_DElePt      [i] = initSingleHistogramTH2F( hname_TTOC_Ele23Ele12_DElePt     ,  "TTOC_Ele23Ele12_DElePt" ,   ElePtBin ,ElePtBinMin ,ElePtBinMax, ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   h_TTOC_Ele23Ele12_DEle1Eta    [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Ele12_DEle1Eta   ,  "TTOC_Ele23Ele12_DEle1Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOC_Ele23Ele12_DEle2Eta    [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Ele12_DEle2Eta   ,  "TTOC_Ele23Ele12_DEle2Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOC_Ele23Ele12_DEleEta     [i] = initSingleHistogramTH2F( hname_TTOC_Ele23Ele12_DEleEta    ,  "TTOC_Ele23Ele12_DEleEta" ,  EleEtaBin,EleEtaBinMin,EleEtaBinMax,EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCTrigger17DEle1Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle1Pt    ,  "TTOCTrigger17DEle1Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   h_TTOCTrigger17DEle2Pt     [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle2Pt    ,  "TTOCTrigger17DEle2Pt",   ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   h_TTOCTrigger17DEle1Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle1Eta   ,  "TTOCTrigger17DEle1Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOCTrigger17DEle2Eta    [i] = initSingleHistogramTH1F( hname_TTOCTrigger17DEle2Eta   ,  "TTOCTrigger17Dele2Eta",  EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   //--Single Electron
+   //h_TTOCTrigger23ElePt      [i] = initSingleHistogramTH1F( hname_TTOCTrigger23ElePt       ,  "TTOCTrigger23ElePt",      ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   //h_TTOCTrigger23EleEta     [i] = initSingleHistogramTH1F( hname_TTOCTrigger23EleEta      ,  "TTOCTrigger23EleEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   //h_TTOCTrigger27ElePt      [i] = initSingleHistogramTH1F( hname_TTOCTrigger27ElePt       ,  "TTOCTrigger27ElePt",      ElePtBin ,ElePtBinMin ,ElePtBinMax);
+   //h_TTOCTrigger27EleEta     [i] = initSingleHistogramTH1F( hname_TTOCTrigger27EleEta      ,  "TTOCTrigger27EleEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   
+   h_TTOC_Ele23Mu12_EMu_ElePt    [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Mu12_EMu_ElePt     , "_TTOC_Ele23Mu12_EMu_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOC_Ele23Mu12_EMu_MuPt     [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Mu12_EMu_MuPt      , "_TTOC_Ele23Mu12_EMu_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Ele23Mu12_EMuPt        [i] = initSingleHistogramTH2F( hname_TTOC_Ele23Mu12_EMuPt         , "_TTOC_Ele23Mu12_EMuPt",      ElePtBin,ElePtBinMin,ElePtBinMax, MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Ele23Mu12_EMu_EleEta   [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Mu12_EMu_EleEta    , "_TTOC_Ele23Mu12_EMu_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOC_Ele23Mu12_EMu_MuEta    [i] = initSingleHistogramTH1F( hname_TTOC_Ele23Mu12_EMu_MuEta     , "_TTOC_Ele23Mu12_EMu_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOC_Ele23Mu12_EMuEta       [i] = initSingleHistogramTH2F( hname_TTOC_Ele23Mu12_EMuEta        , "_TTOC_Ele23Mu12_EMuEta",     EleEtaBin,EleEtaBinMin,EleEtaBinMax, MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOC_Ele12Mu23_MuE_ElePt    [i] = initSingleHistogramTH1F( hname_TTOC_Ele12Mu23_MuE_ElePt     , "_TTOC_Ele12Mu23_MuE_ElePt",  ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOC_Ele12Mu23_MuE_MuPt     [i] = initSingleHistogramTH1F( hname_TTOC_Ele12Mu23_MuE_MuPt      , "_TTOC_Ele12Mu23_MuE_MuPt",   MuPtBin ,MuPtBinMin ,MuPtBinMax);
+   h_TTOC_Ele12Mu23_MuEPt        [i] = initSingleHistogramTH2F( hname_TTOC_Ele12Mu23_MuEPt         , "_TTOC_Ele12Mu23_MuEPt",      MuPtBin ,MuPtBinMin ,MuPtBinMax, ElePtBin,ElePtBinMin,ElePtBinMax);
+   h_TTOC_Ele12Mu23_MuE_EleEta   [i] = initSingleHistogramTH1F( hname_TTOC_Ele12Mu23_MuE_EleEta    , "_TTOC_Ele12Mu23_MuE_EleEta", EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   h_TTOC_Ele12Mu23_MuE_MuEta    [i] = initSingleHistogramTH1F( hname_TTOC_Ele12Mu23_MuE_MuEta     , "_TTOC_Ele12Mu23_MuE_MuEta",  MuEtaBin,MuEtaBinMin,MuEtaBinMax);
+   h_TTOC_Ele12Mu23_MuEEta       [i] = initSingleHistogramTH2F( hname_TTOC_Ele12Mu23_MuEEta        , "_TTOC_Ele12Mu23_MuEEta",     MuEtaBin,MuEtaBinMin,MuEtaBinMax, EleEtaBin,EleEtaBinMin,EleEtaBinMax);
+   //h_TTOCTriggerPhoPt        [i] = initSingleHistogramTH1F( hname_TTOCTriggerPhoPt         , "_TTOCTriggerPhoPt",      PhoPtBin,PhoPtBinMin,PhoPtBinMax);
+   //h_TTOCTriggerPhoEta       [i] = initSingleHistogramTH1F( hname_TTOCTriggerPhoEta        , "_TTOCTriggerPhoEta",     PhoEtaBin,PhoEtaBinMin,PhoEtaBinMax);    
+ }
+
  return kTRUE;
 }
 
 //----------------------------fillTTOCHistograms
 Bool_t analyzer_histograms::fillTTOCHistograms(Float_t weight, int selbin)
 {
-//   //setup
-//   int leadPho;
-//   if(photon_list.size()>0)  {leadPho    = photon_list[0]; }
-//   int leadMu;
-//   int subLeadMu;
-//   if(muon_list.size()>0)    {leadMu    = muon_list[0]; }
-//   if(muon_list.size()>1)    {subLeadMu = muon_list[1]; }
-//   int leadEle;
-//   int subLeadEle;
-//   if(electron_list.size()>0) {leadEle    = electron_list[0];} 
-//   if(electron_list.size()>1) {subLeadEle = electron_list[1];} 
-// 
-//   //define trigger passing bools
-//   //Bool_t doesPassDMu = (Bool_t)( (AOD_HLT_IsoMu22 > 0) || (AOD_HLT_IsoTkMu22 > 0) || (AOD_HLT_IsoMu24 > 0) || (AOD_HLT_IsoTkMu24 > 0) );
-//   Bool_t doesPassDMu = (Bool_t)( (AOD_HLT_Mu17Mu8 > 0) || (AOD_HLT_Mu17TkMu8 > 0) || (AOD_HLT_Mu17Mu8_noDZ > 0) || (AOD_HLT_Mu17TkMu8_noDZ > 0)) ; 
-//   Bool_t doesPassDEle = (Bool_t)( (AOD_HLT_Ele23Ele12 > 0) ); 
-//   Bool_t doesPassEMu = kFALSE;
-//   Bool_t doesPassMuE = kFALSE;
-//   //EMu
-//   doesPassEMu =  (Bool_t)( (AOD_HLT_Mu12Ele23_DZ > 0) );
-//   if(run>=273158 && run<=278272){
-//    doesPassEMu =  (Bool_t)( (AOD_HLT_Mu8Ele23 > 0) );
-//   }
-//   else if(run>=278273 && run<=284044){
-//    doesPassEMu = (Bool_t)( (AOD_HLT_Mu12Ele23_DZ > 0));
-//   }
-//   //MuE
-//   doesPassMuE =  (Bool_t)( (AOD_HLT_Mu23Ele12_DZ > 0) );
-//   if(run>=273158 && run<=278272){
-//    doesPassMuE = (Bool_t)( (AOD_HLT_Mu23Ele12 > 0) );
-//   }
-//   else if(run>=278273 && run<=284044){
-//    doesPassMuE = (Bool_t)( (AOD_HLT_Mu23Ele12_DZ > 0) );
-//   }
-//   //-------------------------Fill Passing basic selections
-//   //Single Photon 
-//   if(photon_list.size() >0){
-//    h_TTOCPhoPt               [selbin] ->Fill( AOD_phoPt               ->at(leadPho), weight );  
-//    h_TTOCPhoEta              [selbin] ->Fill( AOD_phoEta              ->at(leadPho), weight ); 
-//   }
-//   //MuonEG
-//   if(muon_list.size() > 0 && electron_list.size() > 0){
-//    //MuE
-//    if( AOD_muPt->at(leadMu) > AOD_elePt->at(leadEle) ){
-//      // fill for muon 
-//      h_TTOCMuE_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//      h_TTOCMuE_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); 
-//      // fill for electron
-//      h_TTOCMuE_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//      h_TTOCMuE_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );
-//      //2D Hists  
-//      h_TTOCMuEPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_elePt->at(leadEle), weight );  
-//      h_TTOCMuEEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_eleEta->at(leadEle), weight );  
-//    }
-//    //EMu
-//    if( AOD_muPt->at(leadMu) < AOD_elePt->at(leadEle) ){
-//      // fill for muon 
-//      h_TTOCEMu_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//      h_TTOCEMu_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); 
-//      // fill for electron
-//      h_TTOCEMu_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//      h_TTOCEMu_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );
-//      //2D Hists  
-//      h_TTOCEMuPt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_muPt->at(leadMu), weight );  
-//      h_TTOCEMuEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_muEta->at(leadMu), weight );  
-//    }
-//   }
-//   //DoubleMu
-//   if(muon_list.size() > 1){
-//    // fill leading muon in vector
-//    h_TTOCMu1Pt               [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//    h_TTOCMu1Eta              [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); 
-//    // fill for sub-leading muon in vector
-//    h_TTOCMu2Pt               [selbin] ->Fill( AOD_muPt               ->at(subLeadMu), weight );  
-//    h_TTOCMu2Eta              [selbin] ->Fill( AOD_muEta              ->at(subLeadMu), weight );
-//    //2D Hists  
-//    h_TTOCMuPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_muPt->at(subLeadMu), weight );  
-//    h_TTOCMuEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_muEta->at(subLeadMu), weight );  
-//   }
-//   //DoubleEle
-//   if(electron_list.size() > 1){
-//   // fill leading electron in vector
-//    h_TTOCEle1Pt               [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//    h_TTOCEle1Eta              [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight ); 
-//   // fill for sub-leading muon in vector
-//    h_TTOCEle2Pt               [selbin] ->Fill( AOD_elePt               ->at(subLeadEle), weight );  
-//    h_TTOCEle2Eta              [selbin] ->Fill( AOD_eleEta              ->at(subLeadEle), weight );  
-//    //2D Hists
-//    h_TTOCElePt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_elePt->at(subLeadEle), weight );  
-//    h_TTOCEleEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_eleEta->at(subLeadEle), weight );  
-//   }
-//
-//   //--------------------Fill For Passing Equivalent Triggers
-//   // fill for passing all Double Muon triggers used in analyzer_selections.C def of double muon
-//   if(doesPassDMu && muon_list.size() > 1){
-//    h_TTOCTriggerDMu1Pt               [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//    h_TTOCTriggerDMu2Pt               [selbin] ->Fill( AOD_muPt               ->at(subLeadMu), weight );  
-//    h_TTOCTriggerDMu1Eta              [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );  
-//    h_TTOCTriggerDMu2Eta              [selbin] ->Fill( AOD_muEta              ->at(subLeadMu), weight ); 
-//    
-//    h_TTOCTriggerDMuPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_muPt->at(subLeadMu), weight );  
-//    h_TTOCTriggerDMuEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_muEta->at(subLeadMu), weight );  
-//   } 
-//   // fill for passing all Double electron triggers used in analyzer_selections.C def of double electron
-//   if( doesPassDEle && electron_list.size() > 1){
-//    h_TTOCTrigger23DEle1Pt               [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//    h_TTOCTrigger23DEle2Pt               [selbin] ->Fill( AOD_elePt               ->at(subLeadEle), weight );  
-//    h_TTOCTrigger23DEle1Eta              [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );  
-//    h_TTOCTrigger23DEle2Eta              [selbin] ->Fill( AOD_eleEta              ->at(subLeadEle), weight );  
-//
-//    h_TTOCTrigger23DElePt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_elePt ->at(subLeadEle), weight );  
-//    h_TTOCTrigger23DEleEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_eleEta->at(subLeadEle), weight );  
-//   } 
-//   // fill for passing all Single photon triggers used in analyzer_selections.C def of OnePho
-//   //if (photon_list.size()>0)std::cout<<"***************NoPassPhotonPt: "<<AOD_phoPt->at(leadPho)<<std::endl;
-//   if( (Bool_t)AOD_HLT_Photon165_HE10 && photon_list.size() > 0){
-//    h_TTOCTriggerPhoPt             [selbin] ->Fill( AOD_phoPt               ->at(leadPho), weight );  
-//    h_TTOCTriggerPhoEta            [selbin] ->Fill( AOD_phoEta              ->at(leadPho), weight );  
-//    //std::cout<<"PhotonPt: "<<AOD_phoPt->at(leadPho)<<std::endl;
-//   }
-//   // fill for passing all MuonEG triggers used in analyzer_selections.C def of EleMuOSOF
-//   if(doesPassMuE && muon_list.size() > 0 && electron_list.size() > 0){
-//    //MuE
-//    if( AOD_muPt->at(leadMu) > AOD_elePt->at(leadEle) ){
-//      // fill for muon 
-//      h_TTOCTriggerMuE_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//      h_TTOCTriggerMuE_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); 
-//      // fill for electron
-//      h_TTOCTriggerMuE_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//      h_TTOCTriggerMuE_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );
-//      //2D Hists  
-//      h_TTOCTriggerMuEPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_elePt->at(leadEle), weight );  
-//      h_TTOCTriggerMuEEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_eleEta->at(leadEle), weight );  
-//   }}
-//   if(doesPassEMu && muon_list.size() > 0 && electron_list.size() > 0){
-//    //EMu
-//    if( AOD_elePt->at(leadEle) > AOD_muPt->at(leadMu) ){
-//      // fill for muon 
-//      h_TTOCTriggerEMu_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
-//      h_TTOCTriggerEMu_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); 
-//      // fill for electron
-//      h_TTOCTriggerEMu_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
-//      h_TTOCTriggerEMu_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );
-//      //2D Hists  
-//      h_TTOCTriggerEMuPt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_muPt->at(leadMu), weight );  
-//      h_TTOCTriggerEMuEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_muEta->at(leadMu), weight );  
-//   }}
+   //setup
+   int leadPho,leadMu,subLeadMu,leadEle,subLeadEle;
+   if(photon_list.size()>0)  {leadPho    = photon_list[0]; }
+   if(muon_list.size()>0)    {leadMu    = muon_list[0]; }
+   if(muon_list.size()>1)    {subLeadMu = muon_list[1]; }
+   if(electron_list.size()>0) {leadEle    = electron_list[0];} 
+   if(electron_list.size()>1) {subLeadEle = electron_list[1];} 
+ 
+   //define trigger passing bools
+   //Bool_t doesPassDMu = (Bool_t)( (AOD_HLT_IsoMu22 > 0) || (AOD_HLT_IsoTkMu22 > 0) || (AOD_HLT_IsoMu24 > 0) || (AOD_HLT_IsoTkMu24 > 0) );
+   Bool_t doesPassDMu = (Bool_t)(( AOD_HLT_Mu17Mu8_Mass3p8 > 0)) ; 
+   Bool_t doesPassDEle = (Bool_t)( (AOD_HLT_Ele23Ele12_noDZ > 0) ); 
+   Bool_t doesPassEMu = (Bool_t)( (AOD_HLT_Mu12Ele23_DZ > 0) );
+   Bool_t doesPassMuE = (Bool_t)( (AOD_HLT_Mu23Ele12_noDZ > 0) );
+   //-------------------------Fill Passing basic selections
+   //Single Photon 
+   //if(photon_list.size() >0){
+   // h_TTOCPhoPt               [selbin] ->Fill( AOD_phoPt               ->at(leadPho), weight );  
+   // h_TTOCPhoEta              [selbin] ->Fill( AOD_phoEta              ->at(leadPho), weight ); 
+   //}
+   //MuonEG
+   if(muon_list.size() == 1 && electron_list.size() == 1){
+    //MuE
+    if( AOD_muPt->at(leadMu) > AOD_elePt->at(leadEle) ){
+      // fill for muon 
+      if (AOD_elePt->at(leadEle)>12.)
+      {h_TTOCMuE_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+       h_TTOCMuE_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );} 
+      // fill for electron
+      if (AOD_muPt->at(leadMu)>23.) 
+      {h_TTOCMuE_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+      h_TTOCMuE_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );}
+      //2D Hists  
+      h_TTOCMuEPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_elePt->at(leadEle), weight );  
+      h_TTOCMuEEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_eleEta->at(leadEle), weight );  
+    }
+    //EMu
+    if( AOD_muPt->at(leadMu) < AOD_elePt->at(leadEle) ){
+      // fill for muon 
+      if (AOD_elePt->at(leadEle)>23.)
+      {h_TTOCEMu_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+      h_TTOCEMu_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );} 
+      // fill for electron
+      if (AOD_muPt->at(leadMu)>12.)
+      {h_TTOCEMu_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+      h_TTOCEMu_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );}
+      //2D Hists  
+      h_TTOCEMuPt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_muPt->at(leadMu), weight );  
+      h_TTOCEMuEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_muEta->at(leadMu), weight );  
+    }
+   }
+   //DoubleMu
+   if(muon_list.size() == 2){
+    // fill leading muon in vector
+      if (AOD_muPt->at(subLeadMu)>12.)
+    {h_TTOCMu1Pt               [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+    h_TTOCMu1Eta              [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );} 
+    // fill for sub-leading muon in vector
+      if (AOD_muPt->at(leadMu)>23.)
+    {h_TTOCMu2Pt               [selbin] ->Fill( AOD_muPt               ->at(subLeadMu), weight );  
+    h_TTOCMu2Eta              [selbin] ->Fill( AOD_muEta              ->at(subLeadMu), weight );}
+    //2D Hists  
+    h_TTOCMuPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_muPt->at(subLeadMu), weight );  
+    h_TTOCMuEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_muEta->at(subLeadMu), weight );  
+   }
+   //DoubleEle
+   if(electron_list.size() == 2){
+   // fill leading electron in vector
+      if (AOD_elePt->at(subLeadEle)>12.)
+    {h_TTOCEle1Pt               [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+    h_TTOCEle1Eta              [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );} 
+   // fill for sub-leading muon in vector
+      if (AOD_elePt->at(leadEle)>23.)
+    {h_TTOCEle2Pt               [selbin] ->Fill( AOD_elePt               ->at(subLeadEle), weight );  
+    h_TTOCEle2Eta              [selbin] ->Fill( AOD_eleEta              ->at(subLeadEle), weight );}  
+    //2D Hists
+    h_TTOCElePt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_elePt->at(subLeadEle), weight );  
+    h_TTOCEleEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_eleEta->at(subLeadEle), weight );  
+   }
+
+   //--------------------Fill For Passing Equivalent Triggers
+   // fill for passing all Double Muon triggers used in analyzer_selections.C def of double muon
+   if(doesPassDMu && muon_list.size() == 2/*&& AOD_muPt->at(leadMu)>17. && AOD_muPt->at(subLeadMu)>8.*/){
+      if (AOD_muPt->at(subLeadMu)>12.)
+    {h_TTOC_Mu17Mu8_DMu1Pt               [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+    h_TTOC_Mu17Mu8_DMu1Eta              [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight ); } 
+      if (AOD_muPt->at(leadMu)>23.)
+    {h_TTOC_Mu17Mu8_DMu2Pt               [selbin] ->Fill( AOD_muPt               ->at(subLeadMu), weight );  
+    h_TTOC_Mu17Mu8_DMu2Eta              [selbin] ->Fill( AOD_muEta              ->at(subLeadMu), weight );} 
+    
+    h_TTOC_Mu17Mu8_DMuPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_muPt->at(subLeadMu), weight );  
+    h_TTOC_Mu17Mu8_DMuEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_muEta->at(subLeadMu), weight );  
+   } 
+   // fill for passing all Double electron triggers used in analyzer_selections.C def of double electron
+   if( doesPassDEle && electron_list.size() == 2/*&& AOD_elePt->at(leadEle)>23. && AOD_elePt->at(subLeadEle)>12.*/){
+      if (AOD_elePt->at(subLeadEle)>12.)
+    {h_TTOC_Ele23Ele12_DEle1Pt               [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+    h_TTOC_Ele23Ele12_DEle1Eta              [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );}  
+      if (AOD_elePt->at(leadEle)>23.)
+    {h_TTOC_Ele23Ele12_DEle2Pt               [selbin] ->Fill( AOD_elePt               ->at(subLeadEle), weight );  
+    h_TTOC_Ele23Ele12_DEle2Eta              [selbin] ->Fill( AOD_eleEta              ->at(subLeadEle), weight );}  
+
+    h_TTOC_Ele23Ele12_DElePt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_elePt ->at(subLeadEle), weight );  
+    h_TTOC_Ele23Ele12_DEleEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_eleEta->at(subLeadEle), weight );  
+   } 
+   // fill for passing all Single photon triggers used in analyzer_selections.C def of OnePho
+   //if (photon_list.size()>0)std::cout<<"***************NoPassPhotonPt: "<<AOD_phoPt->at(leadPho)<<std::endl;
+   //if( (Bool_t)AOD_HLT_Photon165_HE10 && photon_list.size() > 0){
+   // h_TTOCTriggerPhoPt             [selbin] ->Fill( AOD_phoPt               ->at(leadPho), weight );  
+   // h_TTOCTriggerPhoEta            [selbin] ->Fill( AOD_phoEta              ->at(leadPho), weight );  
+   // //std::cout<<"PhotonPt: "<<AOD_phoPt->at(leadPho)<<std::endl;
+   //}
+   // fill for passing all MuonEG triggers used in analyzer_selections.C def of EleMuOSOF
+   if(doesPassMuE && muon_list.size() == 1 && electron_list.size() == 1){
+    //MuE
+    if( AOD_muPt->at(leadMu) > AOD_elePt->at(leadEle)/* && AOD_muPt->at(leadMu) > 23. && AOD_elePt->at(leadEle)>12.*/){
+      // fill for muon 
+      if (AOD_elePt->at(leadEle)>12.)
+      {h_TTOC_Ele12Mu23_MuE_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+      h_TTOC_Ele12Mu23_MuE_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );} 
+      // fill for electron
+      if (AOD_muPt->at(leadMu)>23.) 
+      {h_TTOC_Ele12Mu23_MuE_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+      h_TTOC_Ele12Mu23_MuE_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );}
+      //2D Hists  
+      h_TTOC_Ele12Mu23_MuEPt                [selbin] ->Fill( AOD_muPt ->at(leadMu), AOD_elePt->at(leadEle), weight );  
+      h_TTOC_Ele12Mu23_MuEEta               [selbin] ->Fill( AOD_muEta->at(leadMu), AOD_eleEta->at(leadEle), weight );  
+   }}
+   if(doesPassEMu && muon_list.size() == 1 && electron_list.size() == 1){
+    //EMu
+    if( AOD_muPt->at(leadMu) < AOD_elePt->at(leadEle)/* && AOD_muPt->at(leadMu) > 12. && AOD_elePt->at(leadEle)>23.*/){
+      // fill for muon 
+      if (AOD_elePt->at(leadEle)>23.)
+      {h_TTOC_Ele23Mu12_EMu_MuPt             [selbin] ->Fill( AOD_muPt               ->at(leadMu), weight );  
+      h_TTOC_Ele23Mu12_EMu_MuEta            [selbin] ->Fill( AOD_muEta              ->at(leadMu), weight );} 
+      // fill for electron
+      if (AOD_muPt->at(leadMu)>12.) 
+      {h_TTOC_Ele23Mu12_EMu_ElePt            [selbin] ->Fill( AOD_elePt               ->at(leadEle), weight );  
+      h_TTOC_Ele23Mu12_EMu_EleEta           [selbin] ->Fill( AOD_eleEta              ->at(leadEle), weight );}
+      //2D Hists  
+      h_TTOC_Ele23Mu12_EMuPt                [selbin] ->Fill( AOD_elePt ->at(leadEle), AOD_muPt->at(leadMu), weight );  
+      h_TTOC_Ele23Mu12_EMuEta               [selbin] ->Fill( AOD_eleEta->at(leadEle), AOD_muEta->at(leadMu), weight );  
+   }}
  return kTRUE;
 }
 
 //----------------------------writeTTOCHistograms
 Bool_t analyzer_histograms::writeTTOCHistograms(int selbin)
 {
-//  h_TTOCMu1Pt           [selbin] ->Write();
-//  h_TTOCMu2Pt           [selbin] ->Write();
-//  h_TTOCMuPt            [selbin] ->Write();
-//  h_TTOCMu1Eta          [selbin] ->Write();
-//  h_TTOCMu2Eta          [selbin] ->Write();
-//  h_TTOCMuEta           [selbin] ->Write();
-//  h_TTOCEle1Pt          [selbin] ->Write();
-//  h_TTOCEle2Pt          [selbin] ->Write();
-//  h_TTOCElePt           [selbin] ->Write();
-//  h_TTOCEle1Eta         [selbin] ->Write();
-//  h_TTOCEle2Eta         [selbin] ->Write();
-//  h_TTOCEleEta          [selbin] ->Write();
-//  h_TTOCEMu_ElePt       [selbin] ->Write(); 
-//  h_TTOCEMu_MuPt        [selbin] ->Write(); 
-//  h_TTOCEMuPt           [selbin] ->Write(); 
-//  h_TTOCEMu_EleEta      [selbin] ->Write(); 
-//  h_TTOCEMu_MuEta       [selbin] ->Write(); 
-//  h_TTOCEMuEta          [selbin] ->Write(); 
-//  h_TTOCMuE_ElePt       [selbin] ->Write(); 
-//  h_TTOCMuE_MuPt        [selbin] ->Write(); 
-//  h_TTOCMuEPt           [selbin] ->Write(); 
-//  h_TTOCMuE_EleEta      [selbin] ->Write(); 
-//  h_TTOCMuE_MuEta       [selbin] ->Write(); 
-//  h_TTOCMuEEta          [selbin] ->Write();  
-//  h_TTOCPhoPt           [selbin] ->Write();  
-//  h_TTOCPhoEta          [selbin] ->Write();  
-//  //Double Mu
-//  h_TTOCTriggerDMu1Pt        [selbin] ->Write();
-//  h_TTOCTriggerDMu2Pt        [selbin] ->Write();
-//  h_TTOCTriggerDMuPt         [selbin] ->Write();
-//  h_TTOCTriggerDMu1Eta       [selbin] ->Write();
-//  h_TTOCTriggerDMu2Eta       [selbin] ->Write();
-//  h_TTOCTriggerDMuEta        [selbin] ->Write();
-//  h_TTOCTriggerDTkMu1Pt      [selbin] ->Write();
-//  h_TTOCTriggerDTkMu2Pt      [selbin] ->Write();
-//  h_TTOCTriggerDTkMu1Eta     [selbin] ->Write();
-//  h_TTOCTriggerDTkMu2Eta     [selbin] ->Write();
-//  h_TTOCTriggerNoDZMu1Pt     [selbin] ->Write();
-//  h_TTOCTriggerNoDZMu2Pt     [selbin] ->Write();
-//  h_TTOCTriggerNoDZMu1Eta    [selbin] ->Write();
-//  h_TTOCTriggerNoDZMu2Eta    [selbin] ->Write();
-//  h_TTOCTriggerNoDZTkMu1Pt   [selbin] ->Write();
-//  h_TTOCTriggerNoDZTkMu2Pt   [selbin] ->Write();
-//  h_TTOCTriggerNoDZTkMu1Eta  [selbin] ->Write();
-//  h_TTOCTriggerNoDZTkMu2Eta  [selbin] ->Write();
-//  //--Single Mu
-//  h_TTOCTrigger22MuPt          [selbin] ->Write();
-//  h_TTOCTrigger22MuEta         [selbin] ->Write();
-//  h_TTOCTrigger22TkMuPt        [selbin] ->Write();
-//  h_TTOCTrigger22TkMuEta       [selbin] ->Write();
-//  h_TTOCTrigger24MuPt          [selbin] ->Write();
-//  h_TTOCTrigger24MuEta         [selbin] ->Write();
-//  h_TTOCTrigger24TkMuPt        [selbin] ->Write();
-//  h_TTOCTrigger24TkMuEta       [selbin] ->Write();
-//  //Double Electron
-//  h_TTOCTrigger23DEle1Pt       [selbin] ->Write();
-//  h_TTOCTrigger23DEle2Pt       [selbin] ->Write();
-//  h_TTOCTrigger23DElePt        [selbin] ->Write();
-//  h_TTOCTrigger23DEle1Eta      [selbin] ->Write();
-//  h_TTOCTrigger23DEle2Eta      [selbin] ->Write();
-//  h_TTOCTrigger23DEleEta       [selbin] ->Write();
-//  h_TTOCTrigger17DEle1Pt     [selbin] ->Write();
-//  h_TTOCTrigger17DEle2Pt     [selbin] ->Write();
-//  h_TTOCTrigger17DEle1Eta    [selbin] ->Write();
-//  h_TTOCTrigger17DEle2Eta    [selbin] ->Write();
-//  //--Single Electron
-//  h_TTOCTrigger23ElePt         [selbin] ->Write();
-//  h_TTOCTrigger23EleEta        [selbin] ->Write();
-//  h_TTOCTrigger27ElePt         [selbin] ->Write();
-//  h_TTOCTrigger27EleEta        [selbin] ->Write();
-//  
-//  h_TTOCTriggerEMu_ElePt     [selbin] ->Write(); 
-//  h_TTOCTriggerEMu_MuPt      [selbin] ->Write(); 
-//  h_TTOCTriggerEMuPt         [selbin] ->Write(); 
-//  h_TTOCTriggerEMu_EleEta    [selbin] ->Write(); 
-//  h_TTOCTriggerEMu_MuEta     [selbin] ->Write(); 
-//  h_TTOCTriggerEMuEta        [selbin] ->Write(); 
-//  h_TTOCTriggerMuE_ElePt     [selbin] ->Write(); 
-//  h_TTOCTriggerMuE_MuPt      [selbin] ->Write(); 
-//  h_TTOCTriggerMuEPt         [selbin] ->Write(); 
-//  h_TTOCTriggerMuE_EleEta    [selbin] ->Write(); 
-//  h_TTOCTriggerMuE_MuEta     [selbin] ->Write(); 
-//  h_TTOCTriggerMuEEta        [selbin] ->Write();  
-//  h_TTOCTriggerPhoPt         [selbin] ->Write();  
-//  h_TTOCTriggerPhoEta        [selbin] ->Write();  
+  h_TTOCMu1Pt           [selbin] ->Write();
+  h_TTOCMu2Pt           [selbin] ->Write();
+  h_TTOCMuPt            [selbin] ->Write();
+  h_TTOCMu1Eta          [selbin] ->Write();
+  h_TTOCMu2Eta          [selbin] ->Write();
+  h_TTOCMuEta           [selbin] ->Write();
+  h_TTOCEle1Pt          [selbin] ->Write();
+  h_TTOCEle2Pt          [selbin] ->Write();
+  h_TTOCElePt           [selbin] ->Write();
+  h_TTOCEle1Eta         [selbin] ->Write();
+  h_TTOCEle2Eta         [selbin] ->Write();
+  h_TTOCEleEta          [selbin] ->Write();
+  h_TTOCEMu_ElePt       [selbin] ->Write(); 
+  h_TTOCEMu_MuPt        [selbin] ->Write(); 
+  h_TTOCEMuPt           [selbin] ->Write(); 
+  h_TTOCEMu_EleEta      [selbin] ->Write(); 
+  h_TTOCEMu_MuEta       [selbin] ->Write(); 
+  h_TTOCEMuEta          [selbin] ->Write(); 
+  h_TTOCMuE_ElePt       [selbin] ->Write(); 
+  h_TTOCMuE_MuPt        [selbin] ->Write(); 
+  h_TTOCMuEPt           [selbin] ->Write(); 
+  h_TTOCMuE_EleEta      [selbin] ->Write(); 
+  h_TTOCMuE_MuEta       [selbin] ->Write(); 
+  h_TTOCMuEEta          [selbin] ->Write();  
+  //h_TTOCPhoPt           [selbin] ->Write();  
+  //h_TTOCPhoEta          [selbin] ->Write();  
+  //Double Mu
+  h_TTOC_Mu17Mu8_DMu1Pt        [selbin] ->Write();
+  h_TTOC_Mu17Mu8_DMu2Pt        [selbin] ->Write();
+  h_TTOC_Mu17Mu8_DMuPt         [selbin] ->Write();
+  h_TTOC_Mu17Mu8_DMu1Eta       [selbin] ->Write();
+  h_TTOC_Mu17Mu8_DMu2Eta       [selbin] ->Write();
+  h_TTOC_Mu17Mu8_DMuEta        [selbin] ->Write();
+  h_TTOCTriggerDTkMu1Pt      [selbin] ->Write();
+  h_TTOCTriggerDTkMu2Pt      [selbin] ->Write();
+  h_TTOCTriggerDTkMu1Eta     [selbin] ->Write();
+  h_TTOCTriggerDTkMu2Eta     [selbin] ->Write();
+  h_TTOCTriggerNoDZMu1Pt     [selbin] ->Write();
+  h_TTOCTriggerNoDZMu2Pt     [selbin] ->Write();
+  h_TTOCTriggerNoDZMu1Eta    [selbin] ->Write();
+  h_TTOCTriggerNoDZMu2Eta    [selbin] ->Write();
+  h_TTOCTriggerNoDZTkMu1Pt   [selbin] ->Write();
+  h_TTOCTriggerNoDZTkMu2Pt   [selbin] ->Write();
+  h_TTOCTriggerNoDZTkMu1Eta  [selbin] ->Write();
+  h_TTOCTriggerNoDZTkMu2Eta  [selbin] ->Write();
+  //--Single Mu
+  //h_TTOCTrigger22MuPt          [selbin] ->Write();
+  //h_TTOCTrigger22MuEta         [selbin] ->Write();
+  //h_TTOCTrigger22TkMuPt        [selbin] ->Write();
+  //h_TTOCTrigger22TkMuEta       [selbin] ->Write();
+  //h_TTOCTrigger24MuPt          [selbin] ->Write();
+  //h_TTOCTrigger24MuEta         [selbin] ->Write();
+  //h_TTOCTrigger24TkMuPt        [selbin] ->Write();
+  //h_TTOCTrigger24TkMuEta       [selbin] ->Write();
+  //Double Electron
+  h_TTOC_Ele23Ele12_DEle1Pt       [selbin] ->Write();
+  h_TTOC_Ele23Ele12_DEle2Pt       [selbin] ->Write();
+  h_TTOC_Ele23Ele12_DElePt        [selbin] ->Write();
+  h_TTOC_Ele23Ele12_DEle1Eta      [selbin] ->Write();
+  h_TTOC_Ele23Ele12_DEle2Eta      [selbin] ->Write();
+  h_TTOC_Ele23Ele12_DEleEta       [selbin] ->Write();
+  h_TTOCTrigger17DEle1Pt     [selbin] ->Write();
+  h_TTOCTrigger17DEle2Pt     [selbin] ->Write();
+  h_TTOCTrigger17DEle1Eta    [selbin] ->Write();
+  h_TTOCTrigger17DEle2Eta    [selbin] ->Write();
+  //--Single Electron
+  //h_TTOCTrigger23ElePt         [selbin] ->Write();
+  //h_TTOCTrigger23EleEta        [selbin] ->Write();
+  //h_TTOCTrigger27ElePt         [selbin] ->Write();
+  //h_TTOCTrigger27EleEta        [selbin] ->Write();
+  
+  h_TTOC_Ele23Mu12_EMu_ElePt     [selbin] ->Write(); 
+  h_TTOC_Ele23Mu12_EMu_MuPt      [selbin] ->Write(); 
+  h_TTOC_Ele23Mu12_EMuPt         [selbin] ->Write(); 
+  h_TTOC_Ele23Mu12_EMu_EleEta    [selbin] ->Write(); 
+  h_TTOC_Ele23Mu12_EMu_MuEta     [selbin] ->Write(); 
+  h_TTOC_Ele23Mu12_EMuEta        [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuE_ElePt     [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuE_MuPt      [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuEPt         [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuE_EleEta    [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuE_MuEta     [selbin] ->Write(); 
+  h_TTOC_Ele12Mu23_MuEEta        [selbin] ->Write();  
+  //h_TTOCTriggerPhoPt         [selbin] ->Write();  
+  //h_TTOCTriggerPhoEta        [selbin] ->Write();  
  return kTRUE;
 }
 
@@ -1904,6 +1900,7 @@ Bool_t analyzer_histograms::deleteTTOCHistograms(int selbin)
 //  if(h_TTOCTriggerPhoEta    [selbin]!=NULL)   h_TTOCTriggerPhoEta          [selbin] ->Delete();  
   return kTRUE;
 }
+
 
 
 //----------------------------initExtraHistograms

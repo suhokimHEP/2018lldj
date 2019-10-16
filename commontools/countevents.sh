@@ -119,6 +119,18 @@ xcQCD_HT2000toInf="31.8024" #1.26*25.24
 #Ref: https://twiki.cern.ch/twiki/bin/viewauth/CMS/SummaryTable1G25ns#QCD
 #1.26 from http://cms.cern.ch/iCMS/jsp/openfile.jsp?tp=draft&files=AN2015_224_v23.pdf
 
+#WH Mode
+xcWplusH_HToBB_WToLNu="0.163079"
+xcWplusH_HToSSTobbbb="0.056556" 
+#https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#WH_Process
+#BR(HToSSTobbbb)~20%, BR(WplusToLNu)~10.86% (per lepton species), BR(HToBB)~0.5767, (WplusHToHLNu)=9.426E-2
+
+xcWminusH_HToBB_WToLNu="0.103512"
+xcWminusH_HToSSTobbbb="0.035898" 
+#https://twiki.cern.ch/twiki/bin/view/LHCPhysics/CERNYellowReportPageAt13TeV#WH_Process
+#BR(HToSSTobbbb)~20%, BR(WminusToLNu)~10.86% (per lepton species), BR(HToBB)~0.5767, (WminusHToHLNu)=5.983E-2
+
+
 countalist () {
  printf "Making %s\n" $1
  if [[ $1 == "Data"* ]]
@@ -181,7 +193,7 @@ countalist () {
 ## Single Top
 #countalist  "ST_s-channel_4f_leptonDecays"             ${xcST_s}
 #countalist  "ST_t-channel_antitop_4f_inclusiveDecays"  ${xcSTbar_t}
-##countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
+#countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
 #countalist  "ST_tW_antitop_5f_NoFullyHadronicDecays"   ${xcSTbar_tW}
 #countalist  "ST_tW_top_5f_NoFullyHadronicDecays"       ${xcST_tW}
 #
@@ -210,6 +222,8 @@ countalist () {
 ## ZH
 #countalist "ggZH_HToBB_ZToLL"      ${xcggZH_HToBB_ZToLL} 
 #countalist "ZH_HToBB_ZToLL"        ${xcZH_HToBB_ZToLL}   
+##countalist "WplusH_HToBB_WToLNu"      ${xcWplusH_HToBB_WToLNu} 
+##coucountalist "WminusH_HToBB_WToLNu"        ${xcWminusH_HToBB_WToLNu}   
 
 
 ## Signal Samples

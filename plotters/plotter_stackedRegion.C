@@ -285,7 +285,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TFile* file_ZH_HToBB_ZToLL                    ;
  TFile* file_ZZ                                ;
  TFile* file_QCD_HT100to200                    ;
-// TFile* file_QCD_HT200to300                    ;
+ TFile* file_QCD_HT200to300                    ;
  TFile* file_QCD_HT300to500                    ;
  TFile* file_QCD_HT500to700                    ;
  TFile* file_QCD_HT700to1000                   ;
@@ -336,7 +336,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_ZH_HToBB_ZToLL                      ;
  TH1F* h_ZZ                                  ;
  TH1F* h_QCD_HT100to200                      ;
-// TH1F* h_QCD_HT200to300                      ;
+ TH1F* h_QCD_HT200to300                      ;
  TH1F* h_QCD_HT300to500                      ;
  TH1F* h_QCD_HT500to700                      ;
  TH1F* h_QCD_HT700to1000                     ;
@@ -425,11 +425,11 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
  file_ST_s                    = TFile::Open( inpath + "ST_s-channel_4f_leptonDecays_"+region+"_histograms.root"               ) ;
  file_STbar_t                 = TFile::Open( inpath + "ST_t-channel_antitop_4f_inclusiveDecays_"+region+"_histograms.root"    ) ;
- //file_ST_t                    = TFile::Open( inpath + "ST_t-channel_top_4f_inclusiveDecays_"+region+"_histograms.root"        ) ;
+ file_ST_t                    = TFile::Open( inpath + "ST_t-channel_top_4f_inclusiveDecays_"+region+"_histograms.root"        ) ;
  file_STbar_tW                = TFile::Open( inpath + "ST_tW_antitop_5f_NoFullyHadronicDecays_"+region+"_histograms.root"     ) ;
  file_ST_tW                   = TFile::Open( inpath + "ST_tW_top_5f_NoFullyHadronicDecays_"+region+"_histograms.root"         ) ;
  file_TTJets                  = TFile::Open( inpath + "TTJets_"+region+"_histograms.root"           ) ;
-// file_TTtoLL                  = TFile::Open( inpath + "TTtoLL_"+region+"_histograms.root"           ) ;
+ file_TTtoLL                  = TFile::Open( inpath + "TTtoLL_"+region+"_histograms.root"           ) ;
  file_WJetsToLNu              = TFile::Open( inpath + "WJetsToLNu_"+region+"_histograms.root"       ) ;
  file_WG                      = TFile::Open( inpath + "WGToLNuG_"+region+"_histograms.root"         ) ;
  file_ZGTo2LG                 = TFile::Open( inpath + "ZGTo2LG_"+region+"_histograms.root"          ) ;
@@ -439,11 +439,11 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  file_ZH_HToBB_ZToLL          = TFile::Open( inpath + "ZH_HToBB_ZToLL_"+region+"_histograms.root"   ) ;
  file_ggZH_HToBB_ZToLL        = TFile::Open( inpath + "ggZH_HToBB_ZToLL_"+region+"_histograms.root" ) ;
 //  
-// file_QCD_HT100to200          = TFile::Open( inpath + "QCD_HT100to200_"+region+"_histograms.root"   ) ;
-//// file_QCD_HT200to300          = TFile::Open( inpath + "QCD_HT200to300_"+region+"_histograms.root"   ) ;
-// file_QCD_HT300to500          = TFile::Open( inpath + "QCD_HT300to500_"+region+"_histograms.root"   ) ;
+ file_QCD_HT100to200          = TFile::Open( inpath + "QCD_HT100to200_"+region+"_histograms.root"   ) ;
+ file_QCD_HT200to300          = TFile::Open( inpath + "QCD_HT200to300_"+region+"_histograms.root"   ) ;
+ file_QCD_HT300to500          = TFile::Open( inpath + "QCD_HT300to500_"+region+"_histograms.root"   ) ;
 // file_QCD_HT500to700          = TFile::Open( inpath + "QCD_HT500to700_"+region+"_histograms.root"   ) ;
-// file_QCD_HT700to1000         = TFile::Open( inpath + "QCD_HT700to1000_"+region+"_histograms.root"  ) ;
+ file_QCD_HT700to1000         = TFile::Open( inpath + "QCD_HT700to1000_"+region+"_histograms.root"  ) ;
  file_QCD_HT1000to1500        = TFile::Open( inpath + "QCD_HT1000to1500_"+region+"_histograms.root" ) ;
  file_QCD_HT1500to2000        = TFile::Open( inpath + "QCD_HT1500to2000_"+region+"_histograms.root" ) ;
  file_QCD_HT2000toInf         = TFile::Open( inpath + "QCD_HT2000toInf_"+region+"_histograms.root"  ) ;
@@ -537,12 +537,12 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
      h_ST_s                            = (TH1F*)file_ST_s                             ->Get("h_"+varname+uncbin)->Clone( "ST_s"                            +uncbin ) ;
      h_STbar_t                         = (TH1F*)file_STbar_t                          ->Get("h_"+varname+uncbin)->Clone( "STbar_t"                         +uncbin ) ;
-    // h_ST_t                            = (TH1F*)file_ST_t                             ->Get("h_"+varname+uncbin)->Clone( "ST_t"                            +uncbin ) ;
+     h_ST_t                            = (TH1F*)file_ST_t                             ->Get("h_"+varname+uncbin)->Clone( "ST_t"                            +uncbin ) ;
      h_STbar_tW                        = (TH1F*)file_STbar_tW                         ->Get("h_"+varname+uncbin)->Clone( "STbar_tW"                        +uncbin ) ;
      h_ST_tW                           = (TH1F*)file_ST_tW                            ->Get("h_"+varname+uncbin)->Clone( "ST_tW"                           +uncbin ) ;
 
      h_TTJets                          = (TH1F*)file_TTJets                           ->Get("h_"+varname+uncbin)->Clone( "TTJets"                          +uncbin ) ;
-//     h_TTtoLL                          = (TH1F*)file_TTtoLL                           ->Get("h_"+varname+uncbin)->Clone( "TTtoLL"                          +uncbin ) ;
+     h_TTtoLL                          = (TH1F*)file_TTtoLL                           ->Get("h_"+varname+uncbin)->Clone( "TTtoLL"                          +uncbin ) ;
 
      h_WJetsToLNu                      = (TH1F*)file_WJetsToLNu                       ->Get("h_"+varname+uncbin)->Clone( "WJetsToLNu"                      +uncbin ) ;
      h_WG                              = (TH1F*)file_WG                               ->Get("h_"+varname+uncbin)->Clone( "WG"                              +uncbin ) ;
@@ -550,11 +550,11 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_WW                              = (TH1F*)file_WW                               ->Get("h_"+varname+uncbin)->Clone( "WW"                              +uncbin ) ;
      h_WZ                              = (TH1F*)file_WZ                               ->Get("h_"+varname+uncbin)->Clone( "WZ"                              +uncbin ) ;
      h_ZZ                              = (TH1F*)file_ZZ                               ->Get("h_"+varname+uncbin)->Clone( "ZZ"                              +uncbin ) ;
-//     h_QCD_HT100to200                  = (TH1F*)file_QCD_HT100to200                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT100to200"                +uncbin   ) ;
-////     h_QCD_HT200to300                  = (TH1F*)file_QCD_HT200to300                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT200to300"                +uncbin   ) ;
-//     h_QCD_HT300to500                  = (TH1F*)file_QCD_HT300to500                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT300to500"                +uncbin   ) ;
+     h_QCD_HT100to200                  = (TH1F*)file_QCD_HT100to200                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT100to200"                +uncbin   ) ;
+     h_QCD_HT200to300                  = (TH1F*)file_QCD_HT200to300                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT200to300"                +uncbin   ) ;
+     h_QCD_HT300to500                  = (TH1F*)file_QCD_HT300to500                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT300to500"                +uncbin   ) ;
 //     h_QCD_HT500to700                  = (TH1F*)file_QCD_HT500to700                   ->Get("h_"+varname+uncbin)->Clone( "QCD_HT500to700"                +uncbin   ) ;
-//     h_QCD_HT700to1000                 = (TH1F*)file_QCD_HT700to1000                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT700to1000"               +uncbin   ) ;
+     h_QCD_HT700to1000                 = (TH1F*)file_QCD_HT700to1000                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT700to1000"               +uncbin   ) ;
       h_QCD_HT1000to1500                = (TH1F*)file_QCD_HT1000to1500                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1000to1500"              +uncbin   ) ;
      h_QCD_HT1500to2000                = (TH1F*)file_QCD_HT1500to2000                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1500to2000"              +uncbin   ) ;
      h_QCD_HT2000toInf                 = (TH1F*)file_QCD_HT2000toInf                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT2000toInf"               +uncbin   ) ;
@@ -604,7 +604,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
      h_ST = (TH1F*)h_ST_s->Clone("ST");
       h_ST->Add(h_STbar_t);
-     // h_ST->Add(h_ST_t);
+      h_ST->Add(h_ST_t);
       h_ST->Add(h_STbar_tW);
       h_ST->Add(h_ST_tW);
 
@@ -630,10 +630,10 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_VG->Add(h_ZG);
 
      h_QCD = (TH1F*)h_QCD_HT1000to1500->Clone("QCD");
-    // // h_QCD->Add(h_QCD_HT200to300   );
-    //  h_QCD->Add(h_QCD_HT300to500   );
+        h_QCD->Add(h_QCD_HT200to300   );
+        h_QCD->Add(h_QCD_HT300to500   );
     //  h_QCD->Add(h_QCD_HT500to700   );
-    //  h_QCD->Add(h_QCD_HT700to1000  );
+        h_QCD->Add(h_QCD_HT700to1000  );
     // // h_QCD->Add(h_QCD_HT1000to1500 );
       h_QCD->Add(h_QCD_HT1500to2000 );
       h_QCD->Add(h_QCD_HT2000toInf  );
@@ -825,12 +825,12 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      Float_t  int_ZH_HToBB_ZToLL           = h_ZH_HToBB_ZToLL                  ->Integral(0,-1); 
      Float_t  int_ST_s                     = h_ST_s                            ->Integral(0,-1); 
      Float_t  int_STbar_t                  = h_STbar_t                         ->Integral(0,-1); 
-     //Float_t  int_ST_t                     = h_ST_t                            ->Integral(0,-1); 
+     Float_t  int_ST_t                     = h_ST_t                            ->Integral(0,-1); 
      Float_t  int_STbar_tW                 = h_STbar_tW                        ->Integral(0,-1); 
      Float_t  int_ST_tW                    = h_ST_tW                           ->Integral(0,-1); 
 
      Float_t  int_TTJets                   = h_TTJets                          ->Integral(0,-1); 
-//     Float_t  int_TTtoLL                   = h_TTtoLL                          ->Integral(0,-1); 
+     Float_t  int_TTtoLL                   = h_TTtoLL                          ->Integral(0,-1); 
      Float_t  int_WJetsToLNu               = h_WJetsToLNu                      ->Integral(0,-1); 
      Float_t  int_WG                       = h_WG                              ->Integral(0,-1); 
      Float_t  int_ZG                       = h_ZG                              ->Integral(0,-1); 

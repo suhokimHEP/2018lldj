@@ -117,7 +117,7 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   AODTriggerEventToken_           = consumes<trigger::TriggerEvent>(AODTriggerEventLabel_);
 
   // gen
-  //genParticlesCollection_    = consumes<vector<reco::GenParticle> >    (ps.getParameter<InputTag>("genParticleSrc"));
+  genParticlesCollection_    = consumes<vector<reco::GenParticle> >    (ps.getParameter<InputTag>("genParticleSrc"));
   AODGenEventInfoLabel_           = consumes <GenEventInfoProduct> (edm::InputTag(std::string("generator")));
 
   Service<TFileService> fs;
@@ -139,7 +139,7 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
  //}
  if(doAOD_){
   branchesAODEvent(tree_);
-  //branchesGenPart(tree_);
+  branchesGenPart(tree_);
   branchesAODTrigger(tree_);
   branchesAODJets(tree_);
   branchesAODMuons(tree_);
@@ -200,6 +200,7 @@ void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
 
 // if(doAOD_){
   fillAODEvent(e, es);
+  if (!e.isRealData()) fillGenPart(e);
   fillAODTrigger(e, es);
   fillAODJets(e, es);
   fillAODPhotons(e, es);

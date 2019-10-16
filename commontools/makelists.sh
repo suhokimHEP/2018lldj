@@ -49,7 +49,7 @@ makealist() {
 #makealist "ST_t-channel_antitop_4f_inclusiveDecays"    "/ST_t-channel_antitop_4f_inclusiveDecays_"
 #makealist "ST_tW_antitop_5f_NoFullyHadronicDecays"     "/ST_tW_antitop_5f_NoFullyHadronicDecays_"
 #makealist "ST_s-channel_4f_leptonDecays"               "/ST_s-channel_4f_leptonDecays_"
-##makealist "ST_t-channel_top_4f_inclusiveDecays"        "/ST_t-channel_top_4f_inclusiveDecays_"
+#makealist "ST_t-channel_top_4f_inclusiveDecays"        "/ST_t-channel_top_4f_inclusiveDecays_"
 #makealist "ST_tW_top_5f_NoFullyHadronicDecays"         "/ST_tW_top_5f_NoFullyHadronicDecays_"
 ##
 ### WJets
@@ -73,9 +73,11 @@ makealist() {
 #makealist "ZGTo2LG"                "/ZGToLLG_"
 #makealist "WGToLNuG"               "/WGToLNuG_"
 ##
-### ZH
+### WZH
 #makealist "ggZH_HToBB_ZToLL"       "/ggZH_HToBB_ZToLL_"
 #makealist "ZH_HToBB_ZToLL"         "/ZH_HToBB_ZToLL_M125_"
+##makealist "WplusH_HToBB_WToLNu"       "/WplusH_HToBB_WToLNu_"
+##makealist "WminusH_HToBB_WToLNu"         "/WminusH_HToBB_WToLNu_"
 ####Signal
 ###makealist "ggZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-1"       "/ggZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-1_"
 ###makealist "ggZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-10"      "/ggZH_HToSSTobbbb_ZToLL_MH-125_MS-15_ctauS-10_"

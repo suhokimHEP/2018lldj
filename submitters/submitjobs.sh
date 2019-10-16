@@ -8,7 +8,7 @@
 doSubmit=true
 lumi=58670 # 7.57582+8.43466+0.2156965 
 nevents=-1
-maxfilesperjob=100  # 500=6h
+maxfilesperjob=40  # 500=6h
 
 samples=(  \
 # "Data_DoubleMuon_A"         \
@@ -29,7 +29,7 @@ samples=(  \
 # "TTJets"          \
 # "ST_s-channel_4f_leptonDecays"             \
 # "ST_t-channel_antitop_4f_inclusiveDecays"  \
-## "ST_t-channel_top_4f_inclusiveDecays"      \
+# "ST_t-channel_top_4f_inclusiveDecays"      \
 # "ST_tW_antitop_5f_NoFullyHadronicDecays"   \
 # "ST_tW_top_5f_NoFullyHadronicDecays"        \
 # "WW"                 \
@@ -39,11 +39,11 @@ samples=(  \
 # "ZGTo2LG"               \
 # "ggZH_HToBB_ZToLL"  \
 # "ZH_HToBB_ZToLL"    \
-## "QCD_HT100to200"        \
-## "QCD_HT200to300"        \
-## "QCD_HT300to500"        \
+# "QCD_HT100to200"        \
+# "QCD_HT200to300"        \
+# "QCD_HT300to500"        \
 ## "QCD_HT500to700"        \
-## "QCD_HT700to1000"       \
+# "QCD_HT700to1000"       \
 # "QCD_HT1000to1500"      \
 # "QCD_HT1500to2000"      \
 # "QCD_HT2000toInf"       \

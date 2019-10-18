@@ -181,7 +181,7 @@ countalist () {
 ## Single Top
 #countalist  "ST_s-channel_4f_leptonDecays"             ${xcST_s}
 #countalist  "ST_t-channel_antitop_4f_inclusiveDecays"  ${xcSTbar_t}
-##countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
+#countalist  "ST_t-channel_top_4f_inclusiveDecays"      ${xcST_t}
 #countalist  "ST_tW_antitop_5f_NoFullyHadronicDecays"   ${xcSTbar_tW}
 #countalist  "ST_tW_top_5f_NoFullyHadronicDecays"       ${xcST_tW}
 #

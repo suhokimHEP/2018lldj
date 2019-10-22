@@ -132,24 +132,24 @@ countalist () {
 }
 
 
-#### Data
+### Data
 ##
 #countalist "Data_DoubleMuon_A"        
 #countalist "Data_DoubleMuon_B"        
 #countalist "Data_DoubleMuon_C"        
 #countalist "Data_DoubleMuon_D"        
 ##
-#countalist "Data_DoubleEG_A"        
-#countalist "Data_DoubleEG_B"        
-#countalist "Data_DoubleEG_C"        
-#countalist "Data_DoubleEG_D"        
+#countalist "Data_EGamma_A"        
+#countalist "Data_EGamma_B"        
+#countalist "Data_EGamma_C"        
+#countalist "Data_EGamma_D"        
 ##
 #countalist "Data_MuonEG_A"        
 #countalist "Data_MuonEG_B"        
 #countalist "Data_MuonEG_C"        
 #countalist "Data_MuonEG_D"        
-#### MC backgrounds
-#
+### MC backgrounds
+
 ## QCD
 #countalist "QCD_HT50to100"       ${xcQCD_HT50to100}
 #countalist "QCD_HT100to200"       ${xcQCD_HT100to200}
@@ -161,18 +161,22 @@ countalist () {
 #countalist "QCD_HT1500to2000"     ${xcQCD_HT1500to2000}
 #countalist "QCD_HT2000toInf"      ${xcQCD_HT2000toInf}
 #
-## GJets
-#countalist "GJets_HT-40To100"      ${xcGJets_HT40To100}  
-#countalist "GJets_HT-100To200"     ${xcGJets_HT100To200} 
-#countalist "GJets_HT-200To400"     ${xcGJets_HT200To400} 
-#countalist "GJets_HT-400To600"     ${xcGJets_HT400To600} 
-#countalist "GJets_HT-600ToInf"     ${xcGJets_HT600ToInf} 
+### GJets
+##countalist "GJets_HT-40To100"      ${xcGJets_HT40To100}  
+##countalist "GJets_HT-100To200"     ${xcGJets_HT100To200} 
+##countalist "GJets_HT-200To400"     ${xcGJets_HT200To400} 
+##countalist "GJets_HT-400To600"     ${xcGJets_HT400To600} 
+##countalist "GJets_HT-600ToInf"     ${xcGJets_HT600ToInf} 
 ## DY
-countalist "DYJetsToLL_M-50"                   ${xcDY50}                
-#countalist "DYJetsToLL"                   ${xcDY}                
-#
+#countalist "mad_DYJetsToLL_M-50"               ${xcDY50}                
+#countalist "DYJetsToLL_M-50"                   ${xcDY50}                
+##
 ## TTbar
+#countalist "mad_TTJets"     ${xcTTJets}
 #countalist "TTJets"         ${xcTTJets}
+#countalist "TTtoLL"         ${xcTTtoLL}        
+#countalist "TTtoLfromTbar"  ${xcTTtoLfromTbar} 
+#countalist "TTtoLfromT"     ${xcTTtoLfromT}   
 #
 ## Single Top
 #countalist  "ST_s-channel_4f_leptonDecays"             ${xcST_s}
@@ -198,9 +202,9 @@ countalist "DYJetsToLL_M-50"                   ${xcDY50}
 #countalist "ZZTo2Q2Nu"                   ${xcWZ} 
 #countalist "ZZTo2L2Q"                    ${xcWZ} 
 #countalist "ZZTo2L2Nu"                   ${xcWZ} 
-#
+
 ## VGamma
-##countalist "ZGTo2LG"              ${xcZG} 
+#countalist "ZGTo2LG"              ${xcZG} 
 #countalist "WGToLNuG"             ${xcWG} 
 #
 ## ZH

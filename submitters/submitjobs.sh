@@ -6,41 +6,44 @@
 # source xx/LLDJ/setup.sh for ${aversion}
 
 doSubmit=true
-lumi=20000.0 # 7.57582+8.43466+0.2156965 
+lumi=58670 # 7.57582+8.43466+0.2156965 
 nevents=-1
-maxfilesperjob=200   # 500=6h
+maxfilesperjob=100  # 500=6h
 
 samples=(  \
 # "Data_DoubleMuon_A"         \
 # "Data_DoubleMuon_B"         \
 # "Data_DoubleMuon_C"         \
 # "Data_DoubleMuon_D"         \
-# "Data_DoubleEG_A"         \
-# "Data_DoubleEG_B"         \
-# "Data_DoubleEG_C"         \
-# "Data_DoubleEG_D"         \
+# "Data_EGamma_A"         \
+# "Data_EGamma_B"         \
+# "Data_EGamma_C"         \
+# "Data_EGamma_D"         \
 # "Data_MuonEG_A"         \
 # "Data_MuonEG_B"         \
 # "Data_MuonEG_C"         \
 # "Data_MuonEG_D"         \
- "DYJetsToLL_M-50"            \
-# "DYJetsToLL"            \
+# "mad_DYJetsToLL_M-50"            \
+# "DYJetsToLL_M-50"            \
 # "WJetsToLNu"     \
 # "TTJets"          \
 # "ST_s-channel_4f_leptonDecays"             \
 # "ST_t-channel_antitop_4f_inclusiveDecays"  \
-# "ST_t-channel_top_4f_inclusiveDecays"      \
+## "ST_t-channel_top_4f_inclusiveDecays"      \
 # "ST_tW_antitop_5f_NoFullyHadronicDecays"   \
 # "ST_tW_top_5f_NoFullyHadronicDecays"        \
 # "WW"                 \
 # "WZ"                 \
 # "ZZ"                 \
 # "WGToLNuG"              \
-# "QCD_HT100to200"        \
-# "QCD_HT200to300"        \
-# "QCD_HT300to500"        \
-# "QCD_HT500to700"        \
-# "QCD_HT700to1000"       \
+# "ZGTo2LG"               \
+# "ggZH_HToBB_ZToLL"  \
+# "ZH_HToBB_ZToLL"    \
+## "QCD_HT100to200"        \
+## "QCD_HT200to300"        \
+## "QCD_HT300to500"        \
+## "QCD_HT500to700"        \
+## "QCD_HT700to1000"       \
 # "QCD_HT1000to1500"      \
 # "QCD_HT1500to2000"      \
 # "QCD_HT2000toInf"       \
@@ -75,7 +78,7 @@ makeasubmitdir () {
  printf "Executable = ${CMSSW_BASE}/src/${FWVersion}/submitters/runjob.sh\n" >> submitfile
  printf "Should_Transfer_Files = YES \n" >> submitfile
  printf "WhenToTransferOutput = ON_EXIT\n" >> submitfile
- printf "Transfer_Input_Files = ${CMSSW_BASE}/src/${FWVersion}/analyzers/runanalyzer.exe,${CMSSW_BASE}/src/${FWVersion}/lists/$1.list,${CMSSW_BASE}/src/${FWVersion}/lists/$1.info,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_DoubleEG_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_MuonEG_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_SinglePhoton_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_DoubleMu_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronTight.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronMedium.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronLoose.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/feff_ZH.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_69200_24jan2017.root\n" >> submitfile
+ printf "Transfer_Input_Files = ${CMSSW_BASE}/src/${FWVersion}/analyzers/runanalyzer.exe,${CMSSW_BASE}/src/${FWVersion}/lists/$1.list,${CMSSW_BASE}/src/${FWVersion}/lists/$1.info,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_EGamma_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_MuonEG_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_SinglePhoton_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_DoubleMuon_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronTight.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronMedium.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronLoose.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/feff_ZH.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_69200_24jan2017.root\n" >> submitfile
 
  printf "notify_user = $(whoami)@cern.ch\n" >> submitfile
  printf "x509userproxy = $X509_USER_PROXY\n" >> submitfile

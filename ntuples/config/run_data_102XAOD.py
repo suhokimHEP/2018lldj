@@ -67,16 +67,16 @@ process.load('PhysicsTools.PatAlgos.patSequences_cff')
 
 # for JEC
 # Load the corrections
-#process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
-#
-## Produce corrected jets collection
-#process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
-#    src         = cms.InputTag('ak4CaloJets'),
-#    #L1(PU), L2L3(MCTruth), L2L3Residuals
-#    correctors  = cms.VInputTag('ak4CaloL1FastL2L3ResidualCorrector')
-#    #correctors  = cms.VInputTag('ak4CaloL1FastjetCorrector', 'ak4CaloL2L3Corrector', 'ak4CaloL2L3ResidualCorrector')
-#    #correctors  = cms.VInputTag('ak4CaloL2L3Corrector')
-#    )
+process.load('JetMETCorrections.Configuration.JetCorrectors_cff')
+
+# Produce corrected jets collection
+process.ak4CaloCorrectedJets   = cms.EDProducer('CorrectedCaloJetProducer',
+    src         = cms.InputTag('ak4CaloJets'),
+    #L1(PU), L2L3(MCTruth), L2L3Residuals
+    correctors  = cms.VInputTag('ak4CaloL1FastL2L3ResidualCorrector')
+    #correctors  = cms.VInputTag('ak4CaloL1FastjetCorrector', 'ak4CaloL2L3Corrector', 'ak4CaloL2L3ResidualCorrector')
+    #correctors  = cms.VInputTag('ak4CaloL2L3Corrector')
+    )
 
 # pat for trigger
 process.load( 'PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff' )
@@ -214,8 +214,8 @@ process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #builds Ntuple
 process.p = cms.Path(
     process.egammaPostRecoSeq *
-#    process.ak4CaloCorrectedJets *
-#    process.ak4CaloL1FastL2L3ResidualCorrectorChain *
+    process.ak4CaloCorrectedJets *
+    process.ak4CaloL1FastL2L3ResidualCorrectorChain *
     process.particleFlowPtrs *
     process.patCandidates *
     process.selectedPatCandidates *

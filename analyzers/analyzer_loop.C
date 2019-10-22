@@ -48,6 +48,7 @@ TFile *outfile_bkgest = 0;
    outfile_bkgest = TFile::Open(outfilename+"_BkgEst.root","RECREATE");
    loadMistagRate();
  }
+ TH1F* h_sum_AODGenEventWeight = new TH1F("h_sum_AODGenEventWeight","h_sum_AODGenEventWeight", 5,0.,5.);
 
  // start looping over entries
  Long64_t nbytes = 0, nb = 0;
@@ -81,6 +82,8 @@ TFile *outfile_bkgest = 0;
 
   shiftCollections(uncbin);
   n_tot++;
+  sum_AODGenEventWeight+=AODGenEventWeight;
+  h_sum_AODGenEventWeight->Fill(2, AODGenEventWeight);
 
   // get lists of "good" electrons, photons, jets
   // idbit, pt, eta, sysbinname
@@ -151,9 +154,9 @@ TFile *outfile_bkgest = 0;
   event_weight = makeEventWeight(crossSec,lumi,nrEvents);
   // for MC, simulated pileup is different from observed
   // in commontools/pileup we make a ratio for scaling MC
-//  if(isMC) PUweight_DoubleEG     = makePUWeight("DoubleEG"    ) ;
-//  if(isMC) PUweight_DoubleMu     = makePUWeight("DoubleMu"    ) ;
-//  if(isMC) PUweight_MuonEG       = makePUWeight("MuonEG"      ) ;
+  if(isMC) PUweight_DoubleEG     = makePUWeight("DoubleEG"    ) ;
+  if(isMC) PUweight_DoubleMu     = makePUWeight("DoubleMu"    ) ;
+  if(isMC) PUweight_MuonEG       = makePUWeight("MuonEG"      ) ;
 //  if(isMC) PUweight_SinglePhoton = makePUWeight("SinglePhoton") ;
   // electrons also have an associated scale factor for MC 
   if(isMC) event_weight *= makeElectronWeight( electron_list );
@@ -169,9 +172,11 @@ TFile *outfile_bkgest = 0;
   passOSSF = (dilep_mass>20.);
   passOSOF = (OSOF_mass>20.);
   passPTOSOF = (OSOF_pt>100.);
+  passPTOSOFL = (OSOF_pt>10. && OSOF_pt<100.);
   passZWindow = (dilep_mass>70. && dilep_mass<110.);
   passZWinOSOF= (OSOF_mass>70. && OSOF_mass<110.);
   passPTOSSF  = (dilep_pt>100.);
+  passPTOSSFL  = (dilep_pt>10. && dilep_pt<100.);
   passGoodVtx = AODnGoodVtx>0; 
   passOneJet  = false; if (aodcalojet_list.size()>0) passOneJet=true;  
   passOneTag  = false; if (taggedjet_list.size()>0) passOneTag=true;  
@@ -309,6 +314,43 @@ TFile *outfile_bkgest = 0;
     fillBackgroundEstimateHistograms(event_weight);
    }
   }
+  // fill the histograms
+  for(unsigned int i=0; i<selbinnames.size(); ++i){
+
+   if(isMC){
+     // ok I'm sorry, this is terrible
+     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight * PUweight_DoubleEG;
+     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
+     if(i==18) fullweight = event_weight * PUweight_MuonEG;
+     if(i==20) fullweight = event_weight * PUweight_MuonEG;
+     if(i==19) fullweight = event_weight * PUweight_SinglePhoton;
+   }
+   else{
+     fullweight = event_weight;
+   }
+   /// quick hack to only write phase spaces we care about
+   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
+    fillCutflowHistograms( fullweight, i, selvec[i], selkey[i] );
+    if( dofillselbin[i] ){
+     fillSelectedHistograms( fullweight, i );
+
+     //jets
+     if(jetMultOn){
+     for( unsigned int k=0; k<jetmultnames.size(); ++k){
+      fillSelectedJetHistograms( fullweight, i, k );
+     }  }
+     else{
+     fillSelectedJetHistograms( fullweight, i, (jetmultnames.size()-1) );
+     }
+
+     //tagged jets
+     for( unsigned int k=0; k<tagmultnames.size(); ++k){
+      fillSelectedTagHistograms( fullweight, i, k );
+     }  
+    } // if( dofillselbin[i] ){
+   } // if i== one of the phase spaces we want to write
+  } // for(unsigned int i=0; i<selbinnames.size(); ++i){
+
   // tagging variable optimization tree
   if( ( (( bitsPassTwoMuZH      >> 0) &1) || (( bitsPassTwoEleZH      >> 0) &1))  && uncbin.EqualTo("") ){// TwoMuZH or TwoEleZH 
    optfile->cd();
@@ -359,44 +401,6 @@ TFile *outfile_bkgest = 0;
    NM1EleZHtree->Fill();
   }
 
-  // fill the histograms
-  for(unsigned int i=0; i<selbinnames.size(); ++i){
-
-   if(isMC){
-     // ok I'm sorry, this is terrible
-     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight;// * PUweight_DoubleEG;
-     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight;// * PUweight_DoubleMu;
-     if(i==18) fullweight = event_weight ;//* PUweight_MuonEG;
-     if(i==20) fullweight = event_weight ;//* PUweight_MuonEG;
-     if(i==19) fullweight = event_weight ;//* PUweight_SinglePhoton;
-   }
-   else{
-     fullweight = event_weight;
-   }
-
-   /// quick hack to only write phase spaces we care about
-   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
-    fillCutflowHistograms( fullweight, i, selvec[i], selkey[i] );
-    if( dofillselbin[i] ){
-     fillSelectedHistograms( fullweight, i );
-
-     //jets
-     if(jetMultOn){
-     for( unsigned int k=0; k<jetmultnames.size(); ++k){
-      fillSelectedJetHistograms( fullweight, i, k );
-     }  }
-     else{
-     fillSelectedJetHistograms( fullweight, i, (jetmultnames.size()-1) );
-     }
-
-     //tagged jets
-     for( unsigned int k=0; k<tagmultnames.size(); ++k){
-      fillSelectedTagHistograms( fullweight, i, k );
-     }  
-    } // if( dofillselbin[i] ){
-   } // if i== one of the phase spaces we want to write
-  } // for(unsigned int i=0; i<selbinnames.size(); ++i){
-
   //debug_printobjects();   // helpful printout (turn off when submitting!!!)
 
   //Print objects in backgroundMC with >=2 tags
@@ -446,6 +450,12 @@ TFile *outfile_bkgest = 0;
 // std::cout<<"   Percent calo matched to PFchs: "<<(float)n_matchedPFchsCalo/(float)n_totalCalo<<std::endl;
  std::cout<<std::endl<<std::endl;
 
+ TFile *outfile_GEW = 0;
+ outfile_GEW = TFile::Open(outfilename+"_AODGenEventWeight.root","RECREATE");
+ outfile_GEW->cd();
+ h_sum_AODGenEventWeight->Write();
+ h_sum_AODGenEventWeight->Delete();
+ outfile_GEW->Close();
  if(doBkgEst && uncbin.EqualTo("")){
    //Can choose more regions here
    outfile_bkgest->cd();

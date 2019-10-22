@@ -104,7 +104,7 @@ void analyzer_selections::setSelections()
 
  selvecBaseDY      .push_back( passGoodVtx );
  selvecBaseDY      .push_back( passZWindow );
- selvecBaseDY      .push_back( !passPTOSSF );
+ selvecBaseDY      .push_back( passPTOSSFL );
  selvecBaseDY      .push_back( passOneJet  );
 
  selvecBaseOffZ    .push_back( passGoodVtx  );
@@ -292,9 +292,7 @@ Bool_t analyzer_selections::askPassMuEG()
    doespass = kTRUE;
   } // if(TTOC)
   else{
-   if( isMC ){
     doespass =  (Bool_t)( (AOD_HLT_Mu12Ele23_DZ > 0) || (AOD_HLT_Mu23Ele12_noDZ > 0) );
-   } // if( isMC )
   } // if(!TTOC)
  } // if(muon_list.size()>0 && electron_list.size()>0)
  return doespass;

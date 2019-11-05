@@ -20,7 +20,7 @@ void TriggerTurnOn( )
  TString outpath = TString("../plots/");
  std::vector<TString> sample;
 
-// sample.push_back("DYJetsToLL_M-50");//_TwoMuZH_histograms.root 
+ sample.push_back("DYJetsToLL_M-50");//_TwoMuZH_histograms.root 
 // sample.push_back("DYJetsToLL_M-5to50_HT-100to200");
 // sample.push_back("DYJetsToLL_M-5to50_HT-200to400");
 // sample.push_back("DYJetsToLL_M-5to50_HT-400to600");
@@ -43,7 +43,7 @@ void TriggerTurnOn( )
 // sample.push_back("ST_tW_top_5f_NoFullyHadronicDecays");
 // sample.push_back("ST_t-channel_antitop_4f_inclusiveDecays");
 // sample.push_back("ST_tW_antitop_5f_NoFullyHadronicDecays");
- sample.push_back("TTJets");
+// sample.push_back("TTJets");
 // sample.push_back("WGToLNuG");
 // sample.push_back("WJetsToLNu");
 // sample.push_back("ZGTo2LG");
@@ -81,8 +81,8 @@ void TriggerTurnOn( )
  //SampleName+"_"+Region+"_histograms.root"
  //run one at a time or make a run....sh script
  //TString region = "OnePho";
- TString region = "EleMuOSOF"; 
- //TString region = "TwoMuDY";
+ //TString region = "EleMuOSOF"; 
+ TString region = "TwoMuDY";
  //TString region = "TwoEleDY"; 
  //TString region = "TwoMuZH";
  //TString region = "TwoEleZH"; 
@@ -243,19 +243,19 @@ void TriggerTurnOn( )
 
   twoD_Nname.clear();
   twoD_Dname.clear();
-  //twoD_Nname.push_back("TTOC_Ele23Mu12_EMuPt");
-  //twoD_Dname.push_back("TTOCEMuPt");
-  //twoD_Nname.push_back("TTOC_Ele23Mu12_EMuEta");
-  //twoD_Dname.push_back("TTOCEMuEta");
-  twoD_Nname.push_back("TTOC_Ele12Mu23_MuEPt");
-  twoD_Dname.push_back("TTOCMuEPt");
-  twoD_Nname.push_back("TTOC_Ele12Mu23_MuEEta");
-  twoD_Dname.push_back("TTOCMuEEta");
+//  twoD_Nname.push_back("TTOC_Ele23Mu12_EMuPt");
+//  twoD_Dname.push_back("TTOCEMuPt");
+//  twoD_Nname.push_back("TTOC_Ele23Mu12_EMuEta");
+//  twoD_Dname.push_back("TTOCEMuEta");
+//  twoD_Nname.push_back("TTOC_Ele12Mu23_MuEPt");
+//  twoD_Dname.push_back("TTOCMuEPt");
+//  twoD_Nname.push_back("TTOC_Ele12Mu23_MuEEta");
+//  twoD_Dname.push_back("TTOCMuEEta");
 //
-//  twoD_Nname.push_back("TTOC_Mu17Mu8_DMuPt");
-//  twoD_Dname.push_back("TTOCMuPt");
-//  twoD_Nname.push_back("TTOC_Mu17Mu8_DMuEta");
-//  twoD_Dname.push_back("TTOCMuEta");
+  twoD_Nname.push_back("TTOC_Mu17Mu8_DMuPt");
+  twoD_Dname.push_back("TTOCMuPt");
+  twoD_Nname.push_back("TTOC_Mu17Mu8_DMuEta");
+  twoD_Dname.push_back("TTOCMuEta");
 //  twoD_Nname.push_back("TTOC_Ele23Ele12_DElePt");
 //  twoD_Dname.push_back("TTOCElePt");
 //  twoD_Nname.push_back("TTOC_Ele23Ele12_DEleEta");
@@ -315,7 +315,7 @@ void TriggerTurnOn( )
 
     // save canvas
     //canvas2->SaveAs(twoD_Nname[j]+".png");
-   canvas2->SaveAs(Nname[j]+Dname[j]+".pdf");
+   canvas2->SaveAs(twoD_Nname[j]+twoD_Dname[j]+".pdf");
 }//2D end
 _file0->Close();
 }//end sample loop

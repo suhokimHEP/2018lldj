@@ -48,6 +48,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  bool drawData = true;
  bool useAlt = false; 
  TString varname = "";
+ TString newname = "";
  TString outname = ""; 
 
  TString outpath = TString("../plots/");
@@ -106,14 +107,14 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 
  //if(drawSignal){extraname+="_wsig";}
  // variables to plot
- std::vector<TString> variables;
+ std::vector<TString> variables,now;
  variables.clear();
-
- //variables.push_back("nSelectedAODCaloJetTag");
+ variables.push_back("nSelectedAODCaloJetTag");
+ variables.push_back("nSelectedAODCaloJetTagnow");
  //variables.push_back("AOD_dilepton_Mass");
  //variables.push_back("AOD_OSOFdilepton_Mass");
  //variables.push_back("AOD_dilepton_Pt");
- variables.push_back("AOD_OSOFdilepton_Pt");
+ //variables.push_back("AOD_OSOFdilepton_Pt");
  //variables.push_back("AllJets_AODCaloJetMedianLog10IPSig");
  //variables.push_back("AllJets_AODCaloJetMedianLog10TrackAngle");
  //variables.push_back("AllJets_AODCaloJetAlphaMax");
@@ -255,6 +256,16 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  lumi->SetTextAlign(31);
  lumi->SetTextFont(42);
 
+ TText* SRtext = new TText(1,1,"") ;
+ SRtext->SetTextSize(0.03);
+ SRtext->SetTextColor(kBlack);
+ SRtext->SetTextAlign(31);
+ SRtext->SetTextFont(42);
+ TText* SRtext2 = new TText(1,1,"") ;
+ SRtext2->SetTextSize(0.03);
+ SRtext2->SetTextColor(kBlack);
+ SRtext2->SetTextAlign(31);
+ SRtext2->SetTextFont(42);
  // initialize histogram files
  TFile* file_Data_MuonEG_D           ; 
  TFile* file_Data_MuonEG_C           ; 
@@ -343,6 +354,31 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_QCD_HT1000to1500                    ;
  TH1F* h_QCD_HT1500to2000                    ;
  TH1F* h_QCD_HT2000toInf                     ;
+ TH1F* h_now_DY50                                ;
+ TH1F* h_now_ggZH_HToBB_ZToLL                    ;
+ TH1F* h_now_ST_s                                ;
+ TH1F* h_now_STbar_t                             ;
+ TH1F* h_now_ST_t                                ;
+ TH1F* h_now_STbar_tW                            ;
+ TH1F* h_now_ST_tW                               ;
+ TH1F* h_now_TTtoLL                              ;
+ TH1F* h_now_TTJets                              ;
+ TH1F* h_now_WG                                  ;
+ TH1F* h_now_WJetsToLNu                          ;
+ TH1F* h_now_WW                                  ;
+ TH1F* h_now_WZ                                  ;
+ TH1F* h_now_ZG                                  ;
+ TH1F* h_now_ZH_HToBB_ZToLL                      ;
+ TH1F* h_now_ZZ                                  ;
+ TH1F* h_now_QCD_HT100to200                      ;
+// TH1F* h_now_QCD_HT200to300                      ;
+ TH1F* h_now_QCD_HT300to500                      ;
+ TH1F* h_now_QCD_HT500to700                      ;
+ TH1F* h_now_QCD_HT700to1000                     ;
+ TH1F* h_now_QCD_HT1000to1500                    ;
+ TH1F* h_now_QCD_HT1500to2000                    ;
+ TH1F* h_now_QCD_HT2000toInf                     ;
+
 
  TH1F* h_Sig_ZH_MS15ct1000     ;
  TH1F* h_Sig_ZH_MS15ct100      ;
@@ -382,6 +418,9 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_Data_DoubleEG_B       ;
  TH1F* h_Data_DoubleEG_A       ;
  TH1F* h_ratio ;
+ TH1F* h_DYstaterr ;
+ TH1F* h_VGstaterr ;
+ TH1F* h_ZHstaterr ;
  TH1F* h_ratiostaterr ;
 //
 // // (combined) histos to be made
@@ -392,7 +431,15 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_ZH     ;
  TH1F* h_TT     ;
  TH1F* h_QCD    ;
+ TH1F* h_now_DY     ;
+ TH1F* h_now_ST     ;
+ TH1F* h_now_VV     ;
+ TH1F* h_now_VG     ;
+ TH1F* h_now_ZH     ;
+ TH1F* h_now_TT     ;
+ TH1F* h_now_QCD    ;
  TH1F* h_bkgtotal ;
+ TH1F* h_now_bkgtotal ;
  TH1F* h_bkgtotal2 ;
  TH1F* h_light ;
  TH1F* h_heavy ;
@@ -519,7 +566,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
     }
      //TString varname = region+"_"+variable;
      varname = region+"_"+variable;
-
+     newname = region+"_nSelectedAODCaloJetTagnow";
      printf("plotting  h_%s \n",varname.Data());
 
      //TString outname = outpath+varname+extraname+uncbin; 
@@ -558,6 +605,34 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_QCD_HT1000to1500                = (TH1F*)file_QCD_HT1000to1500                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1000to1500"              +uncbin   ) ;
      h_QCD_HT1500to2000                = (TH1F*)file_QCD_HT1500to2000                 ->Get("h_"+varname+uncbin)->Clone( "QCD_HT1500to2000"              +uncbin   ) ;
      h_QCD_HT2000toInf                 = (TH1F*)file_QCD_HT2000toInf                  ->Get("h_"+varname+uncbin)->Clone( "QCD_HT2000toInf"               +uncbin   ) ;
+     h_now_DY50                            = (TH1F*)file_DY50                             ->Get("h_"+newname+uncbin)->Clone( "DY50"                            +uncbin ) ;
+
+     h_now_ggZH_HToBB_ZToLL                = (TH1F*)file_ggZH_HToBB_ZToLL                 ->Get("h_"+newname+uncbin)->Clone( "ggZH_HToBB_ZToLL"                +uncbin ) ;
+     h_now_ZH_HToBB_ZToLL                  = (TH1F*)file_ZH_HToBB_ZToLL                   ->Get("h_"+newname+uncbin)->Clone( "ZH_HToBB_ZToLL"                  +uncbin ) ;
+
+     h_now_ST_s                            = (TH1F*)file_ST_s                             ->Get("h_"+newname+uncbin)->Clone( "ST_s"                            +uncbin ) ;
+     h_now_STbar_t                         = (TH1F*)file_STbar_t                          ->Get("h_"+newname+uncbin)->Clone( "STbar_t"                         +uncbin ) ;
+    // h_ST_t                            = (TH1F*)file_ST_t                             ->Get("h_"+newname+uncbin)->Clone( "ST_t"                            +uncbin ) ;
+     h_now_STbar_tW                        = (TH1F*)file_STbar_tW                         ->Get("h_"+newname+uncbin)->Clone( "STbar_tW"                        +uncbin ) ;
+     h_now_ST_tW                           = (TH1F*)file_ST_tW                            ->Get("h_"+newname+uncbin)->Clone( "ST_tW"                           +uncbin ) ;
+
+     h_now_TTJets                          = (TH1F*)file_TTJets                           ->Get("h_"+newname+uncbin)->Clone( "TTJets"                          +uncbin ) ;
+//     h_TTtoLL                          = (TH1F*)file_TTtoLL                           ->Get("h_"+newname+uncbin)->Clone( "TTtoLL"                          +uncbin ) ;
+
+     h_now_WJetsToLNu                      = (TH1F*)file_WJetsToLNu                       ->Get("h_"+newname+uncbin)->Clone( "WJetsToLNu"                      +uncbin ) ;
+     h_now_WG                              = (TH1F*)file_WG                               ->Get("h_"+newname+uncbin)->Clone( "WG"                              +uncbin ) ;
+     h_now_ZG                              = (TH1F*)file_ZGTo2LG                          ->Get("h_"+newname+uncbin)->Clone( "ZG"                              +uncbin ) ;
+     h_now_WW                              = (TH1F*)file_WW                               ->Get("h_"+newname+uncbin)->Clone( "WW"                              +uncbin ) ;
+     h_now_WZ                              = (TH1F*)file_WZ                               ->Get("h_"+newname+uncbin)->Clone( "WZ"                              +uncbin ) ;
+     h_now_ZZ                              = (TH1F*)file_ZZ                               ->Get("h_"+newname+uncbin)->Clone( "ZZ"                              +uncbin ) ;
+//     h_QCD_HT100to200                  = (TH1F*)file_QCD_HT100to200                   ->Get("h_"+newname+uncbin)->Clone( "QCD_HT100to200"                +uncbin   ) ;
+////     h_QCD_HT200to300                  = (TH1F*)file_QCD_HT200to300                   ->Get("h_"+newname+uncbin)->Clone( "QCD_HT200to300"                +uncbin   ) ;
+//     h_QCD_HT300to500                  = (TH1F*)file_QCD_HT300to500                   ->Get("h_"+newname+uncbin)->Clone( "QCD_HT300to500"                +uncbin   ) ;
+//     h_QCD_HT500to700                  = (TH1F*)file_QCD_HT500to700                   ->Get("h_"+newname+uncbin)->Clone( "QCD_HT500to700"                +uncbin   ) ;
+//     h_QCD_HT700to1000                 = (TH1F*)file_QCD_HT700to1000                  ->Get("h_"+newname+uncbin)->Clone( "QCD_HT700to1000"               +uncbin   ) ;
+      h_now_QCD_HT1000to1500                = (TH1F*)file_QCD_HT1000to1500                 ->Get("h_"+newname+uncbin)->Clone( "QCD_HT1000to1500"              +uncbin   ) ;
+     h_now_QCD_HT1500to2000                = (TH1F*)file_QCD_HT1500to2000                 ->Get("h_"+newname+uncbin)->Clone( "QCD_HT1500to2000"              +uncbin   ) ;
+     h_now_QCD_HT2000toInf                 = (TH1F*)file_QCD_HT2000toInf                  ->Get("h_"+newname+uncbin)->Clone( "QCD_HT2000toInf"               +uncbin   ) ;
 
      h_Sig_ZH_MS15ct1000   = (TH1F*)file_Sig_ZH_MS15ct1000   ->Get("h_"+varname+uncbin )->Clone( "Sig_ZH_MS15ct1000"+uncbin ) ;
      h_Sig_ZH_MS15ct100    = (TH1F*)file_Sig_ZH_MS15ct100    ->Get("h_"+varname+uncbin )->Clone( "Sig_ZH_MS15ct100" +uncbin ) ;
@@ -596,7 +671,6 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_Data_MuonEG_C       = (TH1F*) file_Data_MuonEG_C       -> Get("h_"+varname)->Clone( "Data_MuonEG_C"        ) ; 
      h_Data_MuonEG_B       = (TH1F*) file_Data_MuonEG_B       -> Get("h_"+varname)->Clone( "Data_MuonEG_B"        ) ; 
      h_Data_MuonEG_A       = (TH1F*) file_Data_MuonEG_A       -> Get("h_"+varname)->Clone( "Data_MuonEG_A"        ) ; 
-
      // merge histograms
      h_DY = (TH1F*)h_DY50->Clone("DY");
 
@@ -630,13 +704,44 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_VG->Add(h_ZG);
 
      h_QCD = (TH1F*)h_QCD_HT1000to1500->Clone("QCD");
-    // // h_QCD->Add(h_QCD_HT200to300   );
-    //  h_QCD->Add(h_QCD_HT300to500   );
-    //  h_QCD->Add(h_QCD_HT500to700   );
-    //  h_QCD->Add(h_QCD_HT700to1000  );
-    // // h_QCD->Add(h_QCD_HT1000to1500 );
+    // // h_now_QCD->Add(h_now_QCD_HT200to300   );
+    //  h_now_QCD->Add(h_now_QCD_HT300to500   );
+    //  h_now_QCD->Add(h_now_QCD_HT500to700   );
+    //  h_now_QCD->Add(h_now_QCD_HT700to1000  );
+    // // h_now_QCD->Add(h_now_QCD_HT1000to1500 );
       h_QCD->Add(h_QCD_HT1500to2000 );
       h_QCD->Add(h_QCD_HT2000toInf  );
+     h_now_DY = (TH1F*)h_now_DY50->Clone("DY");
+
+     h_now_ST = (TH1F*)h_now_ST_s->Clone("ST");
+      h_now_ST->Add(h_now_STbar_t);
+     // h_now_ST->Add(h_now_ST_t);
+      h_now_ST->Add(h_now_STbar_tW);
+      h_now_ST->Add(h_now_ST_tW);
+
+     h_now_ZH = (TH1F*)h_now_ZH_HToBB_ZToLL->Clone("ZH");
+      h_now_ZH->Add(h_now_ggZH_HToBB_ZToLL);
+
+     h_now_VV = (TH1F*)h_now_WW->Clone("altVV");
+      h_now_VV->Add(h_now_WZ             ) ;
+      h_now_VV->Add(h_now_ZZ             ) ;
+     h_now_TT = (TH1F*)h_now_TTJets->Clone("TT");
+
+     //h_now_TT = (TH1F*)h_now_TTtoLfromTbar->Clone("TT");
+     // h_now_TT->Add(h_now_TTtoLfromT    );
+     // h_now_TT->Add(h_now_TTtoLL        );
+    
+     h_now_VG = (TH1F*)h_now_WG->Clone("VG");
+      h_now_VG->Add(h_now_ZG);
+
+     h_now_QCD = (TH1F*)h_now_QCD_HT1000to1500->Clone("QCD");
+    // // h_now_QCD->Add(h_now_QCD_HT200to300   );
+    //  h_now_QCD->Add(h_now_QCD_HT300to500   );
+    //  h_now_QCD->Add(h_now_QCD_HT500to700   );
+    //  h_now_QCD->Add(h_now_QCD_HT700to1000  );
+    // // h_now_QCD->Add(h_now_QCD_HT1000to1500 );
+      h_now_QCD->Add(h_now_QCD_HT1500to2000 );
+      h_now_QCD->Add(h_now_QCD_HT2000toInf  );
 
      h_Sig_MS15ct1000  = (TH1F*) h_Sig_ZH_MS15ct1000   ->Clone( "Sig_MS15ct1000" ) ;
      h_Sig_MS15ct100   = (TH1F*) h_Sig_ZH_MS15ct100    ->Clone( "Sig_MS15ct100 " ) ;
@@ -672,6 +777,12 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_TT         ->Scale(MCSF); 
      h_VG         ->Scale(MCSF); 
      h_QCD        ->Scale(MCSF); 
+     h_now_DY         ->Scale(MCSF); 
+     h_now_ST         ->Scale(MCSF); 
+     h_now_VV         ->Scale(MCSF); 
+     h_now_TT         ->Scale(MCSF); 
+     h_now_VG         ->Scale(MCSF); 
+     h_now_QCD        ->Scale(MCSF); 
      h_WJetsToLNu ->Scale(MCSF); 
      h_altDY      ->Scale(MCSF);
      h_altVV      ->Scale(MCSF);
@@ -726,16 +837,58 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 //cout <<"After BKG Integral: "<<(h_bkgtotal2->Integral(0,-1)*DYScale)<<endl;
 //cout <<"After Data Integral: "<<h_Data->Integral(0,-1)<<endl;
 
+     h_now_bkgtotal= (TH1F*)h_now_DY->Clone("bkgtotal");
+      h_now_bkgtotal->Add(h_now_ST    ) ;
+      h_now_bkgtotal->Add(h_now_ZH    ) ;
+      h_now_bkgtotal->Add(h_now_VV    ) ;
+      h_now_bkgtotal->Add(h_now_TT    ) ;
+      h_now_bkgtotal->Add(h_now_VG    ) ;
+     Float_t wDY, wST, wVV, wVG, wZH, wTT, wQCD;
+     Float_t nwDY, nwST, nwVV, nwVG, nwZH, nwTT, nwQCD;
+     wDY = h_DY->GetBinContent(2)/h_now_DY->GetBinContent(2);
+     wST = h_ST->GetBinContent(2)/h_now_ST->GetBinContent(2);
+     wVV = h_VV->GetBinContent(2)/h_now_VV->GetBinContent(2);
+     wVG = h_VG->GetBinContent(2)/h_now_VG->GetBinContent(2);
+     wZH = h_ZH->GetBinContent(2)/h_now_ZH->GetBinContent(2);
+     wTT = h_TT->GetBinContent(2)/h_now_TT->GetBinContent(2);
+     nwDY = h_now_DY->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwST = h_now_ST->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwVV = h_now_VV->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwVG = h_now_VG->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwZH = h_now_ZH->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwTT = h_now_TT->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     //wQCD = h_QCD->Integral(-1,-1);
+     std::cout<<wDY<<":"<<wST<<":"<<wVV<<":"<<wVG<<":"<<wZH<<":"<<wTT<<":"<<std::endl;
+     std::cout<<nwDY<<":"<<nwST<<":"<<nwVV<<":"<<nwVG<<":"<<nwZH<<":"<<nwTT<<":"<<std::endl;
+     //if (h_DY->GetBinContent(3)==0&&h_DY->GetBinContent(2)!=0){h_DY->SetBinError(3,1.3*wDY*nwDY); std::cout<<"DY trouble"<<std::endl;}
+     //if (h_ST->GetBinContent(3)==0&&h_ST->GetBinContent(2)!=0){h_ST->SetBinError(3,1.3*wST*nwST); std::cout<<"ST trouble"<<std::endl;}
+     //if (h_VV->GetBinContent(3)==0&&h_VV->GetBinContent(2)!=0){h_VV->SetBinError(3,1.3*wVV*nwVV); std::cout<<"VV trouble"<<std::endl;}
+     ////if (h_VG->GetBinContent(3)==0&&h_VG->GetBinContent(2)!=0){h_VG->SetBinError(3,1.3*wVG*nwVG); std::cout<<"VG trouble"<<std::endl;}
+     //if (h_ZH->GetBinContent(3)==0&&h_ZH->GetBinContent(2)!=0){h_ZH->SetBinError(3,1.3*wZH*nwZH); std::cout<<"ZH trouble"<<std::endl;}
+     //if (h_TT->GetBinContent(3)==0&&h_TT->GetBinContent(2)!=0){h_TT->SetBinError(3,1.3*wTT*nwTT); std::cout<<"TT trouble"<<std::endl;}
+     //Std::cout<<"DY:"<<h_now_DY->GetBinContent(2)<<":"<<h_DY->GetBinContent(2)<<":"<<wDY<<std::endl;
+     //Std::cout<<"ST:"<<h_now_ST->GetBinContent(2)<<":"<<h_ST->GetBinContent(2)<<":"<<wST<<std::endl;
+     //Std::cout<<"VV:"<<h_now_VV->GetBinContent(2)<<":"<<h_VV->GetBinContent(2)<<":"<<wVV<<std::endl;
+     ////std::cout<<"VG:"<<h_now_VG->GetBinContent(2)<<":"<<h_VG->GetBinContent(2)<<":"<<wVG<<std::endl;
+     //Std::cout<<"ZH:"<<h_now_ZH->GetBinContent(2)<<":"<<h_ZH->GetBinContent(2)<<":"<<wZH<<std::endl;
+     //Std::cout<<"TT:"<<h_now_TT->GetBinContent(2)<<":"<<h_TT->GetBinContent(2)<<":"<<wTT<<std::endl;
+     std::cout<<"h_DY-BinError(3):"<<h_DY->GetBinError(3)<<std::endl;
+     std::cout<<"h_ST-BinError(3):"<<h_ST->GetBinError(3)<<std::endl;
+     std::cout<<"h_VV-BinError(3):"<<h_VV->GetBinError(3)<<std::endl;
+     std::cout<<"h_VG-BinError(3):"<<h_VG->GetBinError(3)<<std::endl;
+     std::cout<<"h_ZH-BinError(3):"<<h_ZH->GetBinError(3)<<std::endl;
+     std::cout<<"h_TT-BinError(3):"<<h_TT->GetBinError(3)<<std::endl;
+
      h_bkgtotal= (TH1F*)h_DY->Clone("bkgtotal");
       h_bkgtotal->Add(h_ST    ) ;
       h_bkgtotal->Add(h_ZH    ) ;
-      h_bkgtotal->Add(h_altVV    ) ;
+      h_bkgtotal->Add(h_VV    ) ;
       h_bkgtotal->Add(h_TT    ) ;
       h_bkgtotal->Add(h_VG    ) ;
       h_bkgtotal->Add(h_QCD   ) ;
       h_bkgtotal->Add(h_WJetsToLNu      ) ;
-
       //fprintf (kfact,   region+"____"+variable+     "-------->   %3.6f \n", DYScale        ) ; 
+     std::cout<<"h_bkgtotal-BinError(3):"<<h_bkgtotal->GetBinError(3)<<std::endl;
      h_light= (TH1F*)h_DY->Clone("light");
       h_light->Add(h_ZG ) ;
 
@@ -1235,6 +1388,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_bkgtotal->SetFillColorAlpha(kYellow+1, 0.7);
      h_bkgtotal->SetFillStyle(1001);
 
+
      std::vector<TH1F *> v;
      if(useAlt){
        v.push_back(h_DY);
@@ -1400,17 +1554,27 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      }
      leg->Draw();
 
-     char lumistring [50];
-     int dummy; 
-
+     char lumistring [50], lumistring2 [50], lumistring3 [30];
+     int dummy, dummy2, dummy3; 
+ 	
      // add titles
      title->DrawTextNDC(0.2,0.91,"CMS");
      extra->DrawTextNDC(0.3,0.91,"Preliminary");
      extra2->DrawTextNDC(0.51,0.91,"2018");
-     dummy=sprintf (lumistring, "%0.1f", Lumi/1000.);
+     dummy= sprintf (lumistring, "%0.1f", Lumi/1000.);
      //lumi->DrawTextNDC(0.9,0.91,(TString)lumistring+" /fb (13 TeV)");
      lumi->DrawTextNDC(0.9,0.91," 58.67/fb (13 TeV)");
-     
+     Float_t SigContent = h_Sig_MS55ct100->GetBinContent(3); 
+     Float_t BkgContent = h_bkgtotal->GetBinContent(3); 	
+     Float_t Tag2Eff = SigContent/BkgContent*100;
+     dummy2 = sprintf (lumistring2, "M_{S}=55 c#tau_{S}=100, N_{Sig}^{2}:%3.4f N_{Bkg}^{2}:%3.4f", SigContent,BkgContent);
+     dummy3 = sprintf (lumistring3, "Signal/Bkg: %3.4f %%", Tag2Eff);
+     	
+     TLatex ContentInfo, Percentage;
+     ContentInfo.SetTextSize(0.025);
+     Percentage.SetTextSize(0.025);
+     //ContentInfo.DrawLatex(3,1000,lumistring2 );
+     //Percentage.DrawLatex(4,100,lumistring3);
      if(drawData){
        ratiopad->cd();
        h_ratio = (TH1F*)h_Data->Clone("ratio");
@@ -1430,7 +1594,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        h_ratio->GetXaxis()->SetTitleSize(40);
        h_ratio->GetXaxis()->SetTitleFont(43);
        //h_ratio->GetXaxis()->SetTitle(region+":   "+(TString)h_Data->GetTitle()+description);
-       h_ratio->GetXaxis()->SetTitle("EleMuOSOF"+(TString)h_Data->GetTitle()+description);
+       h_ratio->GetXaxis()->SetTitle((TString)h_Data->GetTitle()+description);
        h_ratio->GetXaxis()->SetTitleOffset(4.0);
        h_ratio->GetXaxis()->SetLabelFont(43); //43 Absolute font size in pixel (precision 3)
        h_ratio->GetXaxis()->SetLabelSize(30);//20
@@ -1440,8 +1604,20 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
        h_ratio->GetYaxis()->SetRangeUser(0.0,2.0);
        h_ratio->Draw("ep");  // draw first to get ranges set internally inside root
               
+       h_DYstaterr = (TH1F*)h_DY->Clone("DYratiostaterr");
+       h_DYstaterr->Divide(h_DY);
+       h_VGstaterr = (TH1F*)h_VG->Clone("VGratiostaterr");
+       h_VGstaterr->Divide(h_VG);
+       h_ZHstaterr = (TH1F*)h_ZH->Clone("ZHratiostaterr");
+       h_ZHstaterr->Divide(h_ZH);
        h_ratiostaterr = (TH1F*)h_bkgtotal->Clone("ratiostaterr");
+       std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
+       std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
        h_ratiostaterr->Divide(h_bkgtotal);
+       h_ratiostaterr->SetBinContent(3,1);
+       h_ratiostaterr->SetBinError(3,h_bkgtotal->GetBinError(3));
+       std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
+       	
        
        ratiopad->Update();       // need to update pad to get X min/max
        TLine *line = new TLine(ratiopad->GetUxmin(),1,ratiopad->GetUxmax(),1);
@@ -1473,6 +1649,10 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_QCD         ->Write();
      h_ZH          ->Write();
      h_bkgtotal    ->Write();
+     h_DYstaterr->Write();
+     h_VGstaterr->Write();
+     h_ZHstaterr->Write();
+     h_ratiostaterr->Write();
      h_light       ->Write();
      h_light_alt   ->Write();
      h_heavy       ->Write();

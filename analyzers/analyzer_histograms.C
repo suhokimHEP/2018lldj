@@ -1996,6 +1996,7 @@ Bool_t analyzer_histograms::initAODCaloJetTagMultHistograms( TString uncbin )
 
       //deleteAODCaloJetTagMultHistograms(i);
       TString hname_nSelectedAODCaloJetTag        = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTag"+uncbin;
+      TString hname_nSelectedAODCaloJetTagnow     = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTagnow"+uncbin;
       TString hname_nSelectedAODCaloJetTagSB1     = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTagSB1"+uncbin;
       TString hname_nSelectedAODCaloJetTagSB2     = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTagSB2"+uncbin;
       TString hname_nSelectedAODCaloJetTagSB3     = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTagSB3"+uncbin;
@@ -2032,6 +2033,7 @@ Bool_t analyzer_histograms::initAODCaloJetTagMultHistograms( TString uncbin )
       TString hname_nSelectedAODCaloJetTagSB3_2b     = "h_"+selbinnames[i]+"_nSelectedAODCaloJetTagSB3_2b"+uncbin;
 
       h_nSelectedAODCaloJetTag                [i] = initSingleHistogramTH1F( hname_nSelectedAODCaloJetTag            , "nSelectedAODCaloJetTag"         , 6, -0.5, 5.5);
+      h_nSelectedAODCaloJetTagnow             [i] = initSingleHistogramTH1F( hname_nSelectedAODCaloJetTagnow         , "nSelectedAODCaloJetTagnow"      , 6, -0.5, 5.5);
       h_nSelectedAODCaloJetTagSB1             [i] = initSingleHistogramTH1F( hname_nSelectedAODCaloJetTagSB1         , "nSelectedAODCaloJetTagSB1"      , 6, -0.5, 5.5);
       h_nSelectedAODCaloJetTagSB2             [i] = initSingleHistogramTH1F( hname_nSelectedAODCaloJetTagSB2         , "nSelectedAODCaloJetTagSB2"      , 6, -0.5, 5.5);
       h_nSelectedAODCaloJetTagSB3             [i] = initSingleHistogramTH1F( hname_nSelectedAODCaloJetTagSB3         , "nSelectedAODCaloJetTagSB3"      , 6, -0.5, 5.5);
@@ -2076,6 +2078,7 @@ Bool_t analyzer_histograms::fillAODCaloJetTagMultHistograms(Float_t weight, int 
 {
   hist_file_out[selbin]->cd();
   h_nSelectedAODCaloJetTag       [selbin] ->Fill( float(taggedjet_list.size()), weight );
+  h_nSelectedAODCaloJetTagnow    [selbin] ->Fill( float(taggedjet_list.size()), 1 );
   h_nSelectedAODCaloJetTagSB1    [selbin] ->Fill( float(taggedjetSB1_list.size()), weight );
   h_nSelectedAODCaloJetTagSB2    [selbin] ->Fill( float(taggedjetSB2_list.size()), weight );
   h_nSelectedAODCaloJetTagSB3    [selbin] ->Fill( float(taggedjetSB3_list.size()), weight );
@@ -2126,6 +2129,7 @@ Bool_t analyzer_histograms::writeAODCaloJetTagMultHistograms(int selbin)
   hist_file_out[selbin]->cd();
 
   h_nSelectedAODCaloJetTag       [selbin] ->Write();
+  h_nSelectedAODCaloJetTagnow    [selbin] ->Write();
   h_nSelectedAODCaloJetTagSB1    [selbin] ->Write();
   h_nSelectedAODCaloJetTagSB2    [selbin] ->Write();
   h_nSelectedAODCaloJetTagSB3    [selbin] ->Write();
@@ -2170,6 +2174,7 @@ Bool_t analyzer_histograms::deleteAODCaloJetTagMultHistograms(int selbin)
   hist_file_out[selbin]->cd();
 
   if(h_nSelectedAODCaloJetTag      [selbin]!=NULL)    h_nSelectedAODCaloJetTag       [selbin] ->Delete();
+  if(h_nSelectedAODCaloJetTagnow   [selbin]!=NULL)    h_nSelectedAODCaloJetTagnow    [selbin] ->Delete();
   if(h_nSelectedAODCaloJetTagSB1   [selbin]!=NULL)    h_nSelectedAODCaloJetTagSB1    [selbin] ->Delete();
   if(h_nSelectedAODCaloJetTagSB2   [selbin]!=NULL)    h_nSelectedAODCaloJetTagSB2    [selbin] ->Delete();
   if(h_nSelectedAODCaloJetTagSB3   [selbin]!=NULL)    h_nSelectedAODCaloJetTagSB3    [selbin] ->Delete();

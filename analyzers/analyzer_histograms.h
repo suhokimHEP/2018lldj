@@ -301,6 +301,7 @@ public :
  TH1F*  h_nSelectedAODCaloJet_L1PFTag    [SELBINNAMESIZE];
  TH1F*  h_nSelectedAODCaloJet            [SELBINNAMESIZE];
  TH1F*  h_nSelectedAODCaloJetTag         [SELBINNAMESIZE];
+ TH1F*  h_nSelectedAODCaloJetTagnow      [SELBINNAMESIZE];
  TH1F*  h_nSelectedAODCaloJetTagSB1      [SELBINNAMESIZE];
  TH1F*  h_nSelectedAODCaloJetTagSB2      [SELBINNAMESIZE];
  TH1F*  h_nSelectedAODCaloJetTagSB3      [SELBINNAMESIZE];

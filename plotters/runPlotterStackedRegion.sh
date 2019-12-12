@@ -4,12 +4,12 @@ regions=( \
  "EleMuOSOF"     \
  "EleMuOSOFL"    \
 # "OnePho"        \
-# "TwoEleDY"      \
+ "TwoEleDY"      \
 # "TwoEleSig"     \
-# "TwoEleZH"      \
-# "TwoMuDY"       \
+ "TwoEleZH"      \
+ "TwoMuDY"       \
 # "TwoMuSig"      \
-# "TwoMuZH"       \
+ "TwoMuZH"       \
 ) 
 
 dologs=( \
@@ -24,7 +24,7 @@ doHIPs=( \
 
 useEOS="kFALSE"
 #useEOS="kTRUE"
-description="_original"
+description=""
 
 for region in ${regions[@]}
 do

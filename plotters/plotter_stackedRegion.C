@@ -256,16 +256,6 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  lumi->SetTextAlign(31);
  lumi->SetTextFont(42);
 
- TText* SRtext = new TText(1,1,"") ;
- SRtext->SetTextSize(0.03);
- SRtext->SetTextColor(kBlack);
- SRtext->SetTextAlign(31);
- SRtext->SetTextFont(42);
- TText* SRtext2 = new TText(1,1,"") ;
- SRtext2->SetTextSize(0.03);
- SRtext2->SetTextColor(kBlack);
- SRtext2->SetTextAlign(31);
- SRtext2->SetTextFont(42);
  // initialize histogram files
  TFile* file_Data_MuonEG_D           ; 
  TFile* file_Data_MuonEG_C           ; 
@@ -419,6 +409,8 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  TH1F* h_Data_DoubleEG_A       ;
  TH1F* h_ratio ;
  TH1F* h_DYstaterr ;
+ TH1F* h_STstaterr ;
+ TH1F* h_TTstaterr ;
  TH1F* h_VGstaterr ;
  TH1F* h_ZHstaterr ;
  TH1F* h_ratiostaterr ;
@@ -777,13 +769,14 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_TT         ->Scale(MCSF); 
      h_VG         ->Scale(MCSF); 
      h_QCD        ->Scale(MCSF); 
+     h_WJetsToLNu ->Scale(MCSF); 
      h_now_DY         ->Scale(MCSF); 
      h_now_ST         ->Scale(MCSF); 
      h_now_VV         ->Scale(MCSF); 
      h_now_TT         ->Scale(MCSF); 
      h_now_VG         ->Scale(MCSF); 
      h_now_QCD        ->Scale(MCSF); 
-     h_WJetsToLNu ->Scale(MCSF); 
+     h_now_WJetsToLNu ->Scale(MCSF); 
      h_altDY      ->Scale(MCSF);
      h_altVV      ->Scale(MCSF);
      h_altTT      ->Scale(MCSF);
@@ -836,48 +829,59 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
 //
 //cout <<"After BKG Integral: "<<(h_bkgtotal2->Integral(0,-1)*DYScale)<<endl;
 //cout <<"After Data Integral: "<<h_Data->Integral(0,-1)<<endl;
-
      h_now_bkgtotal= (TH1F*)h_now_DY->Clone("bkgtotal");
       h_now_bkgtotal->Add(h_now_ST    ) ;
       h_now_bkgtotal->Add(h_now_ZH    ) ;
       h_now_bkgtotal->Add(h_now_VV    ) ;
       h_now_bkgtotal->Add(h_now_TT    ) ;
       h_now_bkgtotal->Add(h_now_VG    ) ;
-     Float_t wDY, wST, wVV, wVG, wZH, wTT, wQCD;
-     Float_t nwDY, nwST, nwVV, nwVG, nwZH, nwTT, nwQCD;
+      h_now_bkgtotal->Add(h_now_QCD   ) ;
+      h_now_bkgtotal->Add(h_now_WJetsToLNu      ) ;
+     Float_t wDY, wST, wVV, wVG, wZH, wTT, wQCD, wWJets;
+     Float_t nwDY, nwST, nwVV, nwVG, nwZH, nwTT, nwQCD, nwWJets;
      wDY = h_DY->GetBinContent(2)/h_now_DY->GetBinContent(2);
      wST = h_ST->GetBinContent(2)/h_now_ST->GetBinContent(2);
      wVV = h_VV->GetBinContent(2)/h_now_VV->GetBinContent(2);
      wVG = h_VG->GetBinContent(2)/h_now_VG->GetBinContent(2);
      wZH = h_ZH->GetBinContent(2)/h_now_ZH->GetBinContent(2);
      wTT = h_TT->GetBinContent(2)/h_now_TT->GetBinContent(2);
+     wQCD = h_QCD->GetBinContent(2)/h_now_QCD->GetBinContent(2);
+     wWJets = h_WJetsToLNu->GetBinContent(2)/h_now_WJetsToLNu->GetBinContent(2);
      nwDY = h_now_DY->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
      nwST = h_now_ST->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
      nwVV = h_now_VV->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
      nwVG = h_now_VG->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
      nwZH = h_now_ZH->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
      nwTT = h_now_TT->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
-     //wQCD = h_QCD->Integral(-1,-1);
-     std::cout<<wDY<<":"<<wST<<":"<<wVV<<":"<<wVG<<":"<<wZH<<":"<<wTT<<":"<<std::endl;
-     std::cout<<nwDY<<":"<<nwST<<":"<<nwVV<<":"<<nwVG<<":"<<nwZH<<":"<<nwTT<<":"<<std::endl;
-     //if (h_DY->GetBinContent(3)==0&&h_DY->GetBinContent(2)!=0){h_DY->SetBinError(3,1.3*wDY*nwDY); std::cout<<"DY trouble"<<std::endl;}
-     //if (h_ST->GetBinContent(3)==0&&h_ST->GetBinContent(2)!=0){h_ST->SetBinError(3,1.3*wST*nwST); std::cout<<"ST trouble"<<std::endl;}
-     //if (h_VV->GetBinContent(3)==0&&h_VV->GetBinContent(2)!=0){h_VV->SetBinError(3,1.3*wVV*nwVV); std::cout<<"VV trouble"<<std::endl;}
-     ////if (h_VG->GetBinContent(3)==0&&h_VG->GetBinContent(2)!=0){h_VG->SetBinError(3,1.3*wVG*nwVG); std::cout<<"VG trouble"<<std::endl;}
-     //if (h_ZH->GetBinContent(3)==0&&h_ZH->GetBinContent(2)!=0){h_ZH->SetBinError(3,1.3*wZH*nwZH); std::cout<<"ZH trouble"<<std::endl;}
-     //if (h_TT->GetBinContent(3)==0&&h_TT->GetBinContent(2)!=0){h_TT->SetBinError(3,1.3*wTT*nwTT); std::cout<<"TT trouble"<<std::endl;}
+     nwQCD = h_now_QCD->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     nwWJets = h_now_WJetsToLNu->GetBinContent(2)/h_now_bkgtotal->GetBinContent(2);
+     std::cout<<wDY<<":"<<wST<<":"<<wVV<<":"<<wVG<<":"<<wZH<<":"<<wTT<<":"<<wQCD<<":"<<wWJets<<std::endl;
+     std::cout<<nwDY<<":"<<nwST<<":"<<nwVV<<":"<<nwVG<<":"<<nwZH<<":"<<nwTT<<":"<<nwQCD<<":"<<nwWJets<<std::endl;
+     if (h_DY->GetBinContent(3)==0&&h_DY->GetBinContent(2)!=0){h_DY->SetBinError(3,1.3*wDY*nwDY); std::cout<<"DY trouble"<<std::endl;}
+     if (h_ST->GetBinContent(3)==0&&h_ST->GetBinContent(2)!=0){h_ST->SetBinError(3,1.3*wST*nwST); std::cout<<"ST trouble"<<std::endl;}
+     if (h_VV->GetBinContent(3)==0&&h_VV->GetBinContent(2)!=0){h_VV->SetBinError(3,1.3*wVV*nwVV); std::cout<<"VV trouble"<<std::endl;}
+     if (h_VG->GetBinContent(3)==0&&h_VG->GetBinContent(2)!=0){h_VG->SetBinError(3,1.3*wVG*nwVG); std::cout<<"VG trouble"<<std::endl;}
+     if (h_ZH->GetBinContent(3)==0&&h_ZH->GetBinContent(2)!=0){h_ZH->SetBinError(3,1.3*wZH*nwZH); std::cout<<"ZH trouble"<<std::endl;}
+     if (h_TT->GetBinContent(3)==0&&h_TT->GetBinContent(2)!=0){h_TT->SetBinError(3,1.3*wTT*nwTT); std::cout<<"TT trouble"<<std::endl;}
+     if (h_QCD->GetBinContent(3)==0&&h_QCD->GetBinContent(2)!=0){h_QCD->SetBinError(3,1.3*wQCD*nwQCD); std::cout<<"QCD trouble"<<std::endl;}
+     if (h_WJetsToLNu->GetBinContent(3)==0&&h_WJetsToLNu->GetBinContent(2)!=0){h_WJetsToLNu->SetBinError(3,1.3*wWJets*nwWJets); std::cout<<"WJetsToLNu trouble"<<std::endl;}
      //Std::cout<<"DY:"<<h_now_DY->GetBinContent(2)<<":"<<h_DY->GetBinContent(2)<<":"<<wDY<<std::endl;
      //Std::cout<<"ST:"<<h_now_ST->GetBinContent(2)<<":"<<h_ST->GetBinContent(2)<<":"<<wST<<std::endl;
      //Std::cout<<"VV:"<<h_now_VV->GetBinContent(2)<<":"<<h_VV->GetBinContent(2)<<":"<<wVV<<std::endl;
-     ////std::cout<<"VG:"<<h_now_VG->GetBinContent(2)<<":"<<h_VG->GetBinContent(2)<<":"<<wVG<<std::endl;
+     //std::cout<<"VG:"<<h_now_VG->GetBinContent(2)<<":"<<h_VG->GetBinContent(2)<<":"<<wVG<<std::endl;
      //Std::cout<<"ZH:"<<h_now_ZH->GetBinContent(2)<<":"<<h_ZH->GetBinContent(2)<<":"<<wZH<<std::endl;
      //Std::cout<<"TT:"<<h_now_TT->GetBinContent(2)<<":"<<h_TT->GetBinContent(2)<<":"<<wTT<<std::endl;
+     //Std::cout<<"QCD:"<<h_now_QCD->GetBinContent(2)<<":"<<h_QCD->GetBinContent(2)<<":"<<wQCD<<std::endl;
+     //Std::cout<<"WJetsToLNu:"<<h_now_WJetsToLNu->GetBinContent(2)<<":"<<h_WJetsToLNu->GetBinContent(2)<<":"<<wWJetsToLNu<<std::endl;
      std::cout<<"h_DY-BinError(3):"<<h_DY->GetBinError(3)<<std::endl;
      std::cout<<"h_ST-BinError(3):"<<h_ST->GetBinError(3)<<std::endl;
      std::cout<<"h_VV-BinError(3):"<<h_VV->GetBinError(3)<<std::endl;
      std::cout<<"h_VG-BinError(3):"<<h_VG->GetBinError(3)<<std::endl;
      std::cout<<"h_ZH-BinError(3):"<<h_ZH->GetBinError(3)<<std::endl;
      std::cout<<"h_TT-BinError(3):"<<h_TT->GetBinError(3)<<std::endl;
+     std::cout<<"h_QCD-BinError(3):"<<h_QCD->GetBinError(3)<<std::endl;
+     std::cout<<"h_WJetsToLNu-BinError(3):"<<h_WJetsToLNu->GetBinError(3)<<std::endl;
+
 
      h_bkgtotal= (TH1F*)h_DY->Clone("bkgtotal");
       h_bkgtotal->Add(h_ST    ) ;
@@ -888,7 +892,7 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
       h_bkgtotal->Add(h_QCD   ) ;
       h_bkgtotal->Add(h_WJetsToLNu      ) ;
       //fprintf (kfact,   region+"____"+variable+     "-------->   %3.6f \n", DYScale        ) ; 
-     std::cout<<"h_bkgtotal-BinError(3):"<<h_bkgtotal->GetBinError(3)<<std::endl;
+     //std::cout<<"h_bkgtotal-BinError(3):"<<h_bkgtotal->GetBinError(3)<<std::endl;
      h_light= (TH1F*)h_DY->Clone("light");
       h_light->Add(h_ZG ) ;
 
@@ -1571,10 +1575,10 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      dummy3 = sprintf (lumistring3, "Signal/Bkg: %3.4f %%", Tag2Eff);
      	
      TLatex ContentInfo, Percentage;
-     ContentInfo.SetTextSize(0.025);
-     Percentage.SetTextSize(0.025);
-     //ContentInfo.DrawLatex(3,1000,lumistring2 );
-     //Percentage.DrawLatex(4,100,lumistring3);
+     ContentInfo.SetTextSize(0.02);
+     Percentage.SetTextSize(0.02);
+     ContentInfo.DrawLatexNDC(0.54,0.57,lumistring2 );
+     Percentage.DrawLatexNDC(0.54,0.52,lumistring3);
      if(drawData){
        ratiopad->cd();
        h_ratio = (TH1F*)h_Data->Clone("ratio");
@@ -1606,16 +1610,19 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
               
        h_DYstaterr = (TH1F*)h_DY->Clone("DYratiostaterr");
        h_DYstaterr->Divide(h_DY);
+       h_STstaterr = (TH1F*)h_ST->Clone("STratiostaterr");
+       h_STstaterr->Divide(h_ST);
+       h_TTstaterr = (TH1F*)h_TT->Clone("TTratiostaterr");
+       h_TTstaterr->Divide(h_TT);
        h_VGstaterr = (TH1F*)h_VG->Clone("VGratiostaterr");
        h_VGstaterr->Divide(h_VG);
        h_ZHstaterr = (TH1F*)h_ZH->Clone("ZHratiostaterr");
        h_ZHstaterr->Divide(h_ZH);
        h_ratiostaterr = (TH1F*)h_bkgtotal->Clone("ratiostaterr");
        std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
-       std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
        h_ratiostaterr->Divide(h_bkgtotal);
-       h_ratiostaterr->SetBinContent(3,1);
-       h_ratiostaterr->SetBinError(3,h_bkgtotal->GetBinError(3));
+       //h_ratiostaterr->SetBinContent(3,1);
+       //h_ratiostaterr->SetBinError(3,h_bkgtotal->GetBinError(3));
        std::cout<<h_ratiostaterr->GetBinError(3)<<std::endl;
        	
        
@@ -1650,6 +1657,8 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_ZH          ->Write();
      h_bkgtotal    ->Write();
      h_DYstaterr->Write();
+     h_STstaterr->Write();
+     h_TTstaterr->Write();
      h_VGstaterr->Write();
      h_ZHstaterr->Write();
      h_ratiostaterr->Write();

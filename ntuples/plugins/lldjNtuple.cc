@@ -121,9 +121,9 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   AODGenEventInfoLabel_           = consumes <GenEventInfoProduct> (edm::InputTag(std::string("generator")));
 
   Service<TFileService> fs;
-  tree_    = fs->make<TTree>("EventTree",          "Event data");
-  hTTSF_   = fs->make<TH1F>("hTTSF",               "TTbar scalefactors",     200,  0,   2);
-  hEvents_ = fs->make<TH1F>("hEvents",             "total processed events",   1,  0,   2);
+  tree_    = fs->make<TTree>("EventTree", "Event data");
+  hTTSF_   = fs->make<TH1F>("hTTSF",      "TTbar scalefactors",   200,  0,   2);
+  hEvents_ = fs->make<TH1F>("hEvents",    "total processed events",   1,  0,   2);
   hGenEventWeightSum_ = fs->make<TH1F>("hGenEventWeightSum",    "Sum of GenEventWeights",   1,  0,   2);
 
  //if(doMiniAOD_){

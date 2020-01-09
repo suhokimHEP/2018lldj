@@ -19,6 +19,10 @@ Int_t       AODnTrksPV_;
 Bool_t      AODisPVGood_;
 Float_t     AODGenEventWeight_;
 
+vector<int>       AODBunchXing_;
+vector<int>       AODnPU_;
+Int_t             AOD0thnPU_;
+vector<int>       AODnPUMean_;
 void lldjNtuple::branchesAODEvent(TTree* tree) {
 
   tree->Branch("run",     	       &AODrun_);
@@ -32,9 +36,19 @@ void lldjNtuple::branchesAODEvent(TTree* tree) {
   tree->Branch("AODnTrksPV",              &AODnTrksPV_);
   tree->Branch("AODisPVGood",             &AODisPVGood_);
   tree->Branch("AODGenEventWeight",       &AODGenEventWeight_);
+
+  tree->Branch("AODBunchXing",       &AODBunchXing_);
+  tree->Branch("AODnPU",             &AODnPU_);
+  tree->Branch("AOD0thnPU",          &AOD0thnPU_);
+  tree->Branch("AODnPUMean",         &AODnPUMean_);
 }
 
 void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
+
+  AODBunchXing_.clear();
+  AODnPU_      .clear();
+  AODnPUMean_  .clear();
+ 
   AODrun_    = e.id().run();
   AODevent_  = e.id().event();
   AODlumis_  = e.luminosityBlock();
@@ -46,9 +60,26 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
    e.getByToken(AODpuCollection_, AODpuInfoHandle);
    if ( AODpuInfoHandle->size() > 0 ){
     AODnTruePU_ = AODpuInfoHandle->at(0).getTrueNumInteractions() ;
-    //AODnTruePU_ = AODpuInfoHandle->at(1).getTrueNumInteractions() ;
    }
+  
+
+  int BunchXing  = -99999;
+  int nPU        = -99999;
+  int nPUMean    = -99999;
+  AOD0thnPU_     = -99999;
+  for(const PileupSummaryInfo &pu : *AODpuInfoHandle){
+    BunchXing  = pu.getBunchCrossing();
+    nPU        = pu.getPU_NumInteractions();
+    nPUMean    = pu.getTrueNumInteractions();
+    AODBunchXing_ .push_back(BunchXing); 
+    AODnPU_       .push_back(nPU      ); 
+    AODnPUMean_   .push_back(nPUMean  ); 
+   
+    //Save separately the 0th value
+    if(BunchXing==0) AOD0thnPU_= nPU;
   }
+  }//!e.isRealData()
+
 
 
   edm::Handle<edm::View<reco::Vertex>  >  AODVertexHandle;
@@ -79,7 +110,6 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
    AODnVtx_++;
   } // if AODVertexHandle->at(k).isValid()
   else {edm::LogWarning("lldjNtuple") << "Primary vertices info not unavailable";}
-
   }
   if (!e.isRealData()){
   edm::Handle<GenEventInfoProduct>  AODGenEventInfoHandle;

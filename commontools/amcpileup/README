@@ -1,0 +1,21 @@
+
+# Copy the JSON for processedLumis.json for the datasets
+ ## makes DoubleEG.json, etc
+ ## if submitted from FNAL, needs to come from FNAL
+ ## For 2017 data, they are all submitted from Daniel Diaz's CRAB dir. Thus collect jsons files from there
+ ## DoubleEG_D.json, DoubleMuon_D.json, MuonEG_C.json are missing at the moment
+ ## SinglePhoton 2017 Data are not Ntuplizaed yet
+bash collectjsons.sh
+
+# make PU histograms from jsons 
+ ## makes PU_DoubleEG_69200.root, etc
+ ## needs to be run from lxplus to find
+ ## --inputLumiJSON /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions17/13TeV/PileUp/pileup_latest.txt
+ ## Since cmslpc cluster no loger has access to /afs branch, file above has been copied to the current directory with name pileup_latest.txt
+ ## Please note Overleak comment for xcs 73200 and missing Lumisection 226, 227
+bash makeinputhistos.sh
+
+# make weight histograms comparing MC to data
+ ## /eos/uscms/store/group/lpchbb/LLDJntuples/2017_LLDJ/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_DY50_1_amcW2/190705_140540/0000/'s 50 samples AODnTruePU hist and normalized
+ ## 2017_mc_PU.txt for binContent of 80 bins of AODnTruePU hist 
+bash runMakePUweights.sh

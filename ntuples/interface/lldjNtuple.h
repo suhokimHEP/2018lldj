@@ -44,6 +44,7 @@
 #include "TrackingTools/Records/interface/TransientTrackRecord.h"
 
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenLumiInfoHeader.h"
 
 
 using namespace std;
@@ -246,6 +247,7 @@ class lldjNtuple : public edm::EDAnalyzer {
   //gen
   //edm::EDGetTokenT<vector<reco::GenParticle> >     genParticlesCollection_;
   edm::EDGetTokenT<GenEventInfoProduct> AODGenEventInfoLabel_;
+  edm::EDGetTokenT<GenLumiInfoHeader> genLumiHeaderToken_;
   
   TTree   *tree_;
   TH1F    *hEvents_;

@@ -77,12 +77,11 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
      //Save separately the 0th value
      if(BunchXing==0) AOD0thnPU_= nPU;
    }
-   // Signal Sample Splitting
+  // Signal Sample Splitting
    edm::Handle<GenLumiInfoHeader> gen_header;  
    e.getLuminosityBlock().getByToken(genLumiHeaderToken_,gen_header);
    model_ = gen_header->configDescription();
   }//!e.isRealData()
-
 
 
   edm::Handle<edm::View<reco::Vertex>  >  AODVertexHandle;

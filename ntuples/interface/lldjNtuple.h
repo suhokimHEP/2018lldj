@@ -23,28 +23,20 @@
 #include "DataFormats/PatCandidates/interface/Photon.h"
 #include "DataFormats/RecoCandidate/interface/RecoEcalCandidate.h"
 #include "DataFormats/VertexReco/interface/Vertex.h"
-//#include "HiggsAnalysis/HiggsTo2photons/interface/CiCPhotonID.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "JetMETCorrections/Modules/interface/JetResolution.h"
 #include "RecoTracker/Record/interface/NavigationSchoolRecord.h"
-
-//#include "RecoTracker/DebugTools/interface/GetTrackTrajInfo.h"
 #include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
-//#include "PhysicsTools/SelectorUtils/interface/PFJetIDSelectionFunctor.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"
-
 #include "MagneticField/Engine/interface/MagneticField.h" 
-
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
-
 #include "TrackingTools/GeomPropagators/interface/StateOnTrackerBound.h"
 #include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
 #include "TrackingTools/Records/interface/TransientTrackRecord.h"
-
 #include "DataFormats/PatCandidates/interface/PackedTriggerPrescales.h"
-
+#include "SimDataFormats/GeneratorProducts/interface/GenLumiInfoHeader.h"
 
 using namespace std;
 
@@ -80,7 +72,7 @@ class lldjNtuple : public edm::EDAnalyzer {
   void branchesAODJets     (TTree*);
   void branchesTrigger     (TTree*);
   void branchesAODTrigger  (TTree*);
-  //void branchesGenPart     (TTree*);
+  void branchesGenPart     (TTree*);
   void branchesAODEvent    (TTree*);
 
   void fillGlobalEvent (const edm::Event&, const edm::EventSetup&);
@@ -96,7 +88,7 @@ class lldjNtuple : public edm::EDAnalyzer {
   void fillAODJets     (const edm::Event&, const edm::EventSetup&);
   void fillTrigger     (const edm::Event&, const edm::EventSetup&);
   void fillAODTrigger  (const edm::Event&, const edm::EventSetup&);
-  //void fillGenPart     (const edm::Event&);
+  void fillGenPart     (const edm::Event&);
   void fillAODEvent    (const edm::Event&, const edm::EventSetup&);
 
   bool isMediumMuonBCDEF(const reco::Muon & recoMu);
@@ -169,6 +161,8 @@ class lldjNtuple : public edm::EDAnalyzer {
   void deltaVertex2D(GlobalPoint secVert, std::vector<reco::TransientTrack> tracks, double& dPhi, double& pt, double& mediandPhi);
   vector<reco::TransientTrack> cleanTracks(vector<reco::TransientTrack> tracks, GlobalPoint vertPos);
 
+  //ctauWeight
+  Float_t calculatectauEventWeight(float dist);
   // met
   edm::EDGetTokenT<edm::TriggerResults>            patTrgResultsLabel_;
   // for MET filters
@@ -244,8 +238,9 @@ class lldjNtuple : public edm::EDAnalyzer {
 
 
   //gen
-  //edm::EDGetTokenT<vector<reco::GenParticle> >     genParticlesCollection_;
+  edm::EDGetTokenT<vector<reco::GenParticle> >     genParticlesCollection_;
   edm::EDGetTokenT<GenEventInfoProduct> AODGenEventInfoLabel_;
+  edm::EDGetTokenT<GenLumiInfoHeader> genLumiHeaderToken_;
   
   TTree   *tree_;
   TH1F    *hEvents_;

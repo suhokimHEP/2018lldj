@@ -15,7 +15,7 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(101) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.cerr.FwkReport.reportEvery = 1
 #process.Tracer = cms.Service('Tracer')
@@ -26,7 +26,7 @@ process.source = cms.Source('PoolSource',
 #'file:MuEG.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'	
-'root://cms-xrd-global.cern.ch//store/data/Run2018C/DoubleMuon/AOD/17Sep2018-v1/60001/FA54390B-F3F9-7846-B02A-7F0CF2D8E684.root'	
+'root://cms-xrd-global.cern.ch//store/data/Run2018B/DoubleMuon/AOD/17Sep2018-v1/810000/E2E621BC-C217-114D-86A5-CF725FCE046C.root'	
 #'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )
@@ -195,7 +195,7 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
  AOD_eleTightIdMap = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Fall17-94X-V2-loose"),
  conversions  = cms.InputTag('allConversions'),
 
-# genParticleSrc    = cms.InputTag("genParticles"),
+ genParticleSrc    = cms.InputTag("genParticles"),
 
  bits = cms.InputTag("TriggerResults","","HLT"),
  prescales = cms.InputTag("patTrigger"),

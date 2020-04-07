@@ -27,10 +27,12 @@
 #include "DataFormats/PatCandidates/interface/Tau.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "JetMETCorrections/Modules/interface/JetResolution.h"
+#include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
 #include "RecoTracker/Record/interface/NavigationSchoolRecord.h"
 #include "TrackingTools/TransientTrack/interface/TransientTrackBuilder.h"
 #include "DataFormats/BeamSpot/interface/BeamSpot.h"
-#include "MagneticField/Engine/interface/MagneticField.h" 
+#include "MagneticField/Engine/interface/MagneticField.h"
+
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
 #include "TrackingTools/GeomPropagators/interface/StateOnTrackerBound.h"
 #include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
@@ -47,18 +49,18 @@ class lldjNtuple : public edm::EDAnalyzer {
 
   explicit lldjNtuple(const edm::ParameterSet&);
   ~lldjNtuple();
-  
+
   //   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
-  
+
  private:
-  
+
   edm::ParameterSet lldj_pset_;
 
   //   virtual void beginJob() {};
   virtual void beginRun(edm::Run const &, edm::EventSetup const&);//for trigger
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   //   virtual void endJob() {};
-  
+
   void branchesGlobalEvent (TTree*);
   void branchesMET         (TTree*);
   void branchesAODMET      (TTree*);
@@ -94,8 +96,8 @@ class lldjNtuple : public edm::EDAnalyzer {
   bool isMediumMuonBCDEF(const reco::Muon & recoMu);
   bool isMediumMuonGH(const reco::Muon & recoMu);
 
-  bool doAOD_     ; 
-  bool doMiniAOD_ ; 
+  bool doAOD_     ;
+  bool doMiniAOD_ ;
 
   // collections
   // electrons
@@ -130,9 +132,11 @@ class lldjNtuple : public edm::EDAnalyzer {
 //  edm::EDGetTokenT<edm::View<pat::Jet> >           jetsAK4Label_;
 //  edm::EDGetTokenT<edm::View<pat::Jet> >           selectedPatJetsLabel_;
    // AOD Jets
-  edm::EDGetTokenT<edm::View<reco::CaloJet> >      AODak4CaloJetsLabel_;   
-//  edm::EDGetTokenT<edm::View<reco::PFJet>   >      AODak4PFJetsLabel_;     
-//  edm::EDGetTokenT<edm::View<reco::PFJet>   >      AODak4PFJetsCHSLabel_;  
+  edm::EDGetTokenT<edm::View<reco::CaloJet> >       AODak4CaloJetsLabel_;
+  edm::EDGetTokenT<edm::View<reco::CaloJet> >       AODak4CaloCorrectedJetsLabel_;
+  edm::EDGetTokenT<reco::JetCorrector >  AODak4JetCorrectorLabel_;
+//  edm::EDGetTokenT<edm::View<reco::PFJet>   >      AODak4PFJetsLabel_;
+//  edm::EDGetTokenT<edm::View<reco::PFJet>   >      AODak4PFJetsCHSLabel_;
 
   //edm::EDGetTokenT<reco::VertexCollection>      AODVertexLabel_;
   edm::EDGetTokenT<edm::View<reco::Vertex>  >      AODVertexLabel_;
@@ -182,42 +186,42 @@ class lldjNtuple : public edm::EDAnalyzer {
   //edm::EDGetTokenT<edm::View<pat::Photon> >        photonCollection_;
   //edm::EDGetTokenT<edm::View<pat::Photon> >        photonAODCollection_;
   edm::EDGetToken photonAODCollection_;
-  
+
   // photon ID decision objects and isolations
   edm::EDGetTokenT<edm::ValueMap<bool> >  phoLooseIdMapToken_;
   edm::EDGetTokenT<edm::ValueMap<bool> >  phoMediumIdMapToken_;
   edm::EDGetTokenT<edm::ValueMap<bool> >  phoTightIdMapToken_;
   edm::EDGetTokenT<edm::ValueMap<float> > phoMVAValuesMapToken_;
-  edm::EDGetTokenT<edm::ValueMap<float> > phoChargedIsolationToken_; 
-  edm::EDGetTokenT<edm::ValueMap<float> > phoNeutralHadronIsolationToken_; 
-  edm::EDGetTokenT<edm::ValueMap<float> > phoPhotonIsolationToken_; 
-  edm::EDGetTokenT<edm::ValueMap<float> > phoWorstChargedIsolationToken_; 
+  edm::EDGetTokenT<edm::ValueMap<float> > phoChargedIsolationToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > phoNeutralHadronIsolationToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > phoPhotonIsolationToken_;
+  edm::EDGetTokenT<edm::ValueMap<float> > phoWorstChargedIsolationToken_;
 
   // AOD photon ID
   edm::Handle<edm::ValueMap<bool> > loose_id_decisions;
   edm::EDGetTokenT<edm::ValueMap<bool> > AOD_phoLooseIdMapToken_;
   edm::InputTag AOD_phoLooseIdLabel_;
-    
+
   edm::Handle<edm::ValueMap<bool> > medium_id_decisions;
   edm::EDGetTokenT<edm::ValueMap<bool> > AOD_phoMediumIdMapToken_;
   edm::InputTag AOD_phoMediumIdLabel_;
-    
+
   edm::Handle<edm::ValueMap<bool> > tight_id_decisions;
   edm::EDGetTokenT<edm::ValueMap<bool> > AOD_phoTightIdMapToken_;
   edm::InputTag AOD_phoTightIdLabel_;
-    
+
   edm::Handle<edm::ValueMap<float> > AOD_phoChargedIsolationHandle_;
   edm::EDGetTokenT<edm::ValueMap<float> > AOD_phoChargedIsolationMapToken_;
   edm::InputTag AOD_phoChargedIsolationLabel_;
-    
+
   edm::Handle<edm::ValueMap<float> > AOD_phoNeutralHadronIsolationHandle_;
   edm::EDGetTokenT<edm::ValueMap<float> > AOD_phoNeutralHadronIsolationMapToken_;
   edm::InputTag AOD_phoNeutralHadronIsolationLabel_;
-    
+
   edm::Handle<edm::ValueMap<float> > AOD_phoPhotonIsolationHandle_;
   edm::EDGetTokenT<edm::ValueMap<float> > AOD_phoPhotonIsolationMapToken_;
   edm::InputTag AOD_phoPhotonIsolationLabel_;
-    
+
   edm::Handle<edm::ValueMap<float> > AOD_phoWorstChargedIsolationHandle_;
   edm::EDGetTokenT<edm::ValueMap<float> > AOD_phoWorstChargedIsolationMapToken_;
   edm::InputTag AOD_phoWorstChargedIsolationLabel_;
@@ -240,6 +244,7 @@ class lldjNtuple : public edm::EDAnalyzer {
   //gen
   edm::EDGetTokenT<vector<reco::GenParticle> >     genParticlesCollection_;
   edm::EDGetTokenT<GenEventInfoProduct> AODGenEventInfoLabel_;
+
   edm::EDGetTokenT<GenLumiInfoHeader> genLumiHeaderToken_;
   
   TTree   *tree_;

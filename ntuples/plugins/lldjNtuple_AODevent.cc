@@ -16,13 +16,24 @@ Int_t       AODnGoodVtx_;
 Int_t       AODnTrksPV_;
 Bool_t      AODisPVGood_;
 Float_t     AODGenEventWeight_;
+//new variables
+float                 AODfixedGridRhoFastjetAll_;
+int                   AODnBunchXing_;
+std::vector<int>      AODBunchXing_;
+std::vector<int>      AODnPU_;
+std::vector<float>      AODnPUmean_;
+
+void ResetEventBranches()
+{
+  AODfixedGridRhoFastjetAll_ = -999.;
+  AODnBunchXing_ = 0;
+  AODBunchXing_.clear();
+  AODnPU_.clear();
+  AODnPUmean_.clear();
+};
 
 TString     model_;
-
-vector<int>       AODBunchXing_;
-vector<int>       AODnPU_;
-Int_t             AOD0thnPU_;
-vector<int>       AODnPUMean_;
+Int_t       AOD0thnPU_;
 
 void lldjNtuple::branchesAODEvent(TTree* tree) {
 
@@ -32,31 +43,37 @@ void lldjNtuple::branchesAODEvent(TTree* tree) {
   tree->Branch("isData",  	       &AODisData_);
 
   tree->Branch("AODnTruePU",              &AODnTruePU_);
+  tree->Branch("AOD0thnPU",               &AOD0thnPU_);
   tree->Branch("AODnVtx",                 &AODnVtx_);
   tree->Branch("AODnGoodVtx",             &AODnGoodVtx_);
   tree->Branch("AODnTrksPV",              &AODnTrksPV_);
   tree->Branch("AODisPVGood",             &AODisPVGood_);
   tree->Branch("AODGenEventWeight",       &AODGenEventWeight_);
 
-  tree->Branch("AODBunchXing",       &AODBunchXing_);
-  tree->Branch("AODnPU",             &AODnPU_);
-  tree->Branch("AOD0thnPU",          &AOD0thnPU_);
-  tree->Branch("AODnPUMean",         &AODnPUMean_);
+  //new variables
+  tree->Branch("AODfixedGridRhoFastjetAll",   &AODfixedGridRhoFastjetAll_);
+  tree->Branch("AODnBunchXing",               &AODnBunchXing_);
+  tree->Branch("AODBunchXing",                &AODBunchXing_);
+  tree->Branch("AODnPU",                      &AODnPU_);
+  tree->Branch("AODnPUmean",                  &AODnPUmean_);
  
   tree->Branch("model",       &model_);
+
 }
 
 void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
 
-  AODBunchXing_.clear();
-  AODnPU_      .clear();
-  AODnPUMean_  .clear();
+  //reset local variables
+  ResetEventBranches();
  
   AODrun_    = e.id().run();
   AODevent_  = e.id().event();
   AODlumis_  = e.luminosityBlock();
   AODisData_ = e.isRealData();
 
+  //-----------------------
+  //Get PU INFO
+  //------------------------
   AODnTruePU_ = -1 ;
   model_="NotSignal";
   if (!e.isRealData()) {
@@ -71,12 +88,15 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
      BunchXing  = pu.getBunchCrossing();
      nPU        = pu.getPU_NumInteractions();
      nPUMean    = pu.getTrueNumInteractions();
-     AODBunchXing_ .push_back(BunchXing); 
-     AODnPU_       .push_back(nPU      ); 
-     AODnPUMean_   .push_back(nPUMean  );  
+     //added by CP
+     AODBunchXing_.push_back(pu.getBunchCrossing());
+     AODnPU_.push_back( pu.getPU_NumInteractions() );
+     AODnPUmean_.push_back( pu.getTrueNumInteractions() );
+     AODnBunchXing_++;
      //Save separately the 0th value
      if(BunchXing==0) AOD0thnPU_= nPU;
    }
+    
   // Signal Sample Splitting
    edm::Handle<GenLumiInfoHeader> gen_header;  
    e.getLuminosityBlock().getByToken(genLumiHeaderToken_,gen_header);
@@ -89,7 +109,7 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
 
   AODnVtx_     = 0;
   AODnGoodVtx_ = 0;
-  for(int k = 0; k < (int)AODVertexHandle->size();k++){        
+  for(int k = 0; k < (int)AODVertexHandle->size();k++){
   if (AODVertexHandle->at(k).isValid())
   {
 
@@ -119,4 +139,10 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
   GenEventWeight =AODGenEventInfoHandle->weight();
   AODGenEventWeight_ = GenEventWeight;
   }
+
+  //--------------------------
+  //get fixedGridRhoFastjetAll
+  //--------------------------
+  e.getByToken(rhoLabel_, rhoHandle);
+  AODfixedGridRhoFastjetAll_ = *rhoHandle;
 }

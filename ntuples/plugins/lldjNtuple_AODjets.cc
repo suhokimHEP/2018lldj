@@ -847,7 +847,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
    && iJet->energyFractionHadronic()<=0.9)  passID = true;
 
   //if(iJet->pt()<20.0 || fabs(iJet->eta())>2.4 || !passID) continue;
-  if(iJet->pt()<0.0 || fabs(iJet->eta())>3.0) continue;
+  //if(iJet->pt()<0.0 || fabs(iJet->eta())>3.0) continue;
   //if(jetpt_corr<10.0 || fabs(iJet->eta())>3.0) continue;
 
   // caloJetTrackIDs is a vector of ints where each int is the

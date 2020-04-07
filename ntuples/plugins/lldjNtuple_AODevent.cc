@@ -82,12 +82,10 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
    if ( AODpuInfoHandle->size() > 0 ){ AODnTruePU_ = AODpuInfoHandle->at(0).getTrueNumInteractions(); }
    int BunchXing  = -99999;
    int nPU        = -99999;
-   int nPUMean    = -99999;
    AOD0thnPU_     = -99999;
    for(const PileupSummaryInfo &pu : *AODpuInfoHandle){
      BunchXing  = pu.getBunchCrossing();
      nPU        = pu.getPU_NumInteractions();
-     nPUMean    = pu.getTrueNumInteractions();
      //added by CP
      AODBunchXing_.push_back(pu.getBunchCrossing());
      AODnPU_.push_back( pu.getPU_NumInteractions() );

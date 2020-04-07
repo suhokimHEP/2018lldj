@@ -9,9 +9,9 @@ void setbit(UShort_t& x, UShort_t bit) {
 }
 
 lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
-  hltPrescale_(ps,consumesCollector(),*this) 
+  hltPrescale_(ps,consumesCollector(),*this)
 {
-  
+
   lldj_pset_ = ps;
 
   // choose AOD or miniAOD or both
@@ -21,7 +21,7 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   // electrons
   //electronCollection_      = consumes<View<pat::Electron> > (ps.getParameter<InputTag>("electronSrc"));
   rhoLabel_                = consumes<double>               (ps.getParameter<InputTag>("rhoLabel"));
-  // electron ID 
+  // electron ID
   //eleVetoIdMapToken_       = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("eleVetoIdMap"));
   //eleLooseIdMapToken_      = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("eleLooseIdMap"));
   //eleMediumIdMapToken_     = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("eleMediumIdMap"));
@@ -45,16 +45,17 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   trgResultsLabel_         = consumes<edm::TriggerResults>           (ps.getParameter<InputTag>("triggerResults"));
   trgResultsProcess_       =                                          ps.getParameter<InputTag>("triggerResults").process();
 
-  // beamspot 
+  // beamspot
   beamspotLabel_           = consumes<reco::BeamSpot>                (ps.getParameter<InputTag>("beamspotLabel_"));
 
   // jets
   //jetsAK4Label_            = consumes<View<pat::Jet> >               (ps.getParameter<InputTag>("ak4JetSrc"));
   //AODjetsAK4Label_         = consumes<View<pat::Jet> >               (ps.getParameter<InputTag>("ak4JetSrc"));
-  AODak4CaloJetsLabel_     = consumes<View<reco::CaloJet> >          (ps.getParameter<InputTag>("AODak4CaloJetsSrc"));  
-  //AODak4CaloJetsLabel_     = consumes<View<reco::CaloJet> >          (ps.getParameter<InputTag>("AODak4CorrCaloJetsSrc"));  
-  //AODak4PFJetsLabel_       = consumes<View<reco::PFJet>   >          (ps.getParameter<InputTag>("AODak4PFJetsSrc"));    
-  //AODak4PFJetsCHSLabel_    = consumes<View<reco::PFJet>   >          (ps.getParameter<InputTag>("AODak4PFJetsCHSSrc")); 
+  AODak4CaloJetsLabel_              = consumes<View<reco::CaloJet> >         (ps.getParameter<InputTag>("AODak4CaloJetsSrc"));
+  AODak4CaloCorrectedJetsLabel_     = consumes<View<reco::CaloJet> >         (ps.getParameter<InputTag>("AODak4CorrCaloJetsSrc"));
+  AODak4JetCorrectorLabel_          = consumes< reco::JetCorrector >   (ps.getParameter<InputTag>("AODak4CorrectorLabelName"));
+  //AODak4PFJetsLabel_       = consumes<View<reco::PFJet>   >          (ps.getParameter<InputTag>("AODak4PFJetsSrc"));
+  //AODak4PFJetsCHSLabel_    = consumes<View<reco::PFJet>   >          (ps.getParameter<InputTag>("AODak4PFJetsCHSSrc"));
   //selectedPatJetsLabel_    = consumes<edm::View<pat::Jet> >          (ps.getParameter<InputTag>("selectedPatJetsSrc"));
   AODTrackLabel_           = consumes<edm::View<reco::Track> >       (ps.getParameter<InputTag>("AODTrackSrc"));
 
@@ -77,11 +78,11 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   //photonAODCollection_     = consumes<View<pat::Photon> >            (ps.getParameter<InputTag>("photonAODSrc"));
   photonAODCollection_     =  mayConsume<edm::View<reco::Photon> >           (ps.getParameter<InputTag>("photonAODSrc"));
 
-  // Photon ID in VID framwork 
+  // Photon ID in VID framwork
   //phoLooseIdMapToken_             = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("phoLooseIdMap"));
   //phoMediumIdMapToken_            = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("phoMediumIdMap"));
   //phoTightIdMapToken_             = consumes<edm::ValueMap<bool> >(ps.getParameter<edm::InputTag>("phoTightIdMap"));
-  //phoMVAValuesMapToken_           = consumes<edm::ValueMap<float> >(ps.getParameter<edm::InputTag>("phoMVAValuesMap")); 
+  //phoMVAValuesMapToken_           = consumes<edm::ValueMap<float> >(ps.getParameter<edm::InputTag>("phoMVAValuesMap"));
   ///phoChargedIsolationToken_       = consumes <edm::ValueMap<float> >(ps.getParameter<edm::InputTag>("phoChargedIsolation"));
   ///phoNeutralHadronIsolationToken_ = consumes <edm::ValueMap<float> >(ps.getParameter<edm::InputTag>("phoNeutralHadronIsolation"));
   ///phoPhotonIsolationToken_        = consumes <edm::ValueMap<float> >(ps.getParameter<edm::InputTag>("phoPhotonIsolation"));
@@ -134,7 +135,7 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
  // branchesElectrons(tree_);
  // branchesMuons(tree_);
 
- // branchesJets(tree_);   
+ // branchesJets(tree_);
  // branchesMET(tree_);
  //}
  if(doAOD_){
@@ -180,17 +181,17 @@ void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
  // e.getByToken(vtxLabel_, vtxHandle);
  // reco::Vertex vtx;
  // // best-known primary vertex coordinates
- // math::XYZPoint pv(0, 0, 0); 
+ // math::XYZPoint pv(0, 0, 0);
  // for (vector<reco::Vertex>::const_iterator v = vtxHandle->begin(); v != vtxHandle->end(); ++v) {
  //   // replace isFake() for miniAOD since it requires tracks while miniAOD vertices don't have tracks:
  //   // Vertex.h: bool isFake() const {return (chi2_==0 && ndof_==0 && tracks_.empty());}
- //   bool isFake = -(v->chi2() == 0 && v->ndof() == 0); 
+ //   bool isFake = -(v->chi2() == 0 && v->ndof() == 0);
  //
  //   if (!isFake) {
  //     pv.SetXYZ(v->x(), v->y(), v->z());
- //     vtx = *v; 
+ //     vtx = *v;
  //     break;
- //   }   
+ //   }
  // }
  // fillMuons(e, vtx); //muons use vtx for isolation
  //
@@ -204,18 +205,18 @@ void lldjNtuple::analyze(const edm::Event& e, const edm::EventSetup& es) {
   fillAODJets(e, es);
   fillAODPhotons(e, es);
 
-  //Vertex for Muon 
+  //Vertex for Muon
   edm::Handle<edm::View<reco::Vertex> > vtxHandle;
   e.getByToken(AODVertexLabel_, vtxHandle);
   reco::Vertex vtx;
   for (edm::View<reco::Vertex>::const_iterator v = vtxHandle->begin(); v != vtxHandle->end(); ++v) {
     if (!v->isFake()) {
-      vtx = *v; 
+      vtx = *v;
       break;
-    }   
+    }
   }
   fillAODElectrons(e, es, vtx);
-  fillAODMuons(e, vtx); 
+  fillAODMuons(e, vtx);
   fillAODMET(e, es);
 
 // }

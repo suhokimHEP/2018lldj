@@ -18,6 +18,21 @@ Int_t       AODnGoodVtx_;
 Int_t       AODnTrksPV_;
 Bool_t      AODisPVGood_;
 Float_t     AODGenEventWeight_;
+//new variables
+float                 AODfixedGridRhoFastjetAll_;
+int                   AODnBunchXing_;
+std::vector<int>      AODBunchXing_;
+std::vector<int>      AODnPU_;
+std::vector<float>      AODnPUmean_;
+
+void ResetEventBranches()
+{
+  AODfixedGridRhoFastjetAll_ = -999.;
+  AODnBunchXing_ = 0;
+  AODBunchXing_.clear();
+  AODnPU_.clear();
+  AODnPUmean_.clear();
+};
 
 void lldjNtuple::branchesAODEvent(TTree* tree) {
 
@@ -32,14 +47,27 @@ void lldjNtuple::branchesAODEvent(TTree* tree) {
   tree->Branch("AODnTrksPV",              &AODnTrksPV_);
   tree->Branch("AODisPVGood",             &AODisPVGood_);
   tree->Branch("AODGenEventWeight",       &AODGenEventWeight_);
+  //new variables
+  tree->Branch("AODfixedGridRhoFastjetAll",   &AODfixedGridRhoFastjetAll_);
+  tree->Branch("AODnBunchXing",               &AODnBunchXing_);
+  tree->Branch("AODBunchXing",                &AODBunchXing_);
+  tree->Branch("AODnPU",                      &AODnPU_);
+  tree->Branch("AODnPUmean",                  &AODnPUmean_);
 }
 
 void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
+
+  //reset local variables
+  ResetEventBranches();
+
   AODrun_    = e.id().run();
   AODevent_  = e.id().event();
   AODlumis_  = e.luminosityBlock();
   AODisData_ = e.isRealData();
 
+  //-----------------------
+  //Get PU INFO
+  //------------------------
   AODnTruePU_ = -1 ;
   if (!e.isRealData()) {
    edm::Handle<vector<PileupSummaryInfo> > AODpuInfoHandle;
@@ -47,6 +75,15 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
    if ( AODpuInfoHandle->size() > 0 ){
     AODnTruePU_ = AODpuInfoHandle->at(0).getTrueNumInteractions() ;
     //AODnTruePU_ = AODpuInfoHandle->at(1).getTrueNumInteractions() ;
+   }
+
+   //new info from Cristian
+   for( const auto &pu : *AODpuInfoHandle )
+   {
+     AODBunchXing_.push_back(pu.getBunchCrossing());
+     AODnPU_.push_back( pu.getPU_NumInteractions() );
+     AODnPUmean_.push_back( pu.getTrueNumInteractions() );
+     AODnBunchXing_++;
    }
   }
 
@@ -56,7 +93,7 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
 
   AODnVtx_     = 0;
   AODnGoodVtx_ = 0;
-  for(int k = 0; k < (int)AODVertexHandle->size();k++){        
+  for(int k = 0; k < (int)AODVertexHandle->size();k++){
   if (AODVertexHandle->at(k).isValid())
   {
 
@@ -87,4 +124,10 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
   GenEventWeight =AODGenEventInfoHandle->weight();
   AODGenEventWeight_ = GenEventWeight;
   }
+
+  //--------------------------
+  //get fixedGridRhoFastjetAll
+  //--------------------------
+  e.getByToken(rhoLabel_, rhoHandle);
+  AODfixedGridRhoFastjetAll_ = *rhoHandle;
 }

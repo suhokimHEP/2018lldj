@@ -49,21 +49,23 @@ using namespace std;
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > LorentzVector;
 
 // AOD Collection Handles
-edm::Handle<edm::View<reco::CaloJet> >  AODak4CaloJetsHandle;   
-//edm::Handle<edm::View<reco::PFJet>   >  AODak4PFJetsHandle;     
-//edm::Handle<edm::View<reco::PFJet>   >  AODak4PFJetsCHSHandle;  
-//edm::Handle<edm::View<pat::Jet>      >  selectedPatJetsHandle;  
+edm::Handle<edm::View<reco::CaloJet> >  AODak4CaloJetsHandle;
+edm::Handle<edm::View<reco::CaloJet> >  AODak4CaloJetsCorrectedHandle;
+//edm::Handle<edm::View<reco::PFJet>   >  AODak4PFJetsHandle;
+//edm::Handle<edm::View<reco::PFJet>   >  AODak4PFJetsCHSHandle;
+//edm::Handle<edm::View<pat::Jet>      >  selectedPatJetsHandle;
 edm::Handle<edm::View<reco::Vertex>  >  AODVertexHandle;
 edm::Handle<edm::View<reco::Track>   >  AODTrackHandle;
 edm::Handle<reco::BeamSpot> beamspotHandle_;
 edm::ESHandle<MagneticField> magneticField;
-//edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;//Daniel
+edm::ESHandle<JetCorrectorParametersCollection> JetCorrParColl_Handle;//Daniel
+edm::Handle<reco::JetCorrector> JetCorrector;
 // transient tracks
 map<reco::TransientTrack,reco::TrackBaseRef> refMap;
 vector<TrajectoryStateOnSurface> tsosList;
 
 // Global stuff for displaced vertices
-ConfigurableVertexReconstructor* vtxfitter_; 
+ConfigurableVertexReconstructor* vtxfitter_;
 VertexDistanceXY vertexDistanceXY_;
 VertexCompatibleWithBeam* vertexBeam_ = new VertexCompatibleWithBeam(vertexDistanceXY_,100);
 
@@ -71,10 +73,20 @@ VertexCompatibleWithBeam* vertexBeam_ = new VertexCompatibleWithBeam(vertexDista
 // Calo Jets
 Int_t          AODnCaloJet_;
 vector<float>  AODCaloJetPt_;
+std::vector<float>  AODCaloJetEnergy_;
+std::vector<float>  AODCaloJetPtUncorrected_;
+std::vector<float>  AODCaloJetEnergyUncorrected_;
 vector<float>  AODCaloJetPt_JECUp_;
 vector<float>  AODCaloJetPt_JECDown_;
 vector<float>  AODCaloJetEta_;
 vector<float>  AODCaloJetPhi_;
+
+//new variables
+std::vector<bool>  AODCaloJetID_;
+std::vector<float>  AODCaloJetMass_;
+std::vector<float>  AODCaloJetArea_;
+std::vector<float>  AODCaloJetPileup_;
+
 
 vector<float>  AODCaloJetAlphaMax_;
 vector<float>  AODCaloJetAlphaMax2_;
@@ -121,6 +133,60 @@ vector<float>  AODCaloJetAvfDistToPV_;
 vector<float>  AODCaloJetAvfVertexDeltaZtoPV_;
 vector<float>  AODCaloJetAvfVertexDeltaZtoPV2_;
 
+
+//Corrected CaloJets:
+Int_t          AODnCaloJetCorrected_;
+vector<float>  AODCaloJetCorrectedPt_;
+vector<float>  AODCaloJetCorrectedPt_JECUp_;
+vector<float>  AODCaloJetCorrectedPt_JECDown_;
+vector<float>  AODCaloJetCorrectedEta_;
+vector<float>  AODCaloJetCorrectedPhi_;
+
+vector<float>  AODCaloJetCorrectedAlphaMax_;
+vector<float>  AODCaloJetCorrectedAlphaMax2_;
+vector<float>  AODCaloJetCorrectedAlphaMaxPrime_;
+vector<float>  AODCaloJetCorrectedAlphaMaxPrime2_;
+vector<float>  AODCaloJetCorrectedBeta_;
+vector<float>  AODCaloJetCorrectedBeta2_;
+
+vector<float>  AODCaloJetCorrectedSumIP_;
+vector<float>  AODCaloJetCorrectedSumIPSig_;
+//vector<float>  AODCaloJetCorrectedLog10IPSig_;
+vector<float>  AODCaloJetCorrectedMedianIP_;
+vector<float>  AODCaloJetCorrectedMedianLog10IPSig_;
+vector<float>  AODCaloJetCorrectedTrackAngle_;
+vector<float>  AODCaloJetCorrectedLogTrackAngle_;
+vector<float>  AODCaloJetCorrectedMedianLog10TrackAngle_;
+vector<float>  AODCaloJetCorrectedTotalTrackAngle_;
+
+vector<float>  AODCaloJetCorrectedAvfVx_;
+vector<float>  AODCaloJetCorrectedAvfVy_;
+vector<float>  AODCaloJetCorrectedAvfVz_;
+vector<float>  AODCaloJetCorrectedAvfVertexTotalChiSquared_;
+vector<float>  AODCaloJetCorrectedAvfVertexDegreesOfFreedom_;
+vector<float>  AODCaloJetCorrectedAvfVertexChi2NDoF_;
+vector<float>  AODCaloJetCorrectedAvfVertexDistanceToBeam_;
+vector<float>  AODCaloJetCorrectedAvfVertexTransverseError_;
+vector<float>  AODCaloJetCorrectedAvfVertexTransverseSig_;
+vector<float>  AODCaloJetCorrectedAvfVertexDeltaEta_;
+vector<float>  AODCaloJetCorrectedAvfVertexDeltaPhi_;
+vector<float>  AODCaloJetCorrectedAvfVertexRecoilPt_;
+vector<float>  AODCaloJetCorrectedAvfVertexTrackMass_;
+vector<float>  AODCaloJetCorrectedAvfVertexTrackEnergy_;
+vector<float>  AODCaloJetCorrectedAvfBeamSpotDeltaPhi_;
+vector<float>  AODCaloJetCorrectedAvfBeamSpotRecoilPt_;
+vector<float>  AODCaloJetCorrectedAvfBeamSpotMedianDeltaPhi_;
+vector<float>  AODCaloJetCorrectedAvfBeamSpotLog10MedianDeltaPhi_;
+vector<int>    AODCaloJetCorrectedNMatchedTracks_;
+vector<int>    AODCaloJetCorrectedNCleanMatchedTracks_;
+vector<int>    AODCaloJetCorrectedSumHitsInFrontOfVert_;
+vector<int>    AODCaloJetCorrectedSumMissHitsAfterVert_;
+vector<int>    AODCaloJetCorrectedHitsInFrontOfVertPerTrack_;
+vector<int>    AODCaloJetCorrectedMissHitsAfterVertPerTrack_;
+vector<float>  AODCaloJetCorrectedAvfDistToPV_;
+vector<float>  AODCaloJetCorrectedAvfVertexDeltaZtoPV_;
+vector<float>  AODCaloJetCorrectedAvfVertexDeltaZtoPV2_;
+
 //// PAT Jets
 //Int_t          AODnPATJet_;
 //vector<int>    AODPATJetPartonFlavour_;
@@ -132,7 +198,7 @@ vector<float>  AODCaloJetAvfVertexDeltaZtoPV2_;
 
 //// PF Jets
 //Int_t          AODnPFJet_;
-//vector<int>    AODPFJetID_; 
+//vector<int>    AODPFJetID_;
 //vector<float>  AODPFJetPt_;
 //vector<float>  AODPFJetEta_;
 //vector<float>  AODPFJetPhi_;
@@ -153,7 +219,7 @@ vector<float>  AODCaloJetAvfVertexDeltaZtoPV2_;
 //
 //// PFchs Jets
 //Int_t          AODnPFchsJet_;
-//vector<int>    AODPFchsJetID_; 
+//vector<int>    AODPFchsJetID_;
 //vector<float>  AODPFchsJetPt_;
 //vector<float>  AODPFchsJetEta_;
 //vector<float>  AODPFchsJetPhi_;
@@ -174,7 +240,7 @@ vector<float>  AODCaloJetAvfVertexDeltaZtoPV2_;
 
 // temporary variables
 
-vector<TVector3> AODallTrackPositions; // x,y,z 
+vector<TVector3> AODallTrackPositions; // x,y,z
 
 vector<float>    AODallTrackPt;
 vector<float>    AODallTrackEta;
@@ -200,19 +266,27 @@ const float maxDRtrackJet_ = 0.4;
 // initialize branches
 void lldjNtuple::branchesAODJets(TTree* tree) {
 
+  //CaloJets
   tree->Branch("AODnCaloJet"                   , &AODnCaloJet_);
+  tree->Branch("AODCaloJetEnergy"              , &AODCaloJetEnergy_);
   tree->Branch("AODCaloJetPt"                  , &AODCaloJetPt_);
+  tree->Branch("AODCaloJetEnergyUncorrected"   , &AODCaloJetEnergyUncorrected_);
+  tree->Branch("AODCaloJetPtUncorrected"       , &AODCaloJetPtUncorrected_);
   tree->Branch("AODCaloJetPt_JECUp"            , &AODCaloJetPt_JECUp_);
   tree->Branch("AODCaloJetPt_JECDown"          , &AODCaloJetPt_JECDown_);
   tree->Branch("AODCaloJetEta"                 , &AODCaloJetEta_);
   tree->Branch("AODCaloJetPhi"                 , &AODCaloJetPhi_);
+  tree->Branch("AODCaloJetID"                  , &AODCaloJetID_);
+  tree->Branch("AODCaloJetMass"                , &AODCaloJetMass_);
+  tree->Branch("AODCaloJetArea"                , &AODCaloJetArea_);
+  tree->Branch("AODCaloJetPileup"              , &AODCaloJetPileup_);
 
-  tree->Branch("AODCaloJetAlphaMax"            , &AODCaloJetAlphaMax_);                               
-  tree->Branch("AODCaloJetAlphaMax2"           , &AODCaloJetAlphaMax2_);                               
-  tree->Branch("AODCaloJetAlphaMaxPrime"       , &AODCaloJetAlphaMaxPrime_);                               
-  tree->Branch("AODCaloJetAlphaMaxPrime2"      , &AODCaloJetAlphaMaxPrime2_);                               
-  tree->Branch("AODCaloJetBeta"                , &AODCaloJetBeta_);                               
-  tree->Branch("AODCaloJetBeta2"               , &AODCaloJetBeta2_);                               
+  tree->Branch("AODCaloJetAlphaMax"            , &AODCaloJetAlphaMax_);
+  tree->Branch("AODCaloJetAlphaMax2"           , &AODCaloJetAlphaMax2_);
+  tree->Branch("AODCaloJetAlphaMaxPrime"       , &AODCaloJetAlphaMaxPrime_);
+  tree->Branch("AODCaloJetAlphaMaxPrime2"      , &AODCaloJetAlphaMaxPrime2_);
+  tree->Branch("AODCaloJetBeta"                , &AODCaloJetBeta_);
+  tree->Branch("AODCaloJetBeta2"               , &AODCaloJetBeta2_);
 
   tree->Branch("AODCaloJetSumIP"               , &AODCaloJetSumIP_);
   tree->Branch("AODCaloJetSumIPSig"            , &AODCaloJetSumIPSig_);
@@ -222,7 +296,7 @@ void lldjNtuple::branchesAODJets(TTree* tree) {
   tree->Branch("AODCaloJetLogTrackAngle"       , &AODCaloJetLogTrackAngle_);
   tree->Branch("AODCaloJetMedianLog10TrackAngle" , &AODCaloJetMedianLog10TrackAngle_);
   tree->Branch("AODCaloJetTotalTrackAngle"     , &AODCaloJetTotalTrackAngle_);
-                       
+
   tree->Branch("AODCaloJetAvfVx", &AODCaloJetAvfVx_);
   tree->Branch("AODCaloJetAvfVy", &AODCaloJetAvfVy_);
   tree->Branch("AODCaloJetAvfVz", &AODCaloJetAvfVz_);
@@ -251,6 +325,63 @@ void lldjNtuple::branchesAODJets(TTree* tree) {
   tree->Branch("AODCaloJetAvfVertexDeltaZtoPV", &AODCaloJetAvfVertexDeltaZtoPV_);
   tree->Branch("AODCaloJetAvfVertexDeltaZtoPV2", &AODCaloJetAvfVertexDeltaZtoPV2_);
 
+  /*
+  //------------------
+  //Corrected CaloJets
+  //------------------
+  tree->Branch("AODnCaloJetCorrected"                   , &AODnCaloJetCorrected_);
+  tree->Branch("AODCaloJetCorrectedPt"                  , &AODCaloJetCorrectedPt_);
+  tree->Branch("AODCaloJetCorrectedPt_JECUp"            , &AODCaloJetCorrectedPt_JECUp_);
+  tree->Branch("AODCaloJetCorrectedPt_JECDown"          , &AODCaloJetCorrectedPt_JECDown_);
+  tree->Branch("AODCaloJetCorrectedEta"                 , &AODCaloJetCorrectedEta_);
+  tree->Branch("AODCaloJetCorrectedPhi"                 , &AODCaloJetCorrectedPhi_);
+
+  tree->Branch("AODCaloJetCorrectedAlphaMax"            , &AODCaloJetCorrectedAlphaMax_);
+  tree->Branch("AODCaloJetCorrectedAlphaMax2"           , &AODCaloJetCorrectedAlphaMax2_);
+  tree->Branch("AODCaloJetCorrectedAlphaMaxPrime"       , &AODCaloJetCorrectedAlphaMaxPrime_);
+  tree->Branch("AODCaloJetCorrectedAlphaMaxPrime2"      , &AODCaloJetCorrectedAlphaMaxPrime2_);
+  tree->Branch("AODCaloJetCorrectedBeta"                , &AODCaloJetCorrectedBeta_);
+  tree->Branch("AODCaloJetCorrectedBeta2"               , &AODCaloJetCorrectedBeta2_);
+
+  tree->Branch("AODCaloJetCorrectedSumIP"               , &AODCaloJetCorrectedSumIP_);
+  tree->Branch("AODCaloJetCorrectedSumIPSig"            , &AODCaloJetCorrectedSumIPSig_);
+  tree->Branch("AODCaloJetCorrectedMedianIP"            , &AODCaloJetCorrectedMedianIP_);
+  tree->Branch("AODCaloJetCorrectedMedianLog10IPSig"    , &AODCaloJetCorrectedMedianLog10IPSig_);
+  tree->Branch("AODCaloJetCorrectedTrackAngle"          , &AODCaloJetCorrectedTrackAngle_);
+  tree->Branch("AODCaloJetCorrectedLogTrackAngle"       , &AODCaloJetCorrectedLogTrackAngle_);
+  tree->Branch("AODCaloJetCorrectedMedianLog10TrackAngle" , &AODCaloJetCorrectedMedianLog10TrackAngle_);
+  tree->Branch("AODCaloJetCorrectedTotalTrackAngle"     , &AODCaloJetCorrectedTotalTrackAngle_);
+
+  tree->Branch("AODCaloJetCorrectedAvfVx", &AODCaloJetCorrectedAvfVx_);
+  tree->Branch("AODCaloJetCorrectedAvfVy", &AODCaloJetCorrectedAvfVy_);
+  tree->Branch("AODCaloJetCorrectedAvfVz", &AODCaloJetCorrectedAvfVz_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexTotalChiSquared", &AODCaloJetCorrectedAvfVertexTotalChiSquared_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDegreesOfFreedom", &AODCaloJetCorrectedAvfVertexDegreesOfFreedom_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexChi2NDoF", &AODCaloJetCorrectedAvfVertexChi2NDoF_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDistanceToBeam", &AODCaloJetCorrectedAvfVertexDistanceToBeam_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexTransverseError", &AODCaloJetCorrectedAvfVertexTransverseError_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexTransverseSig", &AODCaloJetCorrectedAvfVertexTransverseSig_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDeltaEta", &AODCaloJetCorrectedAvfVertexDeltaEta_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDeltaPhi", &AODCaloJetCorrectedAvfVertexDeltaPhi_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexRecoilPt", &AODCaloJetCorrectedAvfVertexRecoilPt_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexTrackMass", &AODCaloJetCorrectedAvfVertexTrackMass_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexTrackEnergy", &AODCaloJetCorrectedAvfVertexTrackEnergy_);
+  tree->Branch("AODCaloJetCorrectedAvfBeamSpotDeltaPhi", &AODCaloJetCorrectedAvfBeamSpotDeltaPhi_);
+  tree->Branch("AODCaloJetCorrectedAvfBeamSpotRecoilPt", &AODCaloJetCorrectedAvfBeamSpotRecoilPt_);
+  tree->Branch("AODCaloJetCorrectedAvfBeamSpotMedianDeltaPhi", &AODCaloJetCorrectedAvfBeamSpotMedianDeltaPhi_);
+  tree->Branch("AODCaloJetCorrectedAvfBeamSpotLog10MedianDeltaPhi", &AODCaloJetCorrectedAvfBeamSpotLog10MedianDeltaPhi_);
+  tree->Branch("AODCaloJetCorrectedNCleanMatchedTracks", &AODCaloJetCorrectedNCleanMatchedTracks_);
+  tree->Branch("AODCaloJetCorrectedNMatchedTracks"      , &AODCaloJetCorrectedNMatchedTracks_);
+  tree->Branch("AODCaloJetCorrectedSumHitsInFrontOfVert", &AODCaloJetCorrectedSumHitsInFrontOfVert_);
+  tree->Branch("AODCaloJetCorrectedSumMissHitsAfterVert", &AODCaloJetCorrectedSumMissHitsAfterVert_);
+  tree->Branch("AODCaloJetCorrectedHitsInFrontOfVertPerTrack", &AODCaloJetCorrectedHitsInFrontOfVertPerTrack_);
+  tree->Branch("AODCaloJetCorrectedMissHitsAfterVertPerTrack", &AODCaloJetCorrectedMissHitsAfterVertPerTrack_);
+  tree->Branch("AODCaloJetCorrectedAvfDistToPV", &AODCaloJetCorrectedAvfDistToPV_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDeltaZtoPV", &AODCaloJetCorrectedAvfVertexDeltaZtoPV_);
+  tree->Branch("AODCaloJetCorrectedAvfVertexDeltaZtoPV2", &AODCaloJetCorrectedAvfVertexDeltaZtoPV2_);
+  */
+
+
   //tree->Branch("AODnPATJet",              &AODnPATJet_);
   //tree->Branch("AODPATJetPartonFlavour",  &AODPATJetPartonFlavour_);
   //tree->Branch("AODPATJetPt",             &AODPATJetPt_);
@@ -258,46 +389,46 @@ void lldjNtuple::branchesAODJets(TTree* tree) {
   //tree->Branch("AODPATJetPhi",            &AODPATJetPhi_);
   //tree->Branch("AODPATJetCSV",            &AODPATJetCSV_);
   //tree->Branch("AODPATJetMVA",            &AODPATJetMVA_);
-                          
+
 //  // PF Jets
-//  tree->Branch("AODnPFJet"                        , &AODnPFJet_);                                 
-//  tree->Branch("AODPFJetID"                       , &AODPFJetID_);                                 
-//  tree->Branch("AODPFJetPt"                       , &AODPFJetPt_);                                 
-//  tree->Branch("AODPFJetEta"                      , &AODPFJetEta_);                                 
-//  tree->Branch("AODPFJetPhi"                      , &AODPFJetPhi_);                                 
-//  tree->Branch("AODPFJetAlphaMax"                 , &AODPFJetAlphaMax_);                                 
-//  tree->Branch("AODPFJetAlphaMax2"                , &AODPFJetAlphaMax2_);                                 
-//  tree->Branch("AODPFJetAlphaMaxPrime"            , &AODPFJetAlphaMaxPrime_);                                 
-//  tree->Branch("AODPFJetAlphaMaxPrime2"           , &AODPFJetAlphaMaxPrime2_);                                 
-//  tree->Branch("AODPFJetBeta"                     , &AODPFJetBeta_);                                 
-//  tree->Branch("AODPFJetBeta2"                    , &AODPFJetBeta2_);                                 
-//  tree->Branch("AODPFJetSumIP"                    , &AODPFJetSumIP_);                                 
-//  tree->Branch("AODPFJetSumIPSig"                 , &AODPFJetSumIPSig_);                                 
-//  tree->Branch("AODPFJetMedianIP"                 , &AODPFJetMedianIP_);                                                                           
-//  tree->Branch("AODPFJetMedianLog10IPSig"         , &AODPFJetMedianLog10IPSig_);                           
-//  tree->Branch("AODPFJetTrackAngle"               , &AODPFJetTrackAngle_);                                    
-//  tree->Branch("AODPFJetLogTrackAngle"            , &AODPFJetLogTrackAngle_);                                         
-//  tree->Branch("AODPFJetMedianLog10TrackAngle"    , &AODPFJetMedianLog10TrackAngle_);                           
+//  tree->Branch("AODnPFJet"                        , &AODnPFJet_);
+//  tree->Branch("AODPFJetID"                       , &AODPFJetID_);
+//  tree->Branch("AODPFJetPt"                       , &AODPFJetPt_);
+//  tree->Branch("AODPFJetEta"                      , &AODPFJetEta_);
+//  tree->Branch("AODPFJetPhi"                      , &AODPFJetPhi_);
+//  tree->Branch("AODPFJetAlphaMax"                 , &AODPFJetAlphaMax_);
+//  tree->Branch("AODPFJetAlphaMax2"                , &AODPFJetAlphaMax2_);
+//  tree->Branch("AODPFJetAlphaMaxPrime"            , &AODPFJetAlphaMaxPrime_);
+//  tree->Branch("AODPFJetAlphaMaxPrime2"           , &AODPFJetAlphaMaxPrime2_);
+//  tree->Branch("AODPFJetBeta"                     , &AODPFJetBeta_);
+//  tree->Branch("AODPFJetBeta2"                    , &AODPFJetBeta2_);
+//  tree->Branch("AODPFJetSumIP"                    , &AODPFJetSumIP_);
+//  tree->Branch("AODPFJetSumIPSig"                 , &AODPFJetSumIPSig_);
+//  tree->Branch("AODPFJetMedianIP"                 , &AODPFJetMedianIP_);
+//  tree->Branch("AODPFJetMedianLog10IPSig"         , &AODPFJetMedianLog10IPSig_);
+//  tree->Branch("AODPFJetTrackAngle"               , &AODPFJetTrackAngle_);
+//  tree->Branch("AODPFJetLogTrackAngle"            , &AODPFJetLogTrackAngle_);
+//  tree->Branch("AODPFJetMedianLog10TrackAngle"    , &AODPFJetMedianLog10TrackAngle_);
 //  tree->Branch("AODPFJetTotalTrackAngle"          , &AODPFJetTotalTrackAngle_);
-//  
-//  // PFchs Jets 
-//  tree->Branch("AODnPFchsJet"                     , &AODnPFchsJet_);                                  
-//  tree->Branch("AODPFchsJetID"                    , &AODPFchsJetID_);                                  
-//  tree->Branch("AODPFchsJetPt"                    , &AODPFchsJetPt_);                                  
-//  tree->Branch("AODPFchsJetEta"                   , &AODPFchsJetEta_);                                 
-//  tree->Branch("AODPFchsJetPhi"                   , &AODPFchsJetPhi_);                                      
-//  tree->Branch("AODPFchsJetAlphaMax"              , &AODPFchsJetAlphaMax_);                                  
-//  tree->Branch("AODPFchsJetAlphaMax2"             , &AODPFchsJetAlphaMax2_);                                     
-//  tree->Branch("AODPFchsJetAlphaMaxPrime"         , &AODPFchsJetAlphaMaxPrime_);                                  
-//  tree->Branch("AODPFchsJetAlphaMaxPrime2"        , &AODPFchsJetAlphaMaxPrime2_);                       
-//  tree->Branch("AODPFchsJetBeta"                  , &AODPFchsJetBeta_);                                  
-//  tree->Branch("AODPFchsJetBeta2"                 , &AODPFchsJetBeta2_);                                 
-//  tree->Branch("AODPFchsJetSumIP"                 , &AODPFchsJetSumIP_);                                    
-//  tree->Branch("AODPFchsJetSumIPSig"              , &AODPFchsJetSumIPSig_);                                 
-//  tree->Branch("AODPFchsJetMedianIP"              , &AODPFchsJetMedianIP_);                                   
-//  tree->Branch("AODPFchsJetMedianLog10IPSig"      , &AODPFchsJetMedianLog10IPSig_);                              
-//  tree->Branch("AODPFchsJetTrackAngle"            , &AODPFchsJetTrackAngle_);                                            
-//  tree->Branch("AODPFchsJetLogTrackAngle"         , &AODPFchsJetLogTrackAngle_);                                   
+//
+//  // PFchs Jets
+//  tree->Branch("AODnPFchsJet"                     , &AODnPFchsJet_);
+//  tree->Branch("AODPFchsJetID"                    , &AODPFchsJetID_);
+//  tree->Branch("AODPFchsJetPt"                    , &AODPFchsJetPt_);
+//  tree->Branch("AODPFchsJetEta"                   , &AODPFchsJetEta_);
+//  tree->Branch("AODPFchsJetPhi"                   , &AODPFchsJetPhi_);
+//  tree->Branch("AODPFchsJetAlphaMax"              , &AODPFchsJetAlphaMax_);
+//  tree->Branch("AODPFchsJetAlphaMax2"             , &AODPFchsJetAlphaMax2_);
+//  tree->Branch("AODPFchsJetAlphaMaxPrime"         , &AODPFchsJetAlphaMaxPrime_);
+//  tree->Branch("AODPFchsJetAlphaMaxPrime2"        , &AODPFchsJetAlphaMaxPrime2_);
+//  tree->Branch("AODPFchsJetBeta"                  , &AODPFchsJetBeta_);
+//  tree->Branch("AODPFchsJetBeta2"                 , &AODPFchsJetBeta2_);
+//  tree->Branch("AODPFchsJetSumIP"                 , &AODPFchsJetSumIP_);
+//  tree->Branch("AODPFchsJetSumIPSig"              , &AODPFchsJetSumIPSig_);
+//  tree->Branch("AODPFchsJetMedianIP"              , &AODPFchsJetMedianIP_);
+//  tree->Branch("AODPFchsJetMedianLog10IPSig"      , &AODPFchsJetMedianLog10IPSig_);
+//  tree->Branch("AODPFchsJetTrackAngle"            , &AODPFchsJetTrackAngle_);
+//  tree->Branch("AODPFchsJetLogTrackAngle"         , &AODPFchsJetLogTrackAngle_);
 //  tree->Branch("AODPFchsJetMedianLog10TrackAngle" , &AODPFchsJetMedianLog10TrackAngle_);
 //  tree->Branch("AODPFchsJetTotalTrackAngle"       , &AODPFchsJetTotalTrackAngle_);
 
@@ -310,20 +441,29 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
  // cleanup from previous execution
 
  AODnCaloJet_=0;
+ AODCaloJetEnergy_.clear();
  AODCaloJetPt_.clear();
+ AODCaloJetEnergyUncorrected_.clear();
+ AODCaloJetPtUncorrected_.clear();
  AODCaloJetPt_JECUp_.clear();
  AODCaloJetPt_JECDown_.clear();
  AODCaloJetEta_.clear();
  AODCaloJetPhi_.clear();
+ AODCaloJetID_.clear();
+ AODCaloJetMass_.clear();
+ AODCaloJetArea_.clear();
+ AODCaloJetPileup_.clear();
+
  //AODnTracksToCaloJet_.clear();
  AODCaloJetNMatchedTracks_.clear();
+ AODCaloJetCorrectedNMatchedTracks_.clear();
 
- AODCaloJetAlphaMax_.clear();                               
- AODCaloJetAlphaMax2_.clear();                               
- AODCaloJetAlphaMaxPrime_.clear();                               
- AODCaloJetAlphaMaxPrime2_.clear();                               
- AODCaloJetBeta_.clear();                               
- AODCaloJetBeta2_.clear();                               
+ AODCaloJetAlphaMax_.clear();
+ AODCaloJetAlphaMax2_.clear();
+ AODCaloJetAlphaMaxPrime_.clear();
+ AODCaloJetAlphaMaxPrime2_.clear();
+ AODCaloJetBeta_.clear();
+ AODCaloJetBeta2_.clear();
 
  AODCaloJetSumIP_.clear();
  AODCaloJetSumIPSig_.clear();
@@ -361,6 +501,61 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
  AODCaloJetAvfVertexDeltaZtoPV_.clear();
  AODCaloJetAvfVertexDeltaZtoPV2_.clear();
 
+ //------------------
+ //Corrected CaloJets
+ //------------------
+ AODnCaloJetCorrected_=0;
+ AODCaloJetCorrectedPt_.clear();
+ AODCaloJetCorrectedPt_JECUp_.clear();
+ AODCaloJetCorrectedPt_JECDown_.clear();
+ AODCaloJetCorrectedEta_.clear();
+ AODCaloJetCorrectedPhi_.clear();
+ //AODnTracksToCaloJet_.clear();
+ AODCaloJetCorrectedNMatchedTracks_.clear();
+
+ AODCaloJetCorrectedAlphaMax_.clear();
+ AODCaloJetCorrectedAlphaMax2_.clear();
+ AODCaloJetCorrectedAlphaMaxPrime_.clear();
+ AODCaloJetCorrectedAlphaMaxPrime2_.clear();
+ AODCaloJetCorrectedBeta_.clear();
+ AODCaloJetCorrectedBeta2_.clear();
+
+ AODCaloJetCorrectedSumIP_.clear();
+ AODCaloJetCorrectedSumIPSig_.clear();
+ AODCaloJetCorrectedMedianIP_.clear();
+ AODCaloJetCorrectedMedianLog10IPSig_.clear();
+ AODCaloJetCorrectedTrackAngle_.clear();
+ AODCaloJetCorrectedLogTrackAngle_.clear();
+ AODCaloJetCorrectedMedianLog10TrackAngle_.clear();
+ AODCaloJetCorrectedTotalTrackAngle_.clear();
+
+ AODCaloJetCorrectedAvfVx_.clear();
+ AODCaloJetCorrectedAvfVy_.clear();
+ AODCaloJetCorrectedAvfVz_.clear();
+ AODCaloJetCorrectedAvfVertexTotalChiSquared_.clear();
+ AODCaloJetCorrectedAvfVertexDegreesOfFreedom_.clear();
+ AODCaloJetCorrectedAvfVertexChi2NDoF_.clear();
+ AODCaloJetCorrectedAvfVertexDistanceToBeam_.clear();
+ AODCaloJetCorrectedAvfVertexTransverseError_.clear();
+ AODCaloJetCorrectedAvfVertexTransverseSig_.clear();
+ AODCaloJetCorrectedAvfVertexDeltaEta_.clear();
+ AODCaloJetCorrectedAvfVertexDeltaPhi_.clear();
+ AODCaloJetCorrectedAvfVertexRecoilPt_.clear();
+ AODCaloJetCorrectedAvfVertexTrackMass_.clear();
+ AODCaloJetCorrectedAvfVertexTrackEnergy_.clear();
+ AODCaloJetCorrectedAvfBeamSpotDeltaPhi_.clear();
+ AODCaloJetCorrectedAvfBeamSpotRecoilPt_.clear();
+ AODCaloJetCorrectedAvfBeamSpotMedianDeltaPhi_.clear();
+ AODCaloJetCorrectedAvfBeamSpotLog10MedianDeltaPhi_.clear();
+ AODCaloJetCorrectedNCleanMatchedTracks_.clear();
+ AODCaloJetCorrectedSumHitsInFrontOfVert_.clear();
+ AODCaloJetCorrectedSumMissHitsAfterVert_.clear();
+ AODCaloJetCorrectedHitsInFrontOfVertPerTrack_.clear();
+ AODCaloJetCorrectedMissHitsAfterVertPerTrack_.clear();
+ AODCaloJetCorrectedAvfDistToPV_.clear();
+ AODCaloJetCorrectedAvfVertexDeltaZtoPV_.clear();
+ AODCaloJetCorrectedAvfVertexDeltaZtoPV2_.clear();
+
  //// PAT Jets
  //AODnPATJet_ = 0;
  //AODPATJetPartonFlavour_.clear();
@@ -390,7 +585,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 // AODPFJetLogTrackAngle_.clear();
 // AODPFJetMedianLog10TrackAngle_.clear();
 // AODPFJetTotalTrackAngle_.clear();
-// 
+//
 // // PFchs Jets
 // AODnPFchsJet_=0;
 // AODPFchsJetID_.clear();
@@ -411,17 +606,17 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 // AODPFchsJetLogTrackAngle_.clear();
 // AODPFchsJetMedianLog10TrackAngle_.clear();
 // AODPFchsJetTotalTrackAngle_.clear();
- 
+
  //e.getByToken(rhoLabel_, rhoHandle);
  //float rho = *(rhoHandle.product());
- 
+
 // e.getByToken(vtxLabel_, vtxHandle);
 // if (!vtxHandle.isValid()) edm::LogWarning("lldjNtuple") << "Primary vertices info not unavailable";
 
-// // Accessing the JEC uncertainties 
-// //ak4  
+// // Accessing the JEC uncertainties
+// //ak4
 // edm::ESHandle<JetCorrectorParametersCollection> JetCorParColl;
-// es.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl); 
+// es.get<JetCorrectionsRecord>().get("AK4PFchs",JetCorParColl);
 // JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
 // JetCorrectionUncertainty *jecUnc=0;
 // jecUnc = new JetCorrectionUncertainty(JetCorPar);
@@ -431,17 +626,20 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 // // JetCorrectorParameters const & AK8JetCorPar = (*AK8JetCorParColl)["Uncertainty"];
 // // JetCorrectionUncertainty *AK8jecUnc=0;
 // // AK8jecUnc = new JetCorrectionUncertainty(AK8JetCorPar);
- 
+
  // ----------------------------------------------------------
  // AOD Section ----------------------------------------------
- 
+
  bool verbose_AOD = false;
- 
+
  // AOD Jet Handles
- e.getByToken( AODak4CaloJetsLabel_ ,  AODak4CaloJetsHandle  );   
- //e.getByToken( AODak4PFJetsLabel_   ,  AODak4PFJetsHandle    );     
- //e.getByToken( AODak4PFJetsCHSLabel_,  AODak4PFJetsCHSHandle );  
- //e.getByToken( selectedPatJetsLabel_,  selectedPatJetsHandle );  
+ e.getByToken( AODak4CaloJetsLabel_ ,  AODak4CaloJetsHandle  );
+ e.getByToken( AODak4CaloCorrectedJetsLabel_,  AODak4CaloJetsCorrectedHandle  );
+ e.getByToken( AODak4JetCorrectorLabel_, JetCorrector );
+
+ //e.getByToken( AODak4PFJetsLabel_   ,  AODak4PFJetsHandle    );
+ //e.getByToken( AODak4PFJetsCHSLabel_,  AODak4PFJetsCHSHandle );
+ //e.getByToken( selectedPatJetsLabel_,  selectedPatJetsHandle );
  e.getByToken( AODVertexLabel_      ,  AODVertexHandle );
  e.getByToken( AODTrackLabel_       ,  AODTrackHandle );
 
@@ -449,17 +647,19 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
  es.get<IdealMagneticFieldRecord>().get(magneticField);
  magneticField_ = &*magneticField;
 
- //JEC uncertainties Daniel
- //es.get<JetCorrectionsRecord>().get("AK4Calo",JetCorParColl); 
- //JetCorrectorParameters const & JetCorPar = (*JetCorParColl)["Uncertainty"];
- //JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(JetCorPar);
- 
+ //------------------------------
+ //JEC uncertainties for CaloJets
+ //------------------------------
+ es.get<JetCorrectionsRecord>().get("AK4Calo", JetCorrParColl_Handle);
+ JetCorrectorParameters const & JetCorrPar = (*JetCorrParColl_Handle)["Uncertainty"];
+ JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(JetCorrPar);
+
  // beamspot
  e.getByToken(beamspotLabel_, beamspotHandle_);
 
  // clear values
  int nMissingInner = 0;
- int nMissingOuter = 0; 
+ int nMissingOuter = 0;
 
  // propagator
  std::string thePropagatorName_ = "PropagatorWithMaterial";
@@ -474,21 +674,21 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
  vtxfitter_ = new ConfigurableVertexReconstructor(lldj_pset_.getParameter<edm::ParameterSet>("vertexFitterConfig"));
 
  // clear master track vectors before starting track loop
- AODallTrackPositions       .clear(); 
- AODallTrackPt              .clear(); 
- AODallTrackEta             .clear(); 
- AODallTrackPhi             .clear(); 
- AODallTrackIFSPt           .clear(); 
- AODallTracknMissingInner   .clear(); 
- AODallTracknMissingOuter   .clear(); 
- AODallTrackAngle           .clear(); 
- AODwhichVertexByTrack      .clear(); 
- AODallTrackdxy             .clear(); 
- AODallTrackdxyerr          .clear(); 
+ AODallTrackPositions       .clear();
+ AODallTrackPt              .clear();
+ AODallTrackEta             .clear();
+ AODallTrackPhi             .clear();
+ AODallTrackIFSPt           .clear();
+ AODallTracknMissingInner   .clear();
+ AODallTracknMissingOuter   .clear();
+ AODallTrackAngle           .clear();
+ AODwhichVertexByTrack      .clear();
+ AODallTrackdxy             .clear();
+ AODallTrackdxyerr          .clear();
 
  for(int j = 0; j < (int)AODTrackHandle->size(); j++){
 
-  // get track j using the AOD track handle 
+  // get track j using the AOD track handle
   reco::TrackBaseRef tref(AODTrackHandle,j);
   // make transient track (unfolding effects of B field ?)
   reco::TransientTrack tt(AODTrackHandle->at(j),magneticField_);
@@ -518,7 +718,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   float tracketa = tref->eta();
   float trackphi = tref->phi();
   float ttIFSpt  = tt.initialFreeState().momentum().transverse();
-  AODallTrackPt .push_back(trackpt );  
+  AODallTrackPt .push_back(trackpt );
   AODallTrackEta.push_back(tracketa);
   AODallTrackPhi.push_back(trackphi);
   AODallTrackIFSPt.push_back(ttIFSpt);
@@ -527,17 +727,17 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   // we are on track j
   // loop over vertices
   // reassign index bestk if trackWeight is new max
-  float maxWeight = 0; 
+  float maxWeight = 0;
   int bestk = -1;
-  for(int k = 0; k < (int)AODVertexHandle->size();k++){        
-   if(AODVertexHandle->at(k).trackWeight(tref) > maxWeight){  
-    maxWeight = AODVertexHandle->at(k).trackWeight(tref);    
-    bestk = k;                                               
-   }                                                          
-  }                                                            
-  AODwhichVertexByTrack.push_back(bestk); 
-  
-  // Number of missing tracker hits 
+  for(int k = 0; k < (int)AODVertexHandle->size();k++){
+   if(AODVertexHandle->at(k).trackWeight(tref) > maxWeight){
+    maxWeight = AODVertexHandle->at(k).trackWeight(tref);
+    bestk = k;
+   }
+  }
+  AODwhichVertexByTrack.push_back(bestk);
+
+  // Number of missing tracker hits
   nMissingInner = tref->hitPattern().numberOfLostTrackerHits(reco::HitPattern::MISSING_INNER_HITS);
   nMissingOuter = tref->hitPattern().numberOfLostTrackerHits(reco::HitPattern::MISSING_OUTER_HITS);
   AODallTracknMissingInner.push_back(nMissingInner) ;
@@ -545,10 +745,10 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 
   /// For track angle
   // get track trajectory info
-  static GetTrackTrajInfo getTrackTrajInfo; 
+  static GetTrackTrajInfo getTrackTrajInfo;
   vector<GetTrackTrajInfo::Result> trajInfo = getTrackTrajInfo.analyze(es, (*tref));
   if ( trajInfo.size() > 0 && trajInfo[0].valid) {
-   // get inner tracker hit from trajectory state 
+   // get inner tracker hit from trajectory state
    const TrajectoryStateOnSurface& tsosInnerHit = trajInfo[0].detTSOS;
 
    //  here's the track angle
@@ -558,7 +758,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
    // find track trajectory state on surface inner hit
    GlobalPoint  innerPos = tsosInnerHit.globalPosition();
    GlobalVector innerMom = tsosInnerHit.globalMomentum();
-   
+
    // calculate the difference between inner hit and beamspot
    TVector2 sv(innerPos.x(),innerPos.y());
    TVector2 diff = (sv-bmspot);
@@ -581,7 +781,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   if(verbose_AOD) printf(" dxy dxyerr: %0.4f %0.4f\n", dxy, dxyerr);
   AODallTrackdxy   .push_back(dxy   ) ;
   AODallTrackdxyerr.push_back(dxyerr) ;
-   
+
  }//end track loop
 
  //Debug printing
@@ -590,50 +790,192 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
    reco::TrackBaseRef tref(AODTrackHandle,j);
    printf("AOD track pt eta phi: %f %f %f\n",tref->pt(),tref->eta(),tref->phi());
   }
- 
-  printf("  AODallTrackPositions      %i \n",  (int)AODallTrackPositions    .size() ); 
-  printf("  AODallTrackPt             %i \n",  (int)AODallTrackPt           .size() ); 
-  printf("  AODallTrackEta            %i \n",  (int)AODallTrackEta          .size() ); 
-  printf("  AODallTrackPhi            %i \n",  (int)AODallTrackPhi          .size() ); 
-  printf("  AODallTrackIFSPt          %i \n",  (int)AODallTrackIFSPt        .size() ); 
-  printf("  AODallTracknMissingInner  %i \n",  (int)AODallTracknMissingInner.size() ); 
-  printf("  AODallTracknMissingOuter  %i \n",  (int)AODallTracknMissingOuter.size() ); 
-  printf("  AODallTrackAngle          %i \n",  (int)AODallTrackAngle        .size() ); 
-  printf("  AODwhichVertexByTrack     %i \n",  (int)AODwhichVertexByTrack   .size() ); 
-  printf("  AODallTrackdxy            %i \n",  (int)AODallTrackdxy          .size() ); 
-  printf("  AODallTrackdxyerr         %i \n",  (int)AODallTrackdxyerr       .size() ); 
+
+  printf("  AODallTrackPositions      %i \n",  (int)AODallTrackPositions    .size() );
+  printf("  AODallTrackPt             %i \n",  (int)AODallTrackPt           .size() );
+  printf("  AODallTrackEta            %i \n",  (int)AODallTrackEta          .size() );
+  printf("  AODallTrackPhi            %i \n",  (int)AODallTrackPhi          .size() );
+  printf("  AODallTrackIFSPt          %i \n",  (int)AODallTrackIFSPt        .size() );
+  printf("  AODallTracknMissingInner  %i \n",  (int)AODallTracknMissingInner.size() );
+  printf("  AODallTracknMissingOuter  %i \n",  (int)AODallTracknMissingOuter.size() );
+  printf("  AODallTrackAngle          %i \n",  (int)AODallTrackAngle        .size() );
+  printf("  AODwhichVertexByTrack     %i \n",  (int)AODwhichVertexByTrack   .size() );
+  printf("  AODallTrackdxy            %i \n",  (int)AODallTrackdxy          .size() );
+  printf("  AODallTrackdxyerr         %i \n",  (int)AODallTrackdxyerr       .size() );
  }
 
 
+ //std::cout << "--- new event ----" << std::endl;
+ //-----------------------------------------------------------
+ // UNCorrected ak4CaloL1FastL2L3ResidualCorrector AOD Calo Jets
+ //-----------------------------------------------------------
  // AOD Calo Jets -------------------------------------------
  for (edm::View<reco::CaloJet>::const_iterator iJet = AODak4CaloJetsHandle->begin(); iJet != AODak4CaloJetsHandle->end(); ++iJet) {
 
   if(verbose_AOD) printf("Calo %f \n",iJet->pt());
-  
-  float jetpt  = iJet->pt();
-  float jeteta = iJet->eta();
-  float jetphi = iJet->phi();
-  
-  //jecUnc->setJetEta(iJet->eta());
-  //jecUnc->setJetPt(iJet->pt()); // here you must use the CORRECTED jet pt
-  //double unc = jecUnc->getUncertainty(true);
-  //double ptCor_shiftedUP = jetpt*(1+(1)*unc) ; // shift = +1(up), or -1(down)
-  //double ptCor_shiftedDN = jetpt*(1+(-1)*unc) ; // shift = +1(up), or -1(down)
+
+  float jet_energy_uncorrected = iJet->energy();
+  float jet_pt_uncorrected     = iJet->pt();
+  float jet_eta                = iJet->eta();
+  float jet_phi                = iJet->phi();
+
+  float jet_mass               = iJet->mass();
+  float jet_area               = iJet->jetArea();
+  float jet_pileup             = iJet->pileup();
+  //----------------------------------------------
+  //get corrector factor based on jet object
+  //----------------------------------------------
+  double corrfac = JetCorrector->correction(*iJet);
+  //correct energy and pt
+  float jet_energy = corrfac*iJet->energy();
+  float jet_pt     = corrfac*iJet->pt();
+
+  //--------------------------------------------
+  //Get JEC
+  //--------------------------------------------
+  jecUnc->setJetEta(jet_eta);
+  jecUnc->setJetPt(jet_pt); // here you must use the CORRECTED jet pt
+  double unc = jecUnc->getUncertainty(true);
+  double ptCor_shiftedUP = jet_pt*(1+(1)*unc) ; // shift = +1(up), or -1(down)
+  double ptCor_shiftedDN = jet_pt*(1+(-1)*unc) ; // shift = +1(up), or -1(down)
 
   // ID and jet selections
   bool passID = false;
   if( iJet->emEnergyFraction()>=0.0
    && iJet->emEnergyFraction()<=0.9
    && iJet->energyFractionHadronic()>=0.0
-   && iJet->energyFractionHadronic()<=0.9)  passID = true; 
+   && iJet->energyFractionHadronic()<=0.9)  passID = true;
 
-  if(iJet->pt()<20.0 || fabs(iJet->eta())>2.4 || !passID) continue;
+  //if(iJet->pt()<20.0 || fabs(iJet->eta())>2.4 || !passID) continue;
+  if(iJet->pt()<0.0 || fabs(iJet->eta())>3.0) continue;
+  //if(jetpt_corr<10.0 || fabs(iJet->eta())>3.0) continue;
 
-  // caloJetTrackIDs is a vector of ints where each int is the 
+  // caloJetTrackIDs is a vector of ints where each int is the
+  // index of a track passing deltaR requirement to this jet
+  // out of the master track record of tracks passing basic selections
+  vector<int>   caloJetTrackIDs = getJetTrackIndexs( jet_eta, jet_phi );
+  AODCaloJetNMatchedTracks_.push_back( caloJetTrackIDs.size() );
+
+  if(caloJetTrackIDs.size()<1) continue;
+
+  if(verbose_AOD){
+   printf(" AOD Jet pt eta phi: %0.1f %0.1f %0.1f\n",jet_pt,jet_eta,jet_phi);
+   for( int i=0; i<(int)AODallTrackPositions.size(); i++){
+    printf("  allTrack %i %0.1f %0.1f %0.1f \n",i,
+     AODallTrackPt [i] ,
+     AODallTrackEta[i] ,
+     AODallTrackPhi[i] );
+
+   }
+   for( int i=0; i<(int)caloJetTrackIDs.size(); i++){
+    printf(" Track %i at %i \n",i,caloJetTrackIDs[i]);
+    printf("  caloTrack %i=%i %0.1f %0.1f %0.1f \n",i,
+     caloJetTrackIDs[i],
+     AODallTrackPt [caloJetTrackIDs[i]] ,
+     AODallTrackEta[caloJetTrackIDs[i]] ,
+     AODallTrackPhi[caloJetTrackIDs[i]] );
+   }
+  }
+
+  // initialize variables
+  float alphaMax,alphaMaxPrime,beta,alphaMax2,alphaMaxPrime2,beta2 = -1.;
+  float totalTrackAngle, totalTrackAnglePt = 0.;
+  float sumIP, sumIPSig = 0.;
+  vector<float> caloJetTrackAngles;
+  caloJetTrackAngles.clear();
+  vector<float> caloJetIPs;
+  caloJetIPs.clear();
+  vector<float> caloJetIPSigs;
+  caloJetIPSigs.clear();
+
+  // do calculations
+  calculateAlphaMax(caloJetTrackIDs,alphaMax,alphaMaxPrime,beta,alphaMax2,alphaMaxPrime2,beta2);
+  calculateTrackAngle(caloJetTrackIDs, caloJetTrackAngles, totalTrackAngle, totalTrackAnglePt);
+  calculateIP(caloJetTrackIDs, caloJetIPs, caloJetIPSigs, sumIP, sumIPSig);
+  calculateDisplacedVertices(es, caloJetTrackIDs);
+
+  // find medians
+  float medianTrackAngle;
+  medianTrackAngle = findMedian(caloJetTrackAngles);
+  float medianIP;
+  medianIP = findMedian(caloJetIPs);
+  float medianIPSig;
+  medianIPSig = findMedian(caloJetIPSigs);
+
+  ////////////////////////
+  // Fill tree
+  /////////////////////////
+  AODnCaloJet_++;
+
+  //Pt, Eta, Phi
+  AODCaloJetEnergy_.push_back(jet_energy);
+  AODCaloJetPt_.push_back(jet_pt);
+  AODCaloJetEnergyUncorrected_.push_back(jet_energy_uncorrected);
+  AODCaloJetPtUncorrected_.push_back(jet_pt_uncorrected);
+  AODCaloJetPt_JECUp_.push_back(ptCor_shiftedUP);
+  AODCaloJetPt_JECDown_.push_back(ptCor_shiftedDN);
+  AODCaloJetEta_.push_back(jet_eta);
+  AODCaloJetPhi_.push_back(jet_phi);
+  AODCaloJetID_.push_back(passID);
+  AODCaloJetMass_.push_back(jet_mass);
+  AODCaloJetArea_.push_back(jet_area);
+  AODCaloJetPileup_.push_back(jet_pileup);
+
+  //AlphaMax-type variables
+  AODCaloJetAlphaMax_       .push_back(alphaMax      ) ;
+  AODCaloJetAlphaMax2_      .push_back(alphaMax2     ) ;
+  AODCaloJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ;
+  AODCaloJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ;
+  AODCaloJetBeta_           .push_back(beta          ) ;
+  AODCaloJetBeta2_          .push_back(beta2         ) ;
+
+  //Totals
+  AODCaloJetSumIP_.push_back(sumIP);
+  AODCaloJetSumIPSig_.push_back(sumIPSig);
+
+  AODCaloJetTotalTrackAngle_.push_back(totalTrackAngle);
+
+  /////Medians
+  AODCaloJetMedianIP_             .push_back(medianIP);
+  AODCaloJetMedianLog10IPSig_     .push_back(log10(medianIPSig));
+  AODCaloJetMedianLog10TrackAngle_.push_back(log10(medianTrackAngle));
+
+ }
+
+ //-----------------------------------------------------------
+ // Corrected ak4CaloL1FastL2L3ResidualCorrector AOD Calo Jets
+ //-----------------------------------------------------------
+ //std::cout << "---corrected jets ------" << std::endl
+/*
+ ctr = 0;
+ for (edm::View<reco::CaloJet>::const_iterator iJet = AODak4CaloJetsCorrectedHandle->begin(); iJet != AODak4CaloJetsCorrectedHandle->end(); ++iJet) {
+
+  if(verbose_AOD) printf("Calo %f \n",iJet->pt());
+
+  float jetpt  = iJet->pt();
+  float jeteta = iJet->eta();
+  float jetphi = iJet->phi();
+  //std::cout << "i: " << ctr << " jet -> " << jetpt << " " << jeteta << " " << jetphi << std::endl;
+  ctr++;
+  jecUnc->setJetEta(iJet->eta());
+  jecUnc->setJetPt(iJet->pt()); // here you must use the CORRECTED jet pt
+  double unc = jecUnc->getUncertainty(true);
+  double ptCor_shiftedUP = jetpt*(1+(1)*unc) ; // shift = +1(up), or -1(down)
+  double ptCor_shiftedDN = jetpt*(1+(-1)*unc) ; // shift = +1(up), or -1(down)
+
+  // ID and jet selections
+  bool passID = false;
+  if( iJet->emEnergyFraction()>=0.0
+   && iJet->emEnergyFraction()<=0.9
+   && iJet->energyFractionHadronic()>=0.0
+   && iJet->energyFractionHadronic()<=0.9)  passID = true;
+  //if(iJet->pt()<20.0 || fabs(iJet->eta())>2.4 || !passID) continue;
+  if(iJet->pt()<0.0 || fabs(iJet->eta())>3.0) continue;
+  // caloJetTrackIDs is a vector of ints where each int is the
   // index of a track passing deltaR requirement to this jet
   // out of the master track record of tracks passing basic selections
   vector<int>   caloJetTrackIDs = getJetTrackIndexs( jeteta, jetphi );
-  AODCaloJetNMatchedTracks_.push_back( caloJetTrackIDs.size() );
+  AODCaloJetCorrectedNMatchedTracks_.push_back( caloJetTrackIDs.size() );
 
   if(caloJetTrackIDs.size()<1) continue;
 
@@ -660,11 +1002,11 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   float alphaMax,alphaMaxPrime,beta,alphaMax2,alphaMaxPrime2,beta2 = -1.;
   float totalTrackAngle, totalTrackAnglePt = 0.;
   float sumIP, sumIPSig = 0.;
-  vector<float> caloJetTrackAngles; 
+  vector<float> caloJetTrackAngles;
   caloJetTrackAngles.clear();
-  vector<float> caloJetIPs; 
+  vector<float> caloJetIPs;
   caloJetIPs.clear();
-  vector<float> caloJetIPSigs; 
+  vector<float> caloJetIPSigs;
   caloJetIPSigs.clear();
 
   // do calculations
@@ -684,55 +1026,59 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   ////////////////////////
   // Fill tree
   /////////////////////////
-  AODnCaloJet_++;
-  
+  AODnCaloJetCorrected_++;
+
   //Pt, Eta, Phi
-  AODCaloJetPt_.push_back(jetpt);
-  //AODCaloJetPt_JECUp_.push_back(ptCor_shiftedUP);
-  //AODCaloJetPt_JECDown_.push_back(ptCor_shiftedDN);
-  AODCaloJetEta_.push_back(jeteta);
-  AODCaloJetPhi_.push_back(jetphi);
-  
+  AODCaloJetCorrectedPt_.push_back(jetpt);
+  AODCaloJetCorrectedPt_JECUp_.push_back(ptCor_shiftedUP);
+  AODCaloJetCorrectedPt_JECDown_.push_back(ptCor_shiftedDN);
+  AODCaloJetCorrectedEta_.push_back(jeteta);
+  AODCaloJetCorrectedPhi_.push_back(jetphi);
+
   //AlphaMax-type variables
-  AODCaloJetAlphaMax_       .push_back(alphaMax      ) ; 
-  AODCaloJetAlphaMax2_      .push_back(alphaMax2     ) ; 
-  AODCaloJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ; 
-  AODCaloJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ; 
-  AODCaloJetBeta_           .push_back(beta          ) ; 
-  AODCaloJetBeta2_          .push_back(beta2         ) ; 
+  AODCaloJetCorrectedAlphaMax_       .push_back(alphaMax      ) ;
+  AODCaloJetCorrectedAlphaMax2_      .push_back(alphaMax2     ) ;
+  AODCaloJetCorrectedAlphaMaxPrime_  .push_back(alphaMaxPrime ) ;
+  AODCaloJetCorrectedAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ;
+  AODCaloJetCorrectedBeta_           .push_back(beta          ) ;
+  AODCaloJetCorrectedBeta2_          .push_back(beta2         ) ;
 
   //Totals
-  AODCaloJetSumIP_.push_back(sumIP);
-  AODCaloJetSumIPSig_.push_back(sumIPSig);
+  AODCaloJetCorrectedSumIP_.push_back(sumIP);
+  AODCaloJetCorrectedSumIPSig_.push_back(sumIPSig);
 
-  AODCaloJetTotalTrackAngle_.push_back(totalTrackAngle);    
+  AODCaloJetCorrectedTotalTrackAngle_.push_back(totalTrackAngle);
 
   /////Medians
-  AODCaloJetMedianIP_             .push_back(medianIP);
-  AODCaloJetMedianLog10IPSig_     .push_back(log10(medianIPSig));
-  AODCaloJetMedianLog10TrackAngle_.push_back(log10(medianTrackAngle));
+  AODCaloJetCorrectedMedianIP_             .push_back(medianIP);
+  AODCaloJetCorrectedMedianLog10IPSig_     .push_back(log10(medianIPSig));
+  AODCaloJetCorrectedMedianLog10TrackAngle_.push_back(log10(medianTrackAngle));
 
  }
+*/
+
+
+
 
 
  //// PAT jets for heavy flavor studies (ak4 pf chs)
  //for (edm::View<pat::Jet>::const_iterator iJet = selectedPatJetsHandle->begin(); iJet != selectedPatJetsHandle->end(); ++iJet) {
 
- //  if(iJet->pt()<15.0 || fabs(iJet->eta())>3) continue; 
- //  
+ //  if(iJet->pt()<15.0 || fabs(iJet->eta())>3) continue;
+ //
  //  AODnPATJet_++;
  //  AODPATJetPt_.push_back(iJet->pt());
  //  AODPATJetEta_.push_back(iJet->eta());
  //  AODPATJetPhi_.push_back(iJet->phi());
- //  AODPATJetPartonFlavour_.push_back(iJet->partonFlavour()); 
+ //  AODPATJetPartonFlavour_.push_back(iJet->partonFlavour());
  //  AODPATJetCSV_.push_back(iJet->bDiscriminator("pfCombinedSecondaryVertexV2BJetTags"));
  //  AODPATJetMVA_.push_back(iJet->bDiscriminator("pfCombinedMVAV2BJetTags"));
  //}
-  
-	
+
+
 /// // AOD PF Jets -------------------------------------------
 /// for (edm::View<reco::PFJet>::const_iterator iJet = AODak4PFJetsHandle->begin(); iJet != AODak4PFJetsHandle->end(); ++iJet) {
-///	 
+///
 ///// Remove code casting reco jet as PAT jet, because these will not have btag or partonFlavour
 /////
 ///// if TagInfo present
@@ -741,14 +1087,14 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 /////     std::cout<<" PF jet has Tag info"<<std::endl;
 /////    //const reco::CandSecondaryVertexTagInfo *candSVTagInfo = jet->tagInfoCandSecondaryVertex("pfInclusiveSecondaryVertexFinder");
 /////    //// if there is at least one reconstructed SV
-/////    //if( candSVTagInfo->nVertices() >= 1 ) 
+/////    //if( candSVTagInfo->nVertices() >= 1 )
 /////    //{
 /////    //  std::cout << "Found secondary vertex with a flight distance of " << candSVTagInfo->flightDistance(0).value() << " cm" << std::endl;
 /////    //}
 /////  }
 ///
 ///  if(verbose_AOD) printf("PF %f \n",iJet->pt());
-///  
+///
 ///  //test btagging
 ///  //std::cout << "partonFlavour " << iJet->partonFlavour() << std::endl;
 ///
@@ -768,7 +1114,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  float pfjetCEMF                = iJet->chargedEmEnergyFraction();
 ///  float pfjetNumConst            = iJet->chargedMultiplicity()+iJet->neutralMultiplicity();
 ///  float pfjetNumNeutralParticle  = iJet->neutralMultiplicity();
-///  float pfjetCHM                 = iJet->chargedMultiplicity(); 
+///  float pfjetCHM                 = iJet->chargedMultiplicity();
 ///
 ///  if ( fabs(jeteta) <= 2.7 ){
 ///   pfjetPassLooseID = (pfjetNHF<0.99 && pfjetNEMF<0.99 && pfjetNumConst>1) && ((abs(jeteta)<=2.4 && pfjetCHF>0 && pfjetCHM>0 && pfjetCEMF<0.99) || abs(jeteta)>2.4) && abs(jeteta)<=2.7 ;
@@ -780,7 +1126,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  }
 ///  if ( fabs(jeteta) > 3.0 ){
 ///   pfjetPassLooseID = (pfjetNEMF<0.90 && pfjetNumNeutralParticle>10 ) ;
-///   pfjetPassTightID = (pfjetNEMF<0.90 && pfjetNumNeutralParticle>10 ) ; 
+///   pfjetPassTightID = (pfjetNEMF<0.90 && pfjetNumNeutralParticle>10 ) ;
 ///  }
 ///
 ///  Int_t AODPFJetIDdecision = 0;
@@ -818,11 +1164,11 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  float alphaMax,alphaMaxPrime,beta,alphaMax2,alphaMaxPrime2,beta2 = -1.;
 ///  float totalTrackAngle, totalTrackAnglePt = 0.;
 ///  float sumIP, sumIPSig = 0.;
-///  vector<float> pfJetTrackAngles; 
+///  vector<float> pfJetTrackAngles;
 ///  pfJetTrackAngles.clear();
-///  vector<float> pfJetIPs; 
+///  vector<float> pfJetIPs;
 ///  pfJetIPs.clear();
-///  vector<float> pfJetIPSigs; 
+///  vector<float> pfJetIPSigs;
 ///  pfJetIPSigs.clear();
 ///
 ///  // do calculations
@@ -843,26 +1189,26 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  // Fill tree
 ///  /////////////////////////
 ///  AODnPFJet_++;
-///  
+///
 ///  //Pt, Eta, Phi
 ///  AODPFJetPt_.push_back(jetpt);
 ///  AODPFJetEta_.push_back(jeteta);
 ///  AODPFJetPhi_.push_back(jetphi);
-///  AODPFJetID_.push_back(AODPFJetIDdecision);    
-///  
+///  AODPFJetID_.push_back(AODPFJetIDdecision);
+///
 ///  //AlphaMax-type variables
-///  AODPFJetAlphaMax_       .push_back(alphaMax      ) ; 
-///  AODPFJetAlphaMax2_      .push_back(alphaMax2     ) ; 
-///  AODPFJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ; 
-///  AODPFJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ; 
-///  AODPFJetBeta_           .push_back(beta          ) ; 
-///  AODPFJetBeta2_          .push_back(beta2         ) ; 
+///  AODPFJetAlphaMax_       .push_back(alphaMax      ) ;
+///  AODPFJetAlphaMax2_      .push_back(alphaMax2     ) ;
+///  AODPFJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ;
+///  AODPFJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ;
+///  AODPFJetBeta_           .push_back(beta          ) ;
+///  AODPFJetBeta2_          .push_back(beta2         ) ;
 ///
 ///  //Totals
 ///  AODPFJetSumIP_.push_back(sumIP);
 ///  AODPFJetSumIPSig_.push_back(sumIPSig);
 ///
-///  AODPFJetTotalTrackAngle_.push_back(totalTrackAngle);    
+///  AODPFJetTotalTrackAngle_.push_back(totalTrackAngle);
 ///
 ///  /////Medians
 ///  AODPFJetMedianIP_             .push_back(medianIP);
@@ -875,7 +1221,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 /// for (edm::View<reco::PFJet>::const_iterator iJet = AODak4PFJetsCHSHandle->begin(); iJet != AODak4PFJetsCHSHandle->end(); ++iJet) {
 ///
 ///  if(verbose_AOD) printf("PFchs %f \n",iJet->pt());
-///  
+///
 ///  float jetpt  = iJet->pt();
 ///  float jeteta = iJet->eta();
 ///  float jetphi = iJet->phi();
@@ -892,7 +1238,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  float pfchsjetCEMF                = iJet->chargedEmEnergyFraction();
 ///  float pfchsjetNumConst            = iJet->chargedMultiplicity()+iJet->neutralMultiplicity();
 ///  float pfchsjetNumNeutralParticle  = iJet->neutralMultiplicity();
-///  float pfchsjetCHM                 = iJet->chargedMultiplicity(); 
+///  float pfchsjetCHM                 = iJet->chargedMultiplicity();
 ///
 ///  if ( fabs(jeteta) <= 2.7 ){
 ///   pfchsjetPassLooseID = (pfchsjetNHF<0.99 && pfchsjetNEMF<0.99 && pfchsjetNumConst>1) && ((abs(jeteta)<=2.4 && pfchsjetCHF>0 && pfchsjetCHM>0 && pfchsjetCEMF<0.99) || abs(jeteta)>2.4) && abs(jeteta)<=2.7 ;
@@ -904,7 +1250,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  }
 ///  if ( fabs(jeteta) > 3.0 ){
 ///   pfchsjetPassLooseID = (pfchsjetNEMF<0.90 && pfchsjetNumNeutralParticle>10 ) ;
-///   pfchsjetPassTightID = (pfchsjetNEMF<0.90 && pfchsjetNumNeutralParticle>10 ) ; 
+///   pfchsjetPassTightID = (pfchsjetNEMF<0.90 && pfchsjetNumNeutralParticle>10 ) ;
 ///  }
 ///
 ///  Int_t AODPFchsJetIDdecision = 0;
@@ -913,7 +1259,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///
 ///  if(iJet->pt()<20.0 || fabs(iJet->eta())>2.4 || AODPFchsJetIDdecision==0) continue;
 ///
-///  // pfchsJetTrackIDs is a vector of ints where each int is the 
+///  // pfchsJetTrackIDs is a vector of ints where each int is the
 ///  // index of a track passing deltaR requirement to this jet
 ///  // out of the master track record of tracks passing basic selections
 ///  vector<int>   pfchsJetTrackIDs = getJetTrackIndexs( jeteta, jetphi );
@@ -942,11 +1288,11 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  float alphaMax,alphaMaxPrime,beta,alphaMax2,alphaMaxPrime2,beta2 = -1.;
 ///  float totalTrackAngle, totalTrackAnglePt = 0.;
 ///  float sumIP, sumIPSig = 0.;
-///  vector<float> pfchsJetTrackAngles; 
+///  vector<float> pfchsJetTrackAngles;
 ///  pfchsJetTrackAngles.clear();
-///  vector<float> pfchsJetIPs; 
+///  vector<float> pfchsJetIPs;
 ///  pfchsJetIPs.clear();
-///  vector<float> pfchsJetIPSigs; 
+///  vector<float> pfchsJetIPSigs;
 ///  pfchsJetIPSigs.clear();
 ///
 ///  // do calculations
@@ -967,26 +1313,26 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  // Fill tree
 ///  /////////////////////////
 ///  AODnPFchsJet_++;
-///  
+///
 ///  //Pt, Eta, Phi
 ///  AODPFchsJetPt_.push_back(jetpt);
 ///  AODPFchsJetEta_.push_back(jeteta);
 ///  AODPFchsJetPhi_.push_back(jetphi);
 ///  AODPFchsJetID_.push_back(AODPFchsJetIDdecision);
-///  
+///
 ///  //AlphaMax-type variables
-///  AODPFchsJetAlphaMax_       .push_back(alphaMax      ) ; 
-///  AODPFchsJetAlphaMax2_      .push_back(alphaMax2     ) ; 
-///  AODPFchsJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ; 
-///  AODPFchsJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ; 
-///  AODPFchsJetBeta_           .push_back(beta          ) ; 
-///  AODPFchsJetBeta2_          .push_back(beta2         ) ; 
+///  AODPFchsJetAlphaMax_       .push_back(alphaMax      ) ;
+///  AODPFchsJetAlphaMax2_      .push_back(alphaMax2     ) ;
+///  AODPFchsJetAlphaMaxPrime_  .push_back(alphaMaxPrime ) ;
+///  AODPFchsJetAlphaMaxPrime2_ .push_back(alphaMaxPrime2) ;
+///  AODPFchsJetBeta_           .push_back(beta          ) ;
+///  AODPFchsJetBeta2_          .push_back(beta2         ) ;
 ///
 ///  //Totals
 ///  AODPFchsJetSumIP_.push_back(sumIP);
 ///  AODPFchsJetSumIPSig_.push_back(sumIPSig);
 ///
-///  AODPFchsJetTotalTrackAngle_.push_back(totalTrackAngle);    
+///  AODPFchsJetTotalTrackAngle_.push_back(totalTrackAngle);
 ///
 ///  /////Medians
 ///  AODPFchsJetMedianIP_             .push_back(medianIP);
@@ -994,7 +1340,7 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 ///  AODPFchsJetMedianLog10TrackAngle_.push_back(log10(medianTrackAngle));
 ///
 /// }//end pfchs loop
-/// 
+///
 }//end fill jets
 
 
@@ -1003,8 +1349,8 @@ vector<int> lldjNtuple::getJetTrackIndexs( float jeteta, float jetphi )
  vector<int> idvector;
  // loop over all selected tracks, dR match to jet
  for( int i=0; i<(int)AODallTrackPositions.size(); i++){
-  float tracketa = AODallTrackPositions[i].Eta(); 
-  float trackphi = AODallTrackPositions[i].Phi(); 
+  float tracketa = AODallTrackPositions[i].Eta();
+  float trackphi = AODallTrackPositions[i].Phi();
   float drt = deltaR( jeteta, jetphi, tracketa, trackphi );
   if(drt < maxDRtrackJet_){ idvector.push_back(i); }
  }
@@ -1015,10 +1361,10 @@ vector<int> lldjNtuple::getJetTrackIndexs( float jeteta, float jetphi )
 void lldjNtuple::calculateAlphaMax(vector<int> jetTrackIDs, float& aMax, float& aMaxP, float& beta, float& aMax2, float& aMaxP2, float& beta2)
 {
 
-  float trackSumPt = 0; 
-  float trackSumPt2 = 0; 
-  float trackSumPtVtxMatched = 0; 
-  float trackSumPtVtxMatched2 = 0; 
+  float trackSumPt = 0;
+  float trackSumPt2 = 0;
+  float trackSumPtVtxMatched = 0;
+  float trackSumPtVtxMatched2 = 0;
 
   int nrvtxs = AODVertexHandle->size();
   vector<float> trackSumPtByVtx( nrvtxs,0);
@@ -1029,12 +1375,12 @@ void lldjNtuple::calculateAlphaMax(vector<int> jetTrackIDs, float& aMax, float& 
 
   for(int t=0; t< (int)jetTrackIDs.size(); t++){
    int trackID = jetTrackIDs[t];
-  
+
    // sum pt of all tracks passing dR cut
    float trackpt = AODallTrackIFSPt[trackID];
    trackSumPt += trackpt;
    trackSumPt2 += (trackpt*trackpt);
-  
+
    // now only for tracks associated with a vertex
    // the index of best vertex for track j is AODwhichVertexByTrack[j]
    if(AODwhichVertexByTrack[trackID] < 0)continue;
@@ -1043,33 +1389,33 @@ void lldjNtuple::calculateAlphaMax(vector<int> jetTrackIDs, float& aMax, float& 
    trackSumPtVtxMatched += trackpt;
    trackSumPtVtxMatched2 += trackpt*trackpt;
 
-   //// trackSumPtByVtx are sorted by vertex 
+   //// trackSumPtByVtx are sorted by vertex
    //printf("  track %i to vtx %i TS %i\n",
    // trackID, AODwhichVertexByTrack[trackID],
    // (int)trackSumPtByVtx.size());
    trackSumPtByVtx[AODwhichVertexByTrack[trackID]] += trackpt;
    trackSumPtByVtx2[AODwhichVertexByTrack[trackID]] += (trackpt*trackpt);
   }
-  
+
   // clear variables from previous execution
   double apMax =0;
   double apMax2 = 0;
-  
+
   // calculate beta
   // beta = ratio of sum of track pt matched to any vertex / sum on all tracks
   beta = 1.0 - trackSumPtVtxMatched/trackSumPt;
   beta2 = 1.0 - trackSumPtVtxMatched2 / trackSumPt2;
-  
+
   // calculate alpha
   // alpha[a] = sum pt tracks matched to vtx [a] / total track sum pt
-  // ap[a] = sum pt tracks matched to vtx [a] / ( same sum + beta ) 
+  // ap[a] = sum pt tracks matched to vtx [a] / ( same sum + beta )
   float tmpMaxSumPt = -1.;
   for(int i = 0; i < nrvtxs; i++){
     // find vertex number of max pt sum
     if(trackSumPtByVtx[i] > tmpMaxSumPt){
      tmpMaxSumPt = trackSumPtByVtx[i];
     }
-    // calculate and fill apMax 
+    // calculate and fill apMax
     double ap = trackSumPtByVtx[i] / (trackSumPtByVtx[i] + beta);
     double ap2 = trackSumPtByVtx2[i] / (trackSumPtByVtx2[i] + beta2);
     if(ap > apMax) apMax = ap;
@@ -1086,7 +1432,7 @@ void lldjNtuple::calculateAlphaMax(vector<int> jetTrackIDs, float& aMax, float& 
 void lldjNtuple::calculateTrackAngle(vector<int> jetTrackIDs, vector<float> &allTrackAngles,
  float &totalTrackAngle, float &totalTrackAnglePt)
 {
-  
+
   for(int t=0; t< (int)jetTrackIDs.size(); t++){
     int trackID = jetTrackIDs[t];
     // sum pt of all tracks passing dR cut
@@ -1100,12 +1446,12 @@ void lldjNtuple::calculateTrackAngle(vector<int> jetTrackIDs, vector<float> &all
   }
 
   return;
-  
+
 }
 
 void lldjNtuple::calculateIP(vector<int> jetTrackIDs, vector<float> &jetIPs, vector<float> &jetIPSigs, float &tsumIP, float &tsumIPSig)
 {
-  
+
   for(int t=0; t< (int)jetTrackIDs.size(); t++){
 
     int trackID = jetTrackIDs[t];
@@ -1126,7 +1472,7 @@ void lldjNtuple::calculateIP(vector<int> jetTrackIDs, vector<float> &jetIPs, vec
   }
 
   return;
-  
+
 }
 
 
@@ -1150,7 +1496,7 @@ float lldjNtuple::findMedian( vector<float> thevector){
   if((thevector.size()%2 == 0)){
    themedian = (
     thevector.at( (thevector.size() / 2) - 1 )
-  + thevector.at( (thevector.size() / 2)     ) 
+  + thevector.at( (thevector.size() / 2)     )
    ) / 2 ;
   } else {
    themedian = thevector.at( ( thevector.size() - 1 ) / 2 ) ;
@@ -1228,26 +1574,26 @@ vector<reco::TransientTrack> lldjNtuple::cleanTracks(vector<reco::TransientTrack
 
 
 void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<int> jetTrackIDs){
-  
+
   //Select transient tracks for this jet
   vector<reco::TransientTrack> transientTracks;
   for(unsigned int j = 0; j < jetTrackIDs.size(); j++){
     reco::TransientTrack tt(AODTrackHandle->at( jetTrackIDs.at(j) ),magneticField_);
     transientTracks.push_back(tt);
   }
-  
+
   if(transientTracks.size() > 1){
     vector<TransientVertex> avfVerts = vtxfitter_->vertices(transientTracks);
     if(avfVerts.size() > 0 && avfVerts[0].isValid()){
       GlobalPoint vertPos = avfVerts[0].position();
       GlobalError vertErr = avfVerts[0].positionError();
-      
-      AODCaloJetAvfVx_.push_back( vertPos.x() );
+
+      AODCaloJetCorrectedAvfVx_.push_back( vertPos.x() );
       AODCaloJetAvfVy_.push_back( vertPos.y() );
       AODCaloJetAvfVz_.push_back( vertPos.z() );
-      
+
       float vertBeamXY = vertexBeam_->distanceToBeam(reco::Vertex(RecoVertex::convertPos(vertPos),RecoVertex::convertError(vertErr)));
-      
+
       AODCaloJetAvfVertexTotalChiSquared_.push_back( avfVerts[0].totalChiSquared() );
       AODCaloJetAvfVertexDegreesOfFreedom_.push_back( avfVerts[0].degreesOfFreedom() );
       if(avfVerts[0].degreesOfFreedom() > 0) AODCaloJetAvfVertexChi2NDoF_.push_back( avfVerts[0].totalChiSquared()/avfVerts[0].degreesOfFreedom() );
@@ -1257,9 +1603,9 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       AODCaloJetAvfVertexTransverseError_.push_back( rerr );
       if(rerr > 0) AODCaloJetAvfVertexTransverseSig_.push_back( vertBeamXY/rerr );
        else AODCaloJetAvfVertexTransverseSig_.push_back( 0. );
-      
+
       vector<reco::TransientTrack> cleanTrackColl = cleanTracks(avfVerts[0].refittedTracks(),vertPos);
-      
+
       double d3deta = 0, d3dphi = 0, d3dpt = 0, d3m = 0, d3en;
       deltaVertex3D(vertPos, cleanTrackColl,d3deta,d3dphi,d3dpt,d3m,d3en);
       AODCaloJetAvfVertexDeltaEta_.push_back( d3deta );
@@ -1274,11 +1620,11 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       AODCaloJetAvfBeamSpotMedianDeltaPhi_.push_back( d2dphiMed );
       AODCaloJetAvfBeamSpotLog10MedianDeltaPhi_.push_back( log10(d2dphiMed) );
       AODCaloJetNCleanMatchedTracks_.push_back( (int)cleanTrackColl.size() );
-      
+
       int nHitsInFront = 0;
       int nMissingAfter = 0;
       CheckHitPattern checkHitPattern_;
-      checkHitPattern_.init(es);	
+      checkHitPattern_.init(es);
       for(int j = 0; j < (int)cleanTrackColl.size(); j++){
         const CheckHitPattern::Result res = checkHitPattern_.operator()(cleanTrackColl[j].track(),avfVerts[0].vertexState());
         nHitsInFront += res.hitsInFrontOfVert;
@@ -1288,8 +1634,8 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       AODCaloJetSumMissHitsAfterVert_.push_back( nMissingAfter );
       AODCaloJetHitsInFrontOfVertPerTrack_.push_back( double(nHitsInFront)/double(transientTracks.size()) );
       AODCaloJetMissHitsAfterVertPerTrack_.push_back( double(nMissingAfter)/double(transientTracks.size()) );
-      
-      AODCaloJetAvfDistToPV_.push_back( 
+
+      AODCaloJetAvfDistToPV_.push_back(
 				       sqrt(pow((AODVertexHandle->at(0).x() - avfVerts[0].position().x())/AODVertexHandle->at(0).x(),2)
 					    +pow((AODVertexHandle->at(0).y() - avfVerts[0].position().y())/AODVertexHandle->at(0).y(),2)
 					    +pow((AODVertexHandle->at(0).z() - avfVerts[0].position().z())/AODVertexHandle->at(0).z(),2)) );
@@ -1297,8 +1643,8 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
        else AODCaloJetAvfVertexDeltaZtoPV_.push_back( 0. );
       if(AODVertexHandle->size() > 1)AODCaloJetAvfVertexDeltaZtoPV2_.push_back( AODVertexHandle->at(1).z() - avfVerts[0].position().z() );
        else AODCaloJetAvfVertexDeltaZtoPV2_.push_back( 0. );
-      
-      
+
+
     }//end valid avf vertex
     else{
      AODCaloJetAvfVx_.push_back( 0. );

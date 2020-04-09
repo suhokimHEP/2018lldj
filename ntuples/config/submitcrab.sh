@@ -6,7 +6,7 @@ doAOD=true
 dominiAOD=false
 domakeMiniAOD=false
 #change do_lpchbb to true to stage to lpchbb
-do_lpchbb=false
+do_lpchbb=true
 
 # start the timer
 START=$(date +%s);
@@ -58,9 +58,14 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-#"Data_EGamma_A"              \  
-"TTJets_MG"                  \
-"TTJets"                     \
+#"TTJets_MG"                  \
+#"TTJets"                     \
+#"TTtoLL_MG"                  \
+#"TTtoLL"                     \
+#"TTtoLfromT"                 \
+#"TTtoLfromTbar"              \
+#"DY50_1_MG"                   \
+#"DY50_1"                      \
 )
 #data
 

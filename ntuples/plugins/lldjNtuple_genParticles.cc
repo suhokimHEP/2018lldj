@@ -41,20 +41,12 @@ float gen_Z_phi;
 float gen_Z_dauther1_Id;
 float gen_Z_dauther2_Id;
 
-float gen_lep1_energy;
-float gen_lep1_pt;
-float gen_lep1_eta;
-float gen_lep1_phi;
-int   gen_lep1_Id;
-int   gen_lep1_momId;
-
-float gen_lep2_energy;
-float gen_lep2_pt;
-float gen_lep2_eta;
-float gen_lep2_phi;
-int   gen_lep2_Id;
-int   gen_lep2_momId;
-
+std::vector<float> gen_lep_energy;
+std::vector<float> gen_lep_pt;
+std::vector<float> gen_lep_eta;
+std::vector<float> gen_lep_phi;
+std::vector<int>   gen_lep_Id;
+std::vector<int>   gen_lep_momId;
 
 vector<float> llpvX;
 vector<float> llpvY;
@@ -89,21 +81,15 @@ void lldjNtuple::branchesGenPart(TTree* tree) {
   tree->Branch("gen_Z_eta",            &gen_Z_eta);
   tree->Branch("gen_Z_phi",            &gen_Z_phi);
   tree->Branch("gen_Z_dauther1_Id",    &gen_Z_dauther1_Id);
-  tree->Branch("gen_Z_dauther2_Id",    &gen_Z_dauther1_Id);
-  //first lepton
-  tree->Branch("gen_lep1_energy",   &gen_lep1_energy);
-  tree->Branch("gen_lep1_pt",       &gen_lep1_pt);
-  tree->Branch("gen_lep1_eta",      &gen_lep1_eta);
-  tree->Branch("gen_lep1_phi",      &gen_lep1_phi);
-  tree->Branch("gen_lep1_Id",       &gen_lep1_Id);
-  tree->Branch("gen_lep1_momId",    &gen_lep1_momId);
-  //2nd lepton
-  tree->Branch("gen_lep2_energy",   &gen_lep2_energy);
-  tree->Branch("gen_lep2_pt",       &gen_lep2_pt);
-  tree->Branch("gen_lep2_eta",      &gen_lep2_eta);
-  tree->Branch("gen_lep2_phi",      &gen_lep2_phi);
-  tree->Branch("gen_lep2_Id",       &gen_lep2_Id);
-  tree->Branch("gen_lep2_momId",    &gen_lep2_momId);
+  tree->Branch("gen_Z_dauther2_Id",    &gen_Z_dauther2_Id);
+
+  //gen_leptons
+  tree->Branch("gen_lep_energy",   &gen_lep_energy);
+  tree->Branch("gen_lep_pt",       &gen_lep_pt);
+  tree->Branch("gen_lep_eta",      &gen_lep_eta);
+  tree->Branch("gen_lep_phi",      &gen_lep_phi);
+  tree->Branch("gen_lep_Id",       &gen_lep_Id);
+  tree->Branch("gen_lep_momId",    &gen_lep_momId);
 
   tree->Branch("llpvX",             &llpvX);
   tree->Branch("llpvY",             &llpvY);
@@ -151,9 +137,11 @@ void fillLeptonGenInfo(edm::Handle<vector<reco::GenParticle> > genParticlesHandl
     //-------------------------
     //find leptons
     //-------------------------
-    if( (abs(ip.pdgId()) == 11 || abs(ip.pdgId()) == 13 || abs(ip.pdgId()) == 15) && ip.isLastCopy() )
+    if( (abs(ip.pdgId()) == 11 || abs(ip.pdgId()) == 13 || abs(ip.pdgId()) == 15)
+     && ip.isLastCopy() )
     {
       const reco::GenParticle* mother = findFirstMotherWithDifferentID(&ip);
+      if( abs(mother->pdgId()) > 50 ) continue;//remove leptons from mesons
       TLorentzVector lepton;
       lepton.SetPtEtaPhiM(ip.pt(), ip.eta(), ip.phi(), ip.mass());
       gen_leptons.push_back(std::make_pair(lepton, std::make_pair(ip.pdgId(),mother->pdgId()) ) );
@@ -183,20 +171,15 @@ void fillLeptonGenInfo(edm::Handle<vector<reco::GenParticle> > genParticlesHandl
   }//end gen-particle loop
 
   std::sort(gen_leptons.begin(), gen_leptons.end(), sort_genlep);
-  //fill gen-lepton quantities
-  gen_lep1_energy = gen_leptons.at(0).first.E();
-  gen_lep1_pt     = gen_leptons.at(0).first.Pt();
-  gen_lep1_eta    = gen_leptons.at(0).first.Eta();
-  gen_lep1_phi    = gen_leptons.at(0).first.Phi();
-  gen_lep1_Id     = gen_leptons.at(0).second.first;
-  gen_lep1_momId  = gen_leptons.at(0).second.second;
-
-  gen_lep2_energy = gen_leptons.at(1).first.E();
-  gen_lep2_pt     = gen_leptons.at(1).first.Pt();
-  gen_lep2_eta    = gen_leptons.at(1).first.Eta();
-  gen_lep2_phi    = gen_leptons.at(1).first.Phi();
-  gen_lep2_Id     = gen_leptons.at(1).second.first;
-  gen_lep2_momId  = gen_leptons.at(1).second.second;
+  for( auto& gen_lep : gen_leptons )
+  {
+    gen_lep_energy.push_back( gen_lep.first.E() );
+    gen_lep_pt.push_back( gen_lep.first.Pt() );
+    gen_lep_eta.push_back( gen_lep.first.Eta() );
+    gen_lep_phi.push_back( gen_lep.first.Phi() );
+    gen_lep_Id.push_back( gen_lep.second.first );
+    gen_lep_momId.push_back( gen_lep.second.second );
+  }
 
 };
 
@@ -210,19 +193,12 @@ void ResetVariables()
    gen_Z_dauther1_Id = -999;
    gen_Z_dauther2_Id = -999;
 
-   gen_lep1_energy     = -999.;
-   gen_lep1_pt         = -999.;
-   gen_lep1_eta        = -999.;
-   gen_lep1_phi        = -999.;
-   gen_lep1_Id         = -999;
-   gen_lep1_momId      = -999;
-
-   gen_lep2_energy     = -999.;
-   gen_lep2_pt         = -999.;
-   gen_lep2_eta        = -999.;
-   gen_lep2_phi        = -999.;
-   gen_lep2_Id         = -999;
-   gen_lep2_momId      = -999;
+   gen_lep_energy.clear();
+   gen_lep_pt.clear();
+   gen_lep_eta.clear();
+   gen_lep_phi.clear();
+   gen_lep_Id.clear();
+   gen_lep_momId.clear();
 
 };
 

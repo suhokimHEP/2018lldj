@@ -285,7 +285,7 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
     else if ( particleHistory.hasRealParent() ) {
       reco::GenParticleRef momRef = particleHistory.parent();
       if ( momRef.isNonnull() && momRef.isAvailable() ) {
-	if( abs(momRef->pdgId()) == 9000006 ){
+	if( abs(momRef->pdgId()) == 9000006 || abs(momRef->pdgId()) == 1023  ){
 	  llpDaughterId.push_back(     ip->pdgId() );
 	  llpDaughterStatus.push_back( ip->status() );
 	  llpDaughterPt.push_back(     ip->pt()    );

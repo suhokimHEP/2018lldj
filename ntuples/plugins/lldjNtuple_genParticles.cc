@@ -152,7 +152,7 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
     }
 
     //Save long lived BSM particles
-    if( abs(ip->pdgId()) == 9000006 ){
+    if( abs(ip->pdgId()) == 9000006 || abs(ip->pdgId()) == 1023  ){
       llpId.push_back(      ip->pdgId() );
       llpStatus.push_back(  ip->status() );
       llpPt.push_back(      ip->pt()    );

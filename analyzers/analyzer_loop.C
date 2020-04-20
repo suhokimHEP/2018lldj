@@ -172,7 +172,11 @@ TFile *outfile_bkgest = 0;
   mu_weight   = 1.0;//makeMuonWeight( muon_list );
   
   if(isMC) event_weight *= makeElectronWeight( electron_list );
-  if(isMC && outfilename.Contains("ctauS-3") ) event_weight *= ctauEventWeight;
+  //std::cout<<"EW:         "<<event_weight<<std::endl;
+  if(isMC) event_weight *= ctauEventWeight;
+  //std::cout<<"ctauWeight: "<<ctauEventWeight<<std::endl;
+  //std::cout<<"EW:         "<<event_weight<<std::endl;
+  //std::cout<<std::endl;
 
 //  getMET();
 

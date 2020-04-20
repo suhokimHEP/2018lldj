@@ -57,7 +57,7 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    AODnVtx = 0;
    AODnTruePU = 0;
 //   AOD0thnPU = 0;
-   ctauEventWeight = 0;
+   ctauEventWeight = 1.;
    AODCaloJetPt = 0;
    AODCaloJetEta = 0;
    AODCaloJetPhi = 0;
@@ -183,7 +183,7 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    AOD_elePassConversionVeto = 0;
    AOD_eled0 = 0;
    AOD_eledz = 0;
-   AODGenEventWeight = 1;
+   AODGenEventWeight = 1.;
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -200,7 +200,7 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    fChain->SetBranchAddress("AODnGoodVtx", &AODnGoodVtx, &b_AODnGoodVtx);
    fChain->SetBranchAddress("AODnTrksPV", &AODnTrksPV, &b_AODnTrksPV);
    fChain->SetBranchAddress("AODisPVGood", &AODisPVGood, &b_AODisPVGood);
-   if(Tsample.Contains("ctauS-3")) fChain->SetBranchAddress("ctau_eventweight", &ctauEventWeight, &b_ctauEventWeight);
+   fChain->SetBranchAddress("ctau_eventweight", &ctauEventWeight, &b_ctauEventWeight);
 //   fChain->SetBranchAddress("llpId", &llpId, &b_llpId);
 //   fChain->SetBranchAddress("llpStatus", &llpStatus, &b_llpStatus);
 //   fChain->SetBranchAddress("llpPt", &llpPt, &b_llpPt);

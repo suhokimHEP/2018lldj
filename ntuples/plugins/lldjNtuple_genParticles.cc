@@ -32,12 +32,21 @@ vector<float> Simweight;
 //vector<float> ctauEventWeight;
 Float_t ctauEventWeight;
 
-vector<float> Zpt;
-vector<float> Zmass;
-vector<vector<int>>   Z_daughterID;
-vector<vector<int>>   Z_daughterPt;
-vector<vector<int>>   Z_daughterEta;
-vector<vector<int>>   Z_daughterPhi;
+
+float gen_Z_mass;
+float gen_Z_energy;
+float gen_Z_pt;
+float gen_Z_eta;
+float gen_Z_phi;
+float gen_Z_dauther1_Id;
+float gen_Z_dauther2_Id;
+
+std::vector<float> gen_lep_energy;
+std::vector<float> gen_lep_pt;
+std::vector<float> gen_lep_eta;
+std::vector<float> gen_lep_phi;
+std::vector<int>   gen_lep_Id;
+std::vector<int>   gen_lep_momId;
 
 vector<float> llpvX;
 vector<float> llpvY;
@@ -64,12 +73,23 @@ void lldjNtuple::branchesGenPart(TTree* tree) {
   tree->Branch("Simweight",         &Simweight);
   tree->Branch("ctauEventWeight",   &ctauEventWeight);
 }
-  tree->Branch("Zpt",    &Zpt);
-  tree->Branch("Zmass",  &Zmass);
-  tree->Branch("Z_daughterID",   &Z_daughterID);
-  tree->Branch("Z_daughterPt",   &Z_daughterPt);
-  tree->Branch("Z_daughterEta",  &Z_daughterEta);
-  tree->Branch("Z_daughterPhi",  &Z_daughterPhi);
+
+  //z-boson
+  tree->Branch("gen_Z_mass",           &gen_Z_mass);
+  tree->Branch("gen_Z_energy",         &gen_Z_energy);
+  tree->Branch("gen_Z_pt",             &gen_Z_pt);
+  tree->Branch("gen_Z_eta",            &gen_Z_eta);
+  tree->Branch("gen_Z_phi",            &gen_Z_phi);
+  tree->Branch("gen_Z_dauther1_Id",    &gen_Z_dauther1_Id);
+  tree->Branch("gen_Z_dauther2_Id",    &gen_Z_dauther2_Id);
+
+  //gen_leptons
+  tree->Branch("gen_lep_energy",   &gen_lep_energy);
+  tree->Branch("gen_lep_pt",       &gen_lep_pt);
+  tree->Branch("gen_lep_eta",      &gen_lep_eta);
+  tree->Branch("gen_lep_phi",      &gen_lep_phi);
+  tree->Branch("gen_lep_Id",       &gen_lep_Id);
+  tree->Branch("gen_lep_momId",    &gen_lep_momId);
 
   tree->Branch("llpvX",             &llpvX);
   tree->Branch("llpvY",             &llpvY);
@@ -80,9 +100,112 @@ void lldjNtuple::branchesGenPart(TTree* tree) {
 
 }
 
+const reco::GenParticle* findFirstMotherWithDifferentID(const reco::GenParticle* particle){
+
+  if( particle == 0 ){
+    printf("ERROR! null candidate pointer, this should never happen\n");
+    return 0;
+  }
+
+  // Is this the first parent with a different ID? If yes, return, otherwise
+  // go deeper into recursion
+  if (particle->numberOfMothers() > 0 && particle->pdgId() != 0) {
+    if (particle->pdgId() == particle->mother(0)->pdgId()
+	&& particle->mother(0)->status() != 11  // prevent infinite loop for sherpa documentation gluons
+	) {
+      return findFirstMotherWithDifferentID((reco::GenParticle*)particle->mother(0));
+    } else {
+      return (reco::GenParticle*)particle->mother(0);
+    }
+  }
+
+  return 0;
+}
+
+auto sort_genlep = []( std::pair<TLorentzVector,std::pair<int,int> > a,
+   std::pair<TLorentzVector,std::pair<int,int> > b )
+   { return a.first.Pt() > b.first.Pt() ?  true : false; };
+
+void fillLeptonGenInfo(edm::Handle<vector<reco::GenParticle> > genParticlesHandle)
+{
+  //-------------------------
+  //find leptons and Z
+  //-------------------------
+  std::vector< std::pair< TLorentzVector, std::pair<int,int> > > gen_leptons;
+  for(const auto &ip : *genParticlesHandle )
+  {
+    //-------------------------
+    //find leptons
+    //-------------------------
+    if( (abs(ip.pdgId()) == 11 || abs(ip.pdgId()) == 13 || abs(ip.pdgId()) == 15)
+     && ip.isLastCopy() )
+    {
+      const reco::GenParticle* mother = findFirstMotherWithDifferentID(&ip);
+      if( abs(mother->pdgId()) > 50 ) continue;//remove leptons from mesons
+      TLorentzVector lepton;
+      lepton.SetPtEtaPhiM(ip.pt(), ip.eta(), ip.phi(), ip.mass());
+      gen_leptons.push_back(std::make_pair(lepton, std::make_pair(ip.pdgId(),mother->pdgId()) ) );
+    }
+    //-------------------------
+    //find Z
+    //-------------------------
+    if( abs(ip.pdgId() == 23) && ip.isLastCopy() )
+    {
+      gen_Z_mass   = ip.mass();
+      gen_Z_energy = ip.energy();
+      gen_Z_pt     = ip.pt();
+      gen_Z_eta    = ip.eta();
+      gen_Z_phi    = ip.phi();
+
+      if( ip.numberOfDaughters() >= 2 )
+      {
+        gen_Z_dauther1_Id = (ip.daughter(0))->pdgId();
+        gen_Z_dauther2_Id = (ip.daughter(1))->pdgId();
+      }
+      else if ( ip.numberOfDaughters() == 1 )
+      {
+        gen_Z_dauther1_Id = (ip.daughter(0))->pdgId();
+      }
+
+    }
+  }//end gen-particle loop
+
+  std::sort(gen_leptons.begin(), gen_leptons.end(), sort_genlep);
+  for( auto& gen_lep : gen_leptons )
+  {
+    gen_lep_energy.push_back( gen_lep.first.E() );
+    gen_lep_pt.push_back( gen_lep.first.Pt() );
+    gen_lep_eta.push_back( gen_lep.first.Eta() );
+    gen_lep_phi.push_back( gen_lep.first.Phi() );
+    gen_lep_Id.push_back( gen_lep.second.first );
+    gen_lep_momId.push_back( gen_lep.second.second );
+  }
+
+};
+
+void ResetVariables()
+{
+   gen_Z_mass   = -999.;
+   gen_Z_energy = -999.;
+   gen_Z_pt     = -999.;
+   gen_Z_eta    = -999.;
+   gen_Z_phi    = -999.;
+   gen_Z_dauther1_Id = -999;
+   gen_Z_dauther2_Id = -999;
+
+   gen_lep_energy.clear();
+   gen_lep_pt.clear();
+   gen_lep_eta.clear();
+   gen_lep_phi.clear();
+   gen_lep_Id.clear();
+   gen_lep_momId.clear();
+
+};
+
 void lldjNtuple::fillGenPart(const edm::Event& e) {
 
-  //Initialize -- set numbers to e.g. 0 and clear vectors 
+  //Initialize -- set numbers to e.g. 0 and clear vectors
+  ResetVariables();//initialize lepton and z variables
   llpId.clear();
   llpStatus.clear();
   llpPt.clear();
@@ -100,12 +223,6 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
   Simweight.clear();
   ctauEventWeight = 0.0;
 }
-  Zpt.clear();
-  Zmass.clear();
-  Z_daughterID.clear();
-  Z_daughterPt.clear();
-  Z_daughterEta.clear();
-  Z_daughterPhi.clear();
 
   llpvX.clear();
   llpvY.clear();
@@ -119,38 +236,22 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
   e.getByToken(genParticlesCollection_, genParticlesHandle);
   float totEventWeight =1.0;
 
+  //-----------------
+  //fill lepton and z
+  //-----------------
+  fillLeptonGenInfo(genParticlesHandle);
+
   //Loop over gen particles
   for (vector<reco::GenParticle>::const_iterator ip = genParticlesHandle->begin(); ip != genParticlesHandle->end(); ++ip) {
-  
+
     reco::GenParticleRef partRef = reco::GenParticleRef(genParticlesHandle,
 							ip-genParticlesHandle->begin());
     genpartparentage::GenParticleParentage particleHistory(partRef);
-    
+
     //Save top particles
     if( abs(ip->pdgId()) == 6 && ip->isLastCopy() ){
      toppts.push_back( ip->pt() );
     }
-    //Save Z particles
-    vector<int> Z_daughterID_;
-    vector<int> Z_daughterPt_;
-    vector<int> Z_daughterEta_;
-    vector<int> Z_daughterPhi_;
-    if( ip->pdgId() == 23 && ip->isLastCopy() && ip->status()==62 ){
-     Zpt.push_back  ( ip->pt() );
-     Zmass.push_back( ip->mass() );
-     for(size_t i=0; i<ip->numberOfDaughters(); ++i){
-       const reco::Candidate* Z_d = ip->daughter(i);
-       Z_daughterID_.push_back(Z_d->pdgId());
-       Z_daughterPt_.push_back(Z_d->pt());
-       Z_daughterEta_.push_back(Z_d->eta());
-       Z_daughterPhi_.push_back(Z_d->phi());
-     }
-     Z_daughterID.push_back(Z_daughterID_);
-     Z_daughterPt.push_back(Z_daughterPt_);
-     Z_daughterEta.push_back(Z_daughterEta_);
-     Z_daughterPhi.push_back(Z_daughterPhi_);
-    }
-
     //Save long lived BSM particles
     if( abs(ip->pdgId()) == 9000006 ){
       llpId.push_back(      ip->pdgId() );
@@ -162,7 +263,7 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
       llpvX.push_back(    ip->vx()  );
       llpvY.push_back(    ip->vy()  );
       llpvZ.push_back(    ip->vz()  );
-      TVector3 mother,daughter,diff;	
+      TVector3 mother,daughter,diff;
       for(size_t j=0; j<ip->numberOfDaughters(); ++j){
 	const reco::Candidate* d = ip->daughter(j);
 	  llpDaughtervX.push_back(d->vx());
@@ -170,15 +271,15 @@ void lldjNtuple::fillGenPart(const edm::Event& e) {
 	  llpDaughtervZ.push_back(d->vz());
 	  mother.SetXYZ(ip->vx(),ip->vy(),ip->vz());
 	  daughter.SetXYZ(d->vx(),d->vy(),d->vz());
-   	  diff.SetXYZ(mother.X()-daughter.X(),mother.Y()-daughter.Y(),mother.Z()-daughter.Z());	
-	} 
+   	  diff.SetXYZ(mother.X()-daughter.X(),mother.Y()-daughter.Y(),mother.Z()-daughter.Z());
+	}
 
 	TLorentzVector scalar;
 	scalar.SetPtEtaPhiM(ip->pt(),ip->eta(),ip->phi(),ip->mass());
 	float dist = diff.Mag()/(scalar.Gamma()*abs(scalar.Beta()));
         if(ctauWeight){Decaydist.push_back(dist);
 	float weight = calculatectauEventWeight(dist);
-	Simweight.push_back(weight); 
+	Simweight.push_back(weight);
         totEventWeight *= weight;}
     }
     else if ( particleHistory.hasRealParent() ) {
@@ -221,11 +322,9 @@ else if (targetdist<1000 && 100< targetdist) {
 	factor = 1000./targetdist;
         weight = factor*exp(-.01*(factor-1)*dist);
 }
-else  {   
+else  {
     std::cerr << "Targetdist out of range. Please read insturction for targetdist range for each SigMC sample." <<std::endl;
-   abort(); 	
+   abort();
 	}
  return weight;
  }
-
-

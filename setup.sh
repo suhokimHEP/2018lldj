@@ -3,7 +3,7 @@
 export depot="/eos/uscms/store/group/lpchbb/LLDJntuples"
 export depot2="/store/group/lpchbb/LLDJntuples"
 export FWVersion="2018lldj"
-export nversion="2018_LLDJ"
+export nversion="2018_LLDJ_V2p0"
 export aversion="InclusiveZ"
 
 pushd `dirname ${BASH_SOURCE[0]}` > /dev/null

@@ -5,6 +5,8 @@ dosubmit=true
 doAOD=true
 dominiAOD=false
 domakeMiniAOD=false
+#change do_lpchbb to true to stage to lpchbb
+do_lpchbb=true
 
 # start the timer
 START=$(date +%s);
@@ -30,8 +32,8 @@ printf "Making submit configurations in\n ${thesubdir}\n\n"
 # copy necessary files into submit directory
 if [ ${doAOD} = true ]
 then
- dsubmitconfig="run_data_102XAOD.py"
- msubmitconfig="run_mc_102XAOD.py"
+ dsubmitconfig="run_data_102XAOD_JEC.py"
+ msubmitconfig="run_mc_102XAOD_JEC.py"
  thedasmap="${listdir}/ntuple/dasmapAOD.list"
 # recycled file leaving this section for now but can delete later, only do AOD currently
 elif [ ${dominiAOD} = true ]
@@ -98,7 +100,7 @@ samples=( \
 #"DY_2J"                      \
 #"DY10to50"                   \
 #"DY5to50"                    \
-  
+
 #"TTJets_MG"                  \
 #"TTJets"                     \
 #"TTtoLL_MG"                  \
@@ -238,8 +240,13 @@ do
  NUNITS="-1"
  REQUESTNAME="'${samplename}'"
  DATASET="'${datasetname}'"
- STORESITE="'T3_US_FNALLPC'"
- OUTLFNBASE="'/store/group/lpchbb/LLDJntuples/${nversion}'"
+ STORESITE="'T3_US_FNALLPC'" 
+ if [ ${do_lpchbb} = true ]
+ then
+     OUTLFNBASE="'/store/group/lpchbb/LLDJntuples/${nversion}'"
+ else
+     OUTLFNBASE="'/store/group/lpcbacon/LLDJntuples/${nversion}'"
+ fi
  MAXMEM="3000"
  #MAXMEM="4000"
  #MAXTM="1315"

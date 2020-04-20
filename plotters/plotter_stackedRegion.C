@@ -120,6 +120,13 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  //variables.push_back("AOD_OSOFdileptonNewB_Pt");
  //}
   variables.push_back("nSelectedAODCaloJetTag");
+ //variables.push_back("nSelectedAODCaloJetTag_orig");
+ //variables.push_back("AllJets_AODCaloJetMedianLog10IPSig");
+ //variables.push_back("AllJets_AODCaloJetMedianLog10TrackAngle");
+ //variables.push_back("AllJets_AODCaloJetAlphaMax");
+ //variables.push_back("AllJets_AODCaloJetPt");                      
+ //variables.push_back("AllJets_AODCaloJetEta");                      
+
  //variables.push_back("nSelectedAODCaloJetTag_h150_llp20_ct100");
  //variables.push_back("nSelectedAODCaloJetTag_h150_llp50_ct100");
  //variables.push_back("nSelectedAODCaloJetTag_h175_llp20_ct100");
@@ -149,13 +156,6 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  //variables.push_back("nSelectedAODCaloJetTagSBIPa");
  //variables.push_back("nSelectedAODCaloJetTagSBIPb");
  //variables.push_back("nSelectedAODCaloJetTagSBIPc");
- //variables.push_back("nSelectedAODCaloJetTag");
- //variables.push_back("nSelectedAODCaloJetTag_orig");
- //variables.push_back("AllJets_AODCaloJetMedianLog10IPSig");
- //variables.push_back("AllJets_AODCaloJetMedianLog10TrackAngle");
- //variables.push_back("AllJets_AODCaloJetAlphaMax");
- //variables.push_back("AllJets_AODCaloJetPt");                      
- //variables.push_back("AllJets_AODCaloJetEta");                      
  //variables.push_back("AllJets_AODCaloJetPhi");                      
  //variables.push_back("AOD_dilepton_Mass");
  //variables.push_back("AOD_dilepton_Pt");

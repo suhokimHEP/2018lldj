@@ -1,15 +1,15 @@
 #!/bin/bash
 
 regions=( \ 
-# "EleMuOSOF"     \
-# "EleMuOSOFL"    \
-# "OnePho"        \
-# "TwoEleDY"      \
-# "TwoEleSig"     \
-# "TwoEleZH"      \
-# "TwoMuDY"       \
-# "TwoMuSig"      \
-# "TwoMuZH"       \
+ "EleMuOSOF"     \
+ "EleMuOSOFL"    \
+ "OnePho"        \
+ "TwoEleDY"      \
+ "TwoEleSig"     \
+ "TwoEleZH"      \
+ "TwoMuDY"       \
+ "TwoMuSig"      \
+ "TwoMuZH"       \
 ) 
 
 dologs=( \
@@ -22,8 +22,8 @@ doHIPs=( \
  #"kTRUE" \
 )
 
-useEOS="kFALSE"
-#useEOS="kTRUE"
+#useEOS="kFALSE"
+useEOS="kTRUE"
 description=""
 
 for region in ${regions[@]}

@@ -828,14 +828,11 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
      h_Sig_MS55ct30   ->Add( h_Sig_ggZH_MS55ct30   ) ;
      h_Sig_MS55ct3    ->Add( h_Sig_ggZH_MS55ct3    ) ;
 
-     //MCSF*=.7323;
      // rescale MC to match eras used
-     //h_DY         ->Scale(MCSF); //*.7323); 
      h_DY         ->Scale(MCSF*0.734129);//*.7323); 
      h_ST         ->Scale(MCSF); 
      h_ZH         ->Scale(MCSF); 
      h_VV         ->Scale(MCSF); 
-     //h_TT         ->Scale(MCSF;//*1.12778); //TTJets SF 
      h_TT         ->Scale(MCSF*0.815111248); //TTJets SF 
      h_VG         ->Scale(MCSF); 
      h_QCD        ->Scale(MCSF); 

@@ -71,6 +71,7 @@ public :
    Bool_t passPTOSSF    ; 
    Bool_t passPTOSOF    ;   
    Bool_t passPTOSSFL   ; 
+   Bool_t passPTOSSFL_2 ; 
    Bool_t passPTOSOFL   ;   
    Bool_t passOneJet    ; 
    Bool_t passOneTag    ;

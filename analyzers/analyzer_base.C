@@ -53,6 +53,11 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
 //   AODPATJetPhi = 0;
 //   AODPATJetCSV = 0;
 //   AODPATJetMVA = 0;
+   AODnGoodVtx = 0;
+   AODnVtx = 0;
+   AODnTruePU = 0;
+//   AOD0thnPU = 0;
+   ctauEventWeight = 0;
    AODCaloJetPt = 0;
    AODCaloJetEta = 0;
    AODCaloJetPhi = 0;
@@ -190,10 +195,12 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    fChain->SetBranchAddress("lumis", &lumis, &b_lumis);
    fChain->SetBranchAddress("isData", &isData, &b_isData);
    fChain->SetBranchAddress("AODnTruePU", &AODnTruePU, &b_AODnTruePU);
+  // fChain->SetBranchAddress("AOD0thnPU", &AOD0thnPU, &b_AOD0thnPU);
    fChain->SetBranchAddress("AODnVtx", &AODnVtx, &b_AODnVtx);
    fChain->SetBranchAddress("AODnGoodVtx", &AODnGoodVtx, &b_AODnGoodVtx);
    fChain->SetBranchAddress("AODnTrksPV", &AODnTrksPV, &b_AODnTrksPV);
    fChain->SetBranchAddress("AODisPVGood", &AODisPVGood, &b_AODisPVGood);
+   if(Tsample.Contains("ctauS-3")) fChain->SetBranchAddress("ctau_eventweight", &ctauEventWeight, &b_ctauEventWeight);
 //   fChain->SetBranchAddress("llpId", &llpId, &b_llpId);
 //   fChain->SetBranchAddress("llpStatus", &llpStatus, &b_llpStatus);
 //   fChain->SetBranchAddress("llpPt", &llpPt, &b_llpPt);
@@ -381,6 +388,7 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
    fChain->SetBranchAddress("AOD_CaloMET_phi", &AOD_CaloMET_phi, &b_AOD_CaloMET_phi);
 //   fChain->SetBranchAddress("AOD_pfChMET_phi", &AOD_pfChMET_phi, &b_AOD_pfChMET_phi);
 //   fChain->SetBranchAddress("AOD_pfMET_phi", &AOD_pfMET_phi, &b_AOD_pfMET_phi);
-   if(Tsample == "DYJetsToLL_M-50" || Tsample == "ZGTo2LG"|| Tsample == "TTtoLL"|| Tsample == "TTJets" || Tsample == "ST_t-channel_top_4f_inclusiveDecays") fChain->SetBranchAddress("AODGenEventWeight", &AODGenEventWeight, &b_AODGenEventWeight);
+   //if((Tsample.Contains("HtoSS") && !Tsample.Contains("noGen"))||Tsample == "DYJetsToLL_M-50" || Tsample == "ZGTo2LG"|| Tsample == "TTtoLL"|| Tsample == "TTJets") 
+   fChain->SetBranchAddress("AODGenEventWeight", &AODGenEventWeight, &b_AODGenEventWeight);
 
 }

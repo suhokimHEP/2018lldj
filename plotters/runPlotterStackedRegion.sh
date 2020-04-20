@@ -1,15 +1,15 @@
 #!/bin/bash
 
 regions=( \ 
- "EleMuOSOF"     \
- "EleMuOSOFL"    \
- "OnePho"        \
- "TwoEleDY"      \
- "TwoEleSig"     \
- "TwoEleZH"      \
+# "EleMuOSOF"     \
+# "EleMuOSOFL"    \
+# "OnePho"        \
+# "TwoEleDY"      \
+# "TwoEleSig"     \
+# "TwoEleZH"      \
  "TwoMuDY"       \
- "TwoMuSig"      \
- "TwoMuZH"       \
+# "TwoMuSig"      \
+# "TwoMuZH"       \
 ) 
 
 dologs=( \

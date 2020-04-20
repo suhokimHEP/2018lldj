@@ -69,9 +69,9 @@ Bool_t drawSignal = kTRUE; //kTRUE; //kFALSE
  Float_t MCSF = 1.;
  Float_t Lumi;
  
- if     ( region.Contains("TwoEle") ){Lumi = 58670. ;} //58871. ;}
- else if( region.Contains("TwoMu") ) {Lumi = 58670. ;} //59667. ;}
- else if( region.Contains("OSOF") )  {Lumi = 58670. ;} //59672. ;}
+ if     ( region.Contains("TwoEle") ){Lumi = 58870.8 ;} //58871. ;}
+ else if( region.Contains("TwoMu") ) {Lumi = 59666.7 ;} //59667. ;}
+ else if( region.Contains("OSOF") )  {Lumi = 59672.4 ;} //59672. ;}
  else                                {Lumi = 20000. ;}
  cout <<"Lumi:     " << Lumi<<endl;
  if     ( region.Contains("TwoEle") ){MCSF = (Lumi)/20000. ;}

@@ -6,6 +6,11 @@ export FWVersion="2018lldj"
 export nversion="2018_LLDJ_V2p0"
 export aversion="InclusiveZ"
 
+#-- Where Daniel Keeps ZDark and ZH stuff for AN Apr. 2020; 
+#export nversion="2018_LLDJ"
+#export aversion="PUWeights_Shifts_ZDark_ZPt100_mainh500" #
+#export aversion="PUWeights_Shifts_ZDark_ZPt50_mainh150" #
+
 pushd `dirname ${BASH_SOURCE[0]}` > /dev/null
 export basedir=`pwd`
 popd > /dev/null

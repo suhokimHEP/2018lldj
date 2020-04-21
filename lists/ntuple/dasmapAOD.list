@@ -78,6 +78,10 @@
  #Signal	
  ZH_Sig    /ZH_HToSSTobbbb_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
  ggZH_Sig    /ggZH_HToSSTobbbb_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
+ ZH_4d_Sig    /ZH_HToSSTodddd_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
+ ggZH_4d_Sig    /ggZH_HToSSTodddd_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
+ ZH_4Tau_Sig    /ZH_HToSSTo4Tau_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
+ ggZH_4Tau_Sig    /ggZH_HToSSTo4Tau_ZToLL_MH-125_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18DRPremix-rp_102X_upgrade2018_realistic_v15-v1/AODSIM
  	
  #Data	
  Data_DoubleMuon_A    /DoubleMuon/Run2018A-17Sep2018-v2/AOD

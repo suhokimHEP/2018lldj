@@ -58,23 +58,8 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 # sample names to run over
 samples=( \
 # put your samples here, copy from below
-#"TTJets_MG"                  \
-#"TTJets"                     \
-#"TTtoLL_MG"                  \
-#"TTtoLL"                     \
-#"TTtoLfromT"                 \
-#"TTtoLfromTbar"              \
-#"DY50_1_MG"                   \
-#"DY50_1"                      \
-"QCD_HT50to100"              \
-"QCD_HT100to200"             \
-"QCD_HT200to300"             \
-"QCD_HT300to500"             \
-"QCD_HT500to700"             \
-"QCD_HT700to1000"            \
-"QCD_HT1000to1500"           \
-"QCD_HT1500to2000"           \
-"QCD_HT2000toInf"            \
+"ZH_Sig"              \  
+"ggZH_Sig"              \  
 )
 #data
 

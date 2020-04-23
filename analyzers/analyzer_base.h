@@ -41,6 +41,7 @@ public :
    Int_t           lumis;
    Bool_t          isData;
    Int_t           AODnTruePU;
+//   Int_t           AOD0thnPU;
    Int_t           AODnVtx;
    Int_t           AODnGoodVtx;
    Int_t           AODnTrksPV;
@@ -58,6 +59,7 @@ public :
 //   std::vector<float>   *llpDaughterPhi;
 //   std::vector<float>   *llpDaughterMass;
 //   std::vector<float>   *toppts;
+   Float_t   ctauEventWeight;
    //ele ele
    ULong64_t       AOD_HLT_DoubleEle33;
    ULong64_t       AOD_HLT_Ele23Ele12;
@@ -240,6 +242,7 @@ public :
    TBranch        *b_lumis;   //!
    TBranch        *b_isData;   //!
    TBranch        *b_AODnTruePU;   //!
+   //TBranch        *b_AOD0thnPU;   //!
    TBranch        *b_AODnVtx;   //!
    TBranch        *b_AODnGoodVtx;   //!
    TBranch        *b_AODnTrksPV;   //!
@@ -257,6 +260,7 @@ public :
 //   TBranch        *b_llpDaughterPhi;   //!
 //   TBranch        *b_llpDaughterMass;   //!
 //   TBranch        *b_toppts;   //!
+   TBranch        *b_ctauEventWeight;   //!
    //ele ele
    TBranch       *b_AOD_HLT_DoubleEle33;//!
    TBranch       *b_AOD_HLT_Ele23Ele12;//!

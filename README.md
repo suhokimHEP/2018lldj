@@ -17,8 +17,8 @@
 
 # Set up the area
 export SCRAM_ARCH=slc7_amd64_gcc700;
-scram pro -n 2018-LLDJ_slc7_700_CMSSW_10_2_15 CMSSW CMSSW_10_2_15;
-cd 2018-LLDJ_slc7_700_CMSSW_10_2_15/src;
+scram pro -n 2018-LLDJ_slc7_700_CMSSW_10_2_5 CMSSW CMSSW_10_2_5;
+cd 2018-LLDJ_slc7_700_CMSSW_10_2_5/src;
 cmsenv;
 ```
 

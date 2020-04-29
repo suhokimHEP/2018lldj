@@ -5,6 +5,7 @@
 #include <TCanvas.h>
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -26,6 +27,11 @@ void analyzer_loop::Loop(TString outfilename,
  if(makelog){
   logfile = fopen( outfilename+".txt", "w"); 
  }
+ ofstream ZHDiElefile, ZHDiMufile, DYDiElefile, DYDiMufile;
+DYDiElefile.open(outfilename+"_cat_TwoEleDY"+uncbin+"_edmEventPick"+".txt");
+DYDiMufile.open(outfilename+"_cat_TwoMuDY"+uncbin+"_edmEventPick"+".txt");
+ZHDiElefile.open(outfilename+"_cat_TwoEleZH"+uncbin+"_edmEventPick"+".txt");
+ZHDiMufile.open(outfilename+"_cat_TwoMuZH"+uncbin+"_edmEventPick"+".txt");
 
  if (fChain == 0) return;
 
@@ -38,6 +44,8 @@ void analyzer_loop::Loop(TString outfilename,
 
  if(isMC) loadPUWeight();
  if(isMC) loadElectronWeight( eleid );
+ if(isMC) loadMuonWeight( muoid );
+ if(isMC) loadMuonIso( muoid );
 
  std::cout<<"uncbin: "<<uncbin<<std::endl;
 
@@ -48,8 +56,12 @@ TFile *outfile_bkgest = 0;
    outfile_bkgest = TFile::Open(outfilename+"_BkgEst.root","RECREATE");
    loadMistagRate();
  }
+ TFile *outfile_GEW = 0;
+ outfile_GEW = TFile::Open(outfilename+"_AODGenEventWeight.root","RECREATE");
  TH1F* h_sum_AODGenEventWeight = new TH1F("h_sum_AODGenEventWeight","h_sum_AODGenEventWeight", 5,0.,5.);
-
+ TFile *outfile_nPU = 0;
+ outfile_nPU = TFile::Open(outfilename+"_AOD0thnPU.root","RECREATE");
+ TH1F* h_sum_AOD0thnPU = new TH1F("h_sum_AOD0thnPU","h_sum_AOD0thnPU", 80,0.00,80.00);
  // start looping over entries
  Long64_t nbytes = 0, nb = 0;
  for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -82,9 +94,8 @@ TFile *outfile_bkgest = 0;
 
   shiftCollections(uncbin);
   n_tot++;
-  sum_AODGenEventWeight+=AODGenEventWeight;
   h_sum_AODGenEventWeight->Fill(2, AODGenEventWeight);
-
+  h_sum_AOD0thnPU->Fill(AOD0thnPU);
   // get lists of "good" electrons, photons, jets
   // idbit, pt, eta, sysbinname
   electron_list    = electron_passID  ( eleidbit,        ele_minPt1, ele_minPt2, ele_maxEta, "");
@@ -157,10 +168,13 @@ TFile *outfile_bkgest = 0;
   if(isMC) PUweight_DoubleEG     = makePUWeight("DoubleEG"    ) ;
   if(isMC) PUweight_DoubleMu     = makePUWeight("DoubleMu"    ) ;
   if(isMC) PUweight_MuonEG       = makePUWeight("MuonEG"      ) ;
-//  if(isMC) PUweight_SinglePhoton = makePUWeight("SinglePhoton") ;
   // electrons also have an associated scale factor for MC 
-  if(isMC) event_weight *= makeElectronWeight( electron_list );
-//  if(isMC) event_weight *= makeTTWeight( avgTTSF );
+  if(isMC){ 
+  w_eleID   = makeElectronWeight( electron_list, eleID_Unc, eleID_ind);
+  w_muonID  = makeMuonWeight(muon_list, muonID_Unc, muonID_ind);
+  w_muonISO = makeMuonIso(muon_list, muonISO_Unc, muonISO_ind);
+	}
+  //if(isMC) event_weight *= makeTTWeight( avgTTSF );
 
 //  getMET();
 
@@ -314,43 +328,6 @@ TFile *outfile_bkgest = 0;
     fillBackgroundEstimateHistograms(event_weight);
    }
   }
-  // fill the histograms
-  for(unsigned int i=0; i<selbinnames.size(); ++i){
-
-   if(isMC){
-     // ok I'm sorry, this is terrible
-     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight * PUweight_DoubleEG;
-     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
-     if(i==18) fullweight = event_weight * PUweight_MuonEG;
-     if(i==20) fullweight = event_weight * PUweight_MuonEG;
-     if(i==19) fullweight = event_weight * PUweight_SinglePhoton;
-   }
-   else{
-     fullweight = event_weight;
-   }
-   /// quick hack to only write phase spaces we care about
-   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
-    fillCutflowHistograms( fullweight, i, selvec[i], selkey[i] );
-    if( dofillselbin[i] ){
-     fillSelectedHistograms( fullweight, i );
-
-     //jets
-     if(jetMultOn){
-     for( unsigned int k=0; k<jetmultnames.size(); ++k){
-      fillSelectedJetHistograms( fullweight, i, k );
-     }  }
-     else{
-     fillSelectedJetHistograms( fullweight, i, (jetmultnames.size()-1) );
-     }
-
-     //tagged jets
-     for( unsigned int k=0; k<tagmultnames.size(); ++k){
-      fillSelectedTagHistograms( fullweight, i, k );
-     }  
-    } // if( dofillselbin[i] ){
-   } // if i== one of the phase spaces we want to write
-  } // for(unsigned int i=0; i<selbinnames.size(); ++i){
-
   // tagging variable optimization tree
   if( ( (( bitsPassTwoMuZH      >> 0) &1) || (( bitsPassTwoEleZH      >> 0) &1))  && uncbin.EqualTo("") ){// TwoMuZH or TwoEleZH 
    optfile->cd();
@@ -400,6 +377,160 @@ TFile *outfile_bkgest = 0;
    setNM1EleZHtree(); 
    NM1EleZHtree->Fill();
   }
+  //std::cout<<"PU DoubleEG Weight: "<<PUweight_DoubleEG<<"      Weight:"<<PUWeights_DoubleEG->GetBinContent(PUWeights_DoubleMu->GetBin(AODnTruePU))<<"         Bin:"<<PUWeights_DoubleMu->GetBin(AODnTruePU)<<"    nTruePU: "<<AODnTruePU<<std::endl;
+  //std::cout<<"PU DoubleMu Weight: "<<PUweight_DoubleMu<<std::endl;
+  //std::cout<<"PU MuonEG Weight: "<<PUweight_MuonEG<<std::endl;
+  // fill the histograms
+  for(unsigned int i=0; i<selbinnames.size(); ++i){
+	w_LeptonSF=1.;
+   if(isMC){
+     // ok I'm sorry, this is terrible
+     //if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13)          fullweight = event_weight * PUweight_DoubleEG;
+     //if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
+     //if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13)   fullweight = event_weight * PUweight_DoubleEG;
+     //if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
+     //if(i==18) fullweight = event_weight * PUweight_MuonEG;
+     //if(i==20) fullweight = event_weight * PUweight_MuonEG;
+     if(i==19) fullweight = event_weight;
+     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13)  
+	{
+	fullweight = event_weight*PUweight_DoubleEG;  	
+	w_LeptonSF = w_eleID;
+	LeptonSF_Unc = eleID_Unc;
+	}
+     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) 
+	{
+	fullweight = event_weight*PUweight_DoubleMu;    
+	w_LeptonSF=w_muonID;
+	w_LeptonSF*=w_muonISO; 
+	LeptonSF_Unc = TMath::Sqrt(muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);	
+	}
+     if(i==18||i==20) 
+	{
+	fullweight = event_weight * PUweight_MuonEG; 
+	w_LeptonSF=w_eleID*w_muonID*w_muonISO; 
+	LeptonSF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);
+	}
+     if(uncbin.Contains("LeptonSFUp")){w_LeptonSF += LeptonSF_Unc; fullweight*=w_LeptonSF;}
+     else if(uncbin.Contains("LeptonSFDown")){w_LeptonSF -= LeptonSF_Unc; fullweight*=w_LeptonSF;}
+     else {fullweight*=w_LeptonSF;}
+   }
+   else{
+     fullweight = event_weight;
+   }
+
+   /// quick hack to only write phase spaces we care about
+   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20 || i==13 || i==15 ){
+    fillCutflowHistograms( fullweight, i, selvec[i], selkey[i] );
+    if( dofillselbin[i] ){
+     fillSelectedHistograms( fullweight, i );
+	if (taggedjet_list.size()>1){
+     if (i==5) {
+	DYDiElefile <<run<<":"<<lumis<<":"<<event<<"\n";
+	DYDiElefile <<"fullweight:"<<fullweight<<"\n";
+	DYDiElefile <<"aodcalojet_list size:"<<aodcalojet_list.size()<<"\n";
+	for(int num=0; num<aodcalojet_list.size(); ++num){
+	int tempind = aodcalojet_list.at(num);
+	DYDiElefile <<"AODCaloJet index:"<<tempind<<"\n";
+	DYDiElefile <<"noshift_AM:"<<AODCaloJetAlphaMax->at(tempind)<<"\n";
+	DYDiElefile <<"noshift_IPSig:"<<AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	DYDiElefile <<"noshift_TA:"<<AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	DYDiElefile <<"shift_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)<<"\n";
+	DYDiElefile <<"shift_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)<<"\n";
+	DYDiElefile <<"shift_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)<<"\n";
+	DYDiElefile <<"diff_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)-AODCaloJetAlphaMax->at(tempind)<<"\n";
+	DYDiElefile <<"diff_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)-AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	DYDiElefile <<"diff_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)-AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	DYDiElefile <<"-------------------------------------------"<<"\n";
+	}
+	DYDiElefile <<"taggedjet_list size:"<<taggedjet_list.size()<<"\n";
+	DYDiElefile <<"-------------------------------------------"<<"\n";
+	DYDiElefile <<"-------------------------------------------"<<"\n";
+	}
+     if (i==9) {
+	ZHDiElefile <<run<<":"<<lumis<<":"<<event<<"\n";
+	ZHDiElefile <<"fullweight:"<<fullweight<<"\n";
+	ZHDiElefile <<"aodcalojet_list size:"<<aodcalojet_list.size()<<"\n";
+	for(int num=0; num<aodcalojet_list.size(); ++num){
+	int tempind = aodcalojet_list.at(num);
+	ZHDiElefile <<"AODCaloJet index:"<<tempind<<"\n";
+	ZHDiElefile <<"noshift_AM:"<<AODCaloJetAlphaMax->at(tempind)<<"\n";
+	ZHDiElefile <<"noshift_IPSig:"<<AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	ZHDiElefile <<"noshift_TA:"<<AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	ZHDiElefile <<"shift_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)<<"\n";
+	ZHDiElefile <<"shift_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)<<"\n";
+	ZHDiElefile <<"shift_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)<<"\n";
+	ZHDiElefile <<"diff_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)-AODCaloJetAlphaMax->at(tempind)<<"\n";
+	ZHDiElefile <<"diff_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)-AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	ZHDiElefile <<"diff_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)-AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	ZHDiElefile <<"-------------------------------------------"<<"\n";
+	}
+	ZHDiElefile <<"taggedjet_list size:"<<taggedjet_list.size()<<"\n";
+	ZHDiElefile <<"-------------------------------------------"<<"\n";
+	ZHDiElefile <<"-------------------------------------------"<<"\n";
+	}
+     if (i==7) {
+	DYDiMufile <<run<<":"<<lumis<<":"<<event<<"\n";
+	DYDiMufile <<"fullweight:"<<fullweight<<"\n";
+	DYDiMufile <<"aodcalojet_list size:"<<aodcalojet_list.size()<<"\n";
+	for(int num=0; num<aodcalojet_list.size(); ++num){
+	int tempind = aodcalojet_list.at(num);
+	DYDiMufile <<"AODCaloJet index:"<<tempind<<"\n";
+	DYDiMufile <<"noshift_AM:"<<AODCaloJetAlphaMax->at(tempind)<<"\n";
+	DYDiMufile <<"noshift_IPSig:"<<AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	DYDiMufile <<"noshift_TA:"<<AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	DYDiMufile <<"shift_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)<<"\n";
+	DYDiMufile <<"shift_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)<<"\n";
+	DYDiMufile <<"shift_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)<<"\n";
+	DYDiMufile <<"diff_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)-AODCaloJetAlphaMax->at(tempind)<<"\n";
+	DYDiMufile <<"diff_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)-AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	DYDiMufile <<"diff_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)-AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	DYDiMufile <<"-------------------------------------------"<<"\n";
+	}
+	DYDiMufile <<"taggedjet_list size:"<<taggedjet_list.size()<<"\n";
+	DYDiMufile <<"-------------------------------------------"<<"\n";
+	DYDiMufile <<"-------------------------------------------"<<"\n";
+	}
+     if (i==11) {
+	ZHDiMufile <<run<<":"<<lumis<<":"<<event<<"\n";
+	ZHDiMufile <<"fullweight:"<<fullweight<<"\n";
+	ZHDiMufile <<"aodcalojet_list size:"<<aodcalojet_list.size()<<"\n";
+	for(int num=0; num<aodcalojet_list.size(); ++num){
+	int tempind = aodcalojet_list.at(num);
+	ZHDiMufile <<"AODCaloJet index:"<<tempind<<"\n";
+	ZHDiMufile <<"noshift_AM:"<<AODCaloJetAlphaMax->at(tempind)<<"\n";
+	ZHDiMufile <<"noshift_IPSig:"<<AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	ZHDiMufile <<"noshift_TA:"<<AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	ZHDiMufile <<"shift_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)<<"\n";
+	ZHDiMufile <<"shift_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)<<"\n";
+	ZHDiMufile <<"shift_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)<<"\n";
+	ZHDiMufile <<"diff_AM:"<<Shifted_CaloJetAlphaMax.at(tempind)-AODCaloJetAlphaMax->at(tempind)<<"\n";
+	ZHDiMufile <<"diff_IPSig:"<<Shifted_CaloJetMedianLog10IPSig.at(tempind)-AODCaloJetMedianLog10IPSig->at(tempind)<<"\n";
+	ZHDiMufile <<"diff_TA:"<<Shifted_CaloJetMedianLog10TrackAngle.at(tempind)-AODCaloJetMedianLog10TrackAngle->at(tempind)<<"\n";
+	ZHDiMufile <<"-------------------------------------------"<<"\n";
+	}
+	ZHDiMufile <<"taggedjet_list size:"<<taggedjet_list.size()<<"\n";
+	ZHDiMufile <<"-------------------------------------------"<<"\n";
+	ZHDiMufile <<"-------------------------------------------"<<"\n";
+	}
+	}
+
+     //jets
+     if(jetMultOn){
+     for( unsigned int k=0; k<jetmultnames.size(); ++k){
+      fillSelectedJetHistograms( fullweight, i, k );
+     }  }
+     else{
+      fillSelectedJetHistograms( fullweight, i, (jetmultnames.size()-1) );
+     }
+
+     //tagged jets
+     for( unsigned int k=0; k<tagmultnames.size(); ++k){
+      fillSelectedTagHistograms( fullweight, i, k );
+     }  
+    } // if( dofillselbin[i] ){  
+   } // if i== one of the phase spaces we want to write
+  } // for(unsigned int i=0; i<selbinnames.size(); ++i)
 
   //debug_printobjects();   // helpful printout (turn off when submitting!!!)
 
@@ -449,13 +580,18 @@ TFile *outfile_bkgest = 0;
 // std::cout<<"   Percent calo matched to PF: "<<(float)n_matchedPFCalo/(float)n_totalCalo<<std::endl;
 // std::cout<<"   Percent calo matched to PFchs: "<<(float)n_matchedPFchsCalo/(float)n_totalCalo<<std::endl;
  std::cout<<std::endl<<std::endl;
+  
 
- TFile *outfile_GEW = 0;
- outfile_GEW = TFile::Open(outfilename+"_AODGenEventWeight.root","RECREATE");
- outfile_GEW->cd();
- h_sum_AODGenEventWeight->Write();
- h_sum_AODGenEventWeight->Delete();
- outfile_GEW->Close();
+  outfile_GEW->cd();
+  h_sum_AODGenEventWeight->Write();
+  h_sum_AODGenEventWeight->Delete();
+  outfile_GEW->Close();
+  
+  outfile_nPU->cd();
+  h_sum_AOD0thnPU->Write();
+  h_sum_AOD0thnPU->Delete();
+  outfile_nPU->Close();
+
  if(doBkgEst && uncbin.EqualTo("")){
    //Can choose more regions here
    outfile_bkgest->cd();
@@ -485,7 +621,7 @@ TFile *outfile_bkgest = 0;
  // make outfile and save histograms
  // write the histograms
  for(unsigned int i=0; i<selbinnames.size(); ++i){
-  if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
+  if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20 || i==13 || i==15 ){
 
      //Normalize variable binned histograms by bin width
      //Could put this in its own loop for clarity
@@ -500,7 +636,7 @@ TFile *outfile_bkgest = 0;
        writeSelectedJetHistograms( i, k );
      } }
      else{
-     writeSelectedJetHistograms( i, (jetmultnames.size()-1));
+       writeSelectedJetHistograms( i, (jetmultnames.size()-1));
      }
 
      //tag
@@ -510,6 +646,10 @@ TFile *outfile_bkgest = 0;
 
   } 
  } // if i== one of the phase spaces we want to write
+DYDiElefile.close();
+DYDiMufile.close();
+ZHDiElefile.close();
+ZHDiMufile.close();
 } // end analyzer_loop::Loop()
 
 

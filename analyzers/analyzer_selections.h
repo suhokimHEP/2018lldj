@@ -62,7 +62,7 @@ public :
    Bool_t passDoubleEle ;
    Bool_t passDoubleMu  ;
    Bool_t passSinglePho ;
-   Bool_t passMuEG ;
+   Bool_t passMuEG      ;
    Bool_t passOSSF      ;   
    Bool_t passOSOF      ;   
    Bool_t passZWindow   ;   

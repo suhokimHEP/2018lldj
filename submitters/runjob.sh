@@ -22,6 +22,8 @@ cp ../../puWeights_SinglePhoton_69200.root      .
 cp ../../2018_ElectronTight.root     .
 cp ../../2018_ElectronMedium.root    .
 cp ../../2018_ElectronLoose.root     .
+cp ../../RunABCD_SF_ID.root     .
+cp ../../RunABCD_SF_ISO.root     .
 cp ../../feff_ZH.root                           .
 
 

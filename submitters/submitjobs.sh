@@ -6,9 +6,10 @@
 # source xx/LLDJ/setup.sh for ${aversion}
 
 doSubmit=true
+#lumi=39113 # 7.57582+8.43466+0.2156965 
 lumi=58670 # 7.57582+8.43466+0.2156965 
 nevents=-1
-maxfilesperjob=100  # 500=6h
+maxfilesperjob=250  # 500=6h
 
 samples=(  \
 # "Data_DoubleMuon_A"         \
@@ -23,8 +24,8 @@ samples=(  \
 # "Data_MuonEG_B"         \
 # "Data_MuonEG_C"         \
 # "Data_MuonEG_D"         \
-# "mad_DYJetsToLL_M-50"            \
-# "DYJetsToLL_M-50"            \
+ "mad_DYJetsToLL_M-50"            \
+ "DYJetsToLL_M-50"            \
 # "WJetsToLNu"     \
 # "TTJets"          \
 # "ST_s-channel_4f_leptonDecays"             \
@@ -78,7 +79,7 @@ makeasubmitdir () {
  printf "Executable = ${CMSSW_BASE}/src/${FWVersion}/submitters/runjob.sh\n" >> submitfile
  printf "Should_Transfer_Files = YES \n" >> submitfile
  printf "WhenToTransferOutput = ON_EXIT\n" >> submitfile
- printf "Transfer_Input_Files = ${CMSSW_BASE}/src/${FWVersion}/analyzers/runanalyzer.exe,${CMSSW_BASE}/src/${FWVersion}/lists/$1.list,${CMSSW_BASE}/src/${FWVersion}/lists/$1.info,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_EGamma_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_MuonEG_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_SinglePhoton_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_DoubleMuon_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronTight.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronMedium.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronLoose.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/feff_ZH.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_69200_24jan2017.root\n" >> submitfile
+ printf "Transfer_Input_Files = ${CMSSW_BASE}/src/${FWVersion}/analyzers/runanalyzer.exe,${CMSSW_BASE}/src/${FWVersion}/lists/$1.list,${CMSSW_BASE}/src/${FWVersion}/lists/$1.info,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_EGamma_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_MuonEG_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_SinglePhoton_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_puWeights_DoubleMuon_69200.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronTight.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronMedium.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/2018_ElectronLoose.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/RunABCD_SF_ID.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/RunABCD_SF_ISO.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/feff_ZH.root,${CMSSW_BASE}/src/${FWVersion}/analyzers/puWeights_69200_24jan2017.root\n" >> submitfile
 
  printf "notify_user = $(whoami)@cern.ch\n" >> submitfile
  printf "x509userproxy = $X509_USER_PROXY\n" >> submitfile
@@ -89,9 +90,12 @@ makeasubmitdir () {
  printf "\n" >> submitfile
 
  # make haddfile (make now for merging expected results)
+ # make haddfile (make now for merging expected results)
  haddfile_OPTtree="./haddit_OPTtree.sh"
  haddfile_NM1trees="./haddit_NM1trees.sh"
  haddfile_BkgEst="./haddit_BkgEst.sh"
+ haddfile_AODGenEventWeight="./haddit_AODGenEventWeight.sh"
+ haddfile_AOD0thnPU="./haddit_AOD0thnPU.sh"
  #haddfile_OneEleSig_histograms="./haddit_OneEleSig_histograms.sh"                           
  haddfile_TwoEleSig_histograms="./haddit_TwoEleSig_histograms.sh"                           
  #haddfile_OneMuSig_histograms="./haddit_OneMuSig_histograms.sh"                           
@@ -105,14 +109,51 @@ makeasubmitdir () {
  #haddfile_OneMuZH_histograms="./haddit_OneMuZH_histograms.sh"                           
  haddfile_TwoMuZH_histograms="./haddit_TwoMuZH_histograms.sh"                           
  #haddfile_OneEleOffZ_histograms="./haddit_OneEleOffZ_histograms.sh"                           
- #haddfile_TwoEleOffZ_histograms="./haddit_TwoEleOffZ_histograms.sh"                           
+ haddfile_TwoEleOffZ_histograms="./haddit_TwoEleOffZ_histograms.sh"                           
  #haddfile_OneMuOffZ_histograms="./haddit_OneMuOffZ_histograms.sh"                           
- #haddfile_TwoMuOffZ_histograms="./haddit_TwoMuOffZ_histograms.sh"                           
+ haddfile_TwoMuOffZ_histograms="./haddit_TwoMuOffZ_histograms.sh"                           
  #haddfile_OneEleNoPair_histograms="./haddit_OneEleNoPair_histograms.sh"                           
  #haddfile_OneMuNoPair_histograms="./haddit_OneMuNoPair_histograms.sh"                           
  haddfile_EleMuOSOF_histograms="./haddit_EleMuOSOF_histograms.sh"                           
  haddfile_EleMuOSOFL_histograms="./haddit_EleMuOSOFL_histograms.sh"                           
  haddfile_OnePho_histograms="./haddit_OnePho_histograms.sh"                           
+ catfile_TwoEleZH_edmEventPick="./cat_TwoEleZH_edmEventPick.sh"                           
+ catfile_TwoMuZH_edmEventPick="./cat_TwoMuZH_edmEventPick.sh"                           
+ catfile_TwoEleDY_edmEventPick="./cat_TwoEleDY_edmEventPick.sh"                           
+ catfile_TwoMuDY_edmEventPick="./cat_TwoMuDY_edmEventPick.sh"                           
+ catfile_TwoEleZH_IPSigUp_edmEventPick="./cat_TwoEleZH_IPSigUp_edmEventPick.sh"                           
+ catfile_TwoMuZH_IPSigUp_edmEventPick="./cat_TwoMuZH_IPSigUp_edmEventPick.sh"                           
+ catfile_TwoEleDY_IPSigUp_edmEventPick="./cat_TwoEleDY_IPSigUp_edmEventPick.sh"                           
+ catfile_TwoMuDY_IPSigUp_edmEventPick="./cat_TwoMuDY_IPSigUp_edmEventPick.sh"                           
+ catfile_TwoEleZH_IPSigDown_edmEventPick="./cat_TwoEleZH_IPSigDown_edmEventPick.sh"                           
+ catfile_TwoMuZH_IPSigDown_edmEventPick="./cat_TwoMuZH_IPSigDown_edmEventPick.sh"                           
+ catfile_TwoEleDY_IPSigDown_edmEventPick="./cat_TwoEleDY_IPSigDown_edmEventPick.sh"                           
+ catfile_TwoMuDY_IPSigDown_edmEventPick="./cat_TwoMuDY_IPSigDown_edmEventPick.sh"                           
+ catfile_TwoEleZH_AMaxUp_edmEventPick="./cat_TwoEleZH_AMaxUp_edmEventPick.sh"                           
+ catfile_TwoMuZH_AMaxUp_edmEventPick="./cat_TwoMuZH_AMaxUp_edmEventPick.sh"                           
+ catfile_TwoEleDY_AMaxUp_edmEventPick="./cat_TwoEleDY_AMaxUp_edmEventPick.sh"                           
+ catfile_TwoMuDY_AMaxUp_edmEventPick="./cat_TwoMuDY_AMaxUp_edmEventPick.sh"                           
+ catfile_TwoEleZH_AMaxDown_edmEventPick="./cat_TwoEleZH_AMaxDown_edmEventPick.sh"                           
+ catfile_TwoMuZH_AMaxDown_edmEventPick="./cat_TwoMuZH_AMaxDown_edmEventPick.sh"                           
+ catfile_TwoEleDY_AMaxDown_edmEventPick="./cat_TwoEleDY_AMaxDown_edmEventPick.sh"                           
+ catfile_TwoMuDY_AMaxDown_edmEventPick="./cat_TwoMuDY_AMaxDown_edmEventPick.sh"                           
+ catfile_TwoEleZH_TAUp_edmEventPick="./cat_TwoEleZH_TAUp_edmEventPick.sh"                           
+ catfile_TwoMuZH_TAUp_edmEventPick="./cat_TwoMuZH_TAUp_edmEventPick.sh"                           
+ catfile_TwoEleDY_TAUp_edmEventPick="./cat_TwoEleDY_TAUp_edmEventPick.sh"                           
+ catfile_TwoMuDY_TAUp_edmEventPick="./cat_TwoMuDY_TAUp_edmEventPick.sh"                           
+
+ catfile_TwoEleZH_TADown_edmEventPick="./cat_TwoEleZH_TADown_edmEventPick.sh"                           
+ catfile_TwoMuZH_TADown_edmEventPick="./cat_TwoMuZH_TADown_edmEventPick.sh"                           
+ catfile_TwoEleDY_TADown_edmEventPick="./cat_TwoEleDY_TADown_edmEventPick.sh"                           
+ catfile_TwoMuDY_TADown_edmEventPick="./cat_TwoMuDY_TADown_edmEventPick.sh"                           
+ catfile_TwoEleZH_TagVarsUp_edmEventPick="./cat_TwoEleZH_TagVarsUp_edmEventPick.sh"                           
+ catfile_TwoMuZH_TagVarsUp_edmEventPick="./cat_TwoMuZH_TagVarsUp_edmEventPick.sh"                           
+ catfile_TwoEleDY_TagVarsUp_edmEventPick="./cat_TwoEleDY_TagVarsUp_edmEventPick.sh"                           
+ catfile_TwoMuDY_TagVarsUp_edmEventPick="./cat_TwoMuDY_TagVarsUp_edmEventPick.sh"                           
+ catfile_TwoEleZH_TagVarsDown_edmEventPick="./cat_TwoEleZH_TagVarsDown_edmEventPick.sh"                           
+ catfile_TwoMuZH_TagVarsDown_edmEventPick="./cat_TwoMuZH_TagVarsDown_edmEventPick.sh"                           
+ catfile_TwoEleDY_TagVarsDown_edmEventPick="./cat_TwoEleDY_TagVarsDown_edmEventPick.sh"                           
+ catfile_TwoMuDY_TagVarsDown_edmEventPick="./cat_TwoMuDY_TagVarsDown_edmEventPick.sh"                           
 
 
  hadddir="${rootdir}/${aversion}"
@@ -130,9 +171,9 @@ makeasubmitdir () {
  #printf "#!/bin/bash\n\n" > ${haddfile_OneMuZH_histograms}      
  printf "#!/bin/bash\n\n" > ${haddfile_TwoMuZH_histograms}      
  #printf "#!/bin/bash\n\n" > ${haddfile_OneEleOffZ_histograms}   
- #printf "#!/bin/bash\n\n" > ${haddfile_TwoEleOffZ_histograms}   
+ printf "#!/bin/bash\n\n" > ${haddfile_TwoEleOffZ_histograms}   
  #printf "#!/bin/bash\n\n" > ${haddfile_OneMuOffZ_histograms}    
- #printf "#!/bin/bash\n\n" > ${haddfile_TwoMuOffZ_histograms}    
+ printf "#!/bin/bash\n\n" > ${haddfile_TwoMuOffZ_histograms}    
  #printf "#!/bin/bash\n\n" > ${haddfile_OneEleNoPair_histograms} 
  #printf "#!/bin/bash\n\n" > ${haddfile_OneMuNoPair_histograms}  
  printf "#!/bin/bash\n\n" > ${haddfile_EleMuOSOF_histograms}    
@@ -141,6 +182,45 @@ makeasubmitdir () {
  printf "#!/bin/bash\n\n" > ${haddfile_OPTtree}          
  printf "#!/bin/bash\n\n" > ${haddfile_NM1trees}          
  printf "#!/bin/bash\n\n" > ${haddfile_BkgEst}
+ printf "#!/bin/bash\n\n" > ${haddfile_AODGenEventWeight}
+ printf "#!/bin/bash\n\n" > ${haddfile_AOD0thnPU}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_IPSigUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_IPSigUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_IPSigUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_IPSigUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_IPSigDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_IPSigDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_IPSigDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_IPSigDown_edmEventPick}
+
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_AMaxUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_AMaxUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_AMaxUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_AMaxUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_AMaxDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_AMaxDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_AMaxDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_AMaxDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_TAUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_TAUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_TAUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_TAUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_TADown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_TADown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_TADown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_TADown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_TagVarsUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_TagVarsUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_TagVarsUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_TagVarsUp_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleZH_TagVarsDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuZH_TagVarsDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoEleDY_TagVarsDown_edmEventPick}
+ printf "#!/bin/bash\n\n" > ${catfile_TwoMuDY_TagVarsDown_edmEventPick}
 
  # make checker
  checkfile="./checker.sh"
@@ -161,9 +241,9 @@ makeasubmitdir () {
  #printf "hadd ${hadddir}/$1_OneMuZH_histograms.root"       >>       ${haddfile_OneMuZH_histograms}      
  printf "hadd ${hadddir}/$1_TwoMuZH_histograms.root"       >>       ${haddfile_TwoMuZH_histograms}      
  #printf "hadd ${hadddir}/$1_OneEleOffZ_histograms.root"    >>       ${haddfile_OneEleOffZ_histograms}   
- #printf "hadd ${hadddir}/$1_TwoEleOffZ_histograms.root"    >>       ${haddfile_TwoEleOffZ_histograms}   
+ printf "hadd ${hadddir}/$1_TwoEleOffZ_histograms.root"    >>       ${haddfile_TwoEleOffZ_histograms}   
  #printf "hadd ${hadddir}/$1_OneMuOffZ_histograms.root"     >>       ${haddfile_OneMuOffZ_histograms}    
- #printf "hadd ${hadddir}/$1_TwoMuOffZ_histograms.root"     >>       ${haddfile_TwoMuOffZ_histograms}    
+ printf "hadd ${hadddir}/$1_TwoMuOffZ_histograms.root"     >>       ${haddfile_TwoMuOffZ_histograms}    
  #printf "hadd ${hadddir}/$1_OneEleNoPair_histograms.root"  >>       ${haddfile_OneEleNoPair_histograms} 
  #printf "hadd ${hadddir}/$1_OneMuNoPair_histograms.root"   >>       ${haddfile_OneMuNoPair_histograms}  
  printf "hadd ${hadddir}/$1_EleMuOSOF_histograms.root"     >>       ${haddfile_EleMuOSOF_histograms}    
@@ -172,6 +252,45 @@ makeasubmitdir () {
  printf "hadd ${hadddir}/$1_OPTtree.root"                  >>       ${haddfile_OPTtree}           
  printf "hadd ${hadddir}/$1_NM1tree.root"                  >>       ${haddfile_NM1trees}           
  printf "hadd ${hadddir}/$1_BkgEst.root"                   >>       ${haddfile_BkgEst}           
+ printf "hadd ${hadddir}/$1_AODGenEventWeight.root"        >>       ${haddfile_AODGenEventWeight}           
+ printf "hadd ${hadddir}/$1_AOD0thnPU.root"                >>       ${haddfile_AOD0thnPU}           
+ printf "cat "  >> ${catfile_TwoEleZH_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_IPSigUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_IPSigUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_IPSigUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_IPSigUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_IPSigDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_IPSigDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_IPSigDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_IPSigDown_edmEventPick}           
+
+ printf "cat "  >> ${catfile_TwoEleZH_AMaxUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_AMaxUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_AMaxUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_AMaxUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_AMaxDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_AMaxDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_AMaxDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_AMaxDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_TAUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_TAUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_TAUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_TAUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_TADown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_TADown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_TADown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_TADown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_TagVarsUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_TagVarsUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_TagVarsUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_TagVarsUp_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleZH_TagVarsDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuZH_TagVarsDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoEleDY_TagVarsDown_edmEventPick}           
+ printf "cat "  >> ${catfile_TwoMuDY_TagVarsDown_edmEventPick}           
 
  # breaking up input file list
  nfilesinlist=$( wc -l < "${CMSSW_BASE}/src/${FWVersion}/lists/$1.list" )
@@ -201,9 +320,9 @@ makeasubmitdir () {
   #printf "\\"  >> ${haddfile_OneMuZH_histograms}      
   printf "\\"  >> ${haddfile_TwoMuZH_histograms}      
   #printf "\\"  >> ${haddfile_OneEleOffZ_histograms}   
-  #printf "\\"  >> ${haddfile_TwoEleOffZ_histograms}   
+  printf "\\"  >> ${haddfile_TwoEleOffZ_histograms}   
   #printf "\\"  >> ${haddfile_OneMuOffZ_histograms}    
-  #printf "\\"  >> ${haddfile_TwoMuOffZ_histograms}    
+  printf "\\"  >> ${haddfile_TwoMuOffZ_histograms}    
   #printf "\\"  >> ${haddfile_OneEleNoPair_histograms} 
   #printf "\\"  >> ${haddfile_OneMuNoPair_histograms}  
   printf "\\"  >> ${haddfile_EleMuOSOF_histograms}    
@@ -212,6 +331,8 @@ makeasubmitdir () {
   printf "\\"  >> ${haddfile_OPTtree}           
   printf "\\"  >> ${haddfile_NM1trees}           
   printf "\\"  >> ${haddfile_BkgEst}           
+  printf "\\"  >> ${haddfile_AODGenEventWeight}           
+  printf "\\"  >> ${haddfile_AOD0thnPU}           
 
   #printf "\n $(pwd)/$1_${jobfilenr}_OneEleSig_histograms.root"     >> ${haddfile_OneEleSig_histograms}    
   printf "\n $(pwd)/$1_${jobfilenr}_TwoEleSig_histograms.root"     >> ${haddfile_TwoEleSig_histograms}    
@@ -226,9 +347,9 @@ makeasubmitdir () {
   #printf "\n $(pwd)/$1_${jobfilenr}_OneMuZH_histograms.root"       >> ${haddfile_OneMuZH_histograms}      
   printf "\n $(pwd)/$1_${jobfilenr}_TwoMuZH_histograms.root"       >> ${haddfile_TwoMuZH_histograms}      
   #printf "\n $(pwd)/$1_${jobfilenr}_OneEleOffZ_histograms.root"    >> ${haddfile_OneEleOffZ_histograms}   
-  #printf "\n $(pwd)/$1_${jobfilenr}_TwoEleOffZ_histograms.root"    >> ${haddfile_TwoEleOffZ_histograms}   
+  printf "\n $(pwd)/$1_${jobfilenr}_TwoEleOffZ_histograms.root"    >> ${haddfile_TwoEleOffZ_histograms}   
   #printf "\n $(pwd)/$1_${jobfilenr}_OneMuOffZ_histograms.root"     >> ${haddfile_OneMuOffZ_histograms}    
-  #printf "\n $(pwd)/$1_${jobfilenr}_TwoMuOffZ_histograms.root"     >> ${haddfile_TwoMuOffZ_histograms}    
+  printf "\n $(pwd)/$1_${jobfilenr}_TwoMuOffZ_histograms.root"     >> ${haddfile_TwoMuOffZ_histograms}    
   #printf "\n $(pwd)/$1_${jobfilenr}_OneEleNoPair_histograms.root"  >> ${haddfile_OneEleNoPair_histograms} 
   #printf "\n $(pwd)/$1_${jobfilenr}_OneMuNoPair_histograms.root"   >> ${haddfile_OneMuNoPair_histograms}  
   printf "\n $(pwd)/$1_${jobfilenr}_EleMuOSOF_histograms.root"     >> ${haddfile_EleMuOSOF_histograms}    
@@ -237,6 +358,44 @@ makeasubmitdir () {
   printf "\n $(pwd)/$1_${jobfilenr}_OPTtree.root"                  >> ${haddfile_OPTtree}           
   printf "\n $(pwd)/$1_${jobfilenr}_NM1tree.root"                  >> ${haddfile_NM1trees}           
   printf "\n $(pwd)/$1_${jobfilenr}_BkgEst.root"                   >> ${haddfile_BkgEst}
+  printf "\n $(pwd)/$1_${jobfilenr}_AODGenEventWeight.root"        >> ${haddfile_AODGenEventWeight}
+  printf "\n $(pwd)/$1_${jobfilenr}_AOD0thnPU.root"                >> ${haddfile_AOD0thnPU}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_edmEventPick.txt "    >> ${catfile_TwoEleZH_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_edmEventPick.txt "    >> ${catfile_TwoMuZH_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_edmEventPick.txt "    >> ${catfile_TwoEleDY_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_edmEventPick.txt "    >> ${catfile_TwoMuDY_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_IPSigUp_edmEventPick.txt "    >> ${catfile_TwoEleZH_IPSigUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_IPSigUp_edmEventPick.txt "    >> ${catfile_TwoMuZH_IPSigUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_IPSigUp_edmEventPick.txt "    >> ${catfile_TwoEleDY_IPSigUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_IPSigUp_edmEventPick.txt "    >> ${catfile_TwoMuDY_IPSigUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_IPSigDown_edmEventPick.txt "    >> ${catfile_TwoEleZH_IPSigDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_IPSigDown_edmEventPick.txt "    >> ${catfile_TwoMuZH_IPSigDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_IPSigDown_edmEventPick.txt "    >> ${catfile_TwoEleDY_IPSigDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_IPSigDown_edmEventPick.txt "    >> ${catfile_TwoMuDY_IPSigDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_AMaxUp_edmEventPick.txt "    >> ${catfile_TwoEleZH_AMaxUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_AMaxUp_edmEventPick.txt "    >> ${catfile_TwoMuZH_AMaxUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_AMaxUp_edmEventPick.txt "    >> ${catfile_TwoEleDY_AMaxUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_AMaxUp_edmEventPick.txt "    >> ${catfile_TwoMuDY_AMaxUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_AMaxDown_edmEventPick.txt "    >> ${catfile_TwoEleZH_AMaxDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_AMaxDown_edmEventPick.txt "    >> ${catfile_TwoMuZH_AMaxDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_AMaxDown_edmEventPick.txt "    >> ${catfile_TwoEleDY_AMaxDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_AMaxDown_edmEventPick.txt "    >> ${catfile_TwoMuDY_AMaxDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_TAUp_edmEventPick.txt "    >> ${catfile_TwoEleZH_TAUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_TAUp_edmEventPick.txt "    >> ${catfile_TwoMuZH_TAUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_TAUp_edmEventPick.txt "    >> ${catfile_TwoEleDY_TAUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_TAUp_edmEventPick.txt "    >> ${catfile_TwoMuDY_TAUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_TADown_edmEventPick.txt "    >> ${catfile_TwoEleZH_TADown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_TADown_edmEventPick.txt "    >> ${catfile_TwoMuZH_TADown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_TADown_edmEventPick.txt "    >> ${catfile_TwoEleDY_TADown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_TADown_edmEventPick.txt "    >> ${catfile_TwoMuDY_TADown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_TagVarsUp_edmEventPick.txt "    >> ${catfile_TwoEleZH_TagVarsUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_TagVarsUp_edmEventPick.txt "    >> ${catfile_TwoMuZH_TagVarsUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_TagVarsUp_edmEventPick.txt "    >> ${catfile_TwoEleDY_TagVarsUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_TagVarsUp_edmEventPick.txt "    >> ${catfile_TwoMuDY_TagVarsUp_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleZH_TagVarsDown_edmEventPick.txt "    >> ${catfile_TwoEleZH_TagVarsDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuZH_TagVarsDown_edmEventPick.txt "    >> ${catfile_TwoMuZH_TagVarsDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoEleDY_TagVarsDown_edmEventPick.txt "    >> ${catfile_TwoEleDY_TagVarsDown_edmEventPick}
+  printf "$(pwd)/$1_${jobfilenr}_cat_TwoMuDY_TagVarsDown_edmEventPick.txt "    >> ${catfile_TwoMuDY_TagVarsDown_edmEventPick}
 
   # add file to checker, all histos are made at the same time, so only check one
   printf "\n if [ ! -f $(pwd)/$1_${jobfilenr}_OPTtree.root ]; then printf \" $(pwd)/$1_${jobfilenr}_OPTtree.root \\n\"; fi " >> ${checkfile}
@@ -261,9 +420,9 @@ makeasubmitdir () {
  #printf "\n\n" >> ${haddfile_OneMuZH_histograms}      
  printf "\n\n" >> ${haddfile_TwoMuZH_histograms}      
  #printf "\n\n" >> ${haddfile_OneEleOffZ_histograms}   
- #printf "\n\n" >> ${haddfile_TwoEleOffZ_histograms}   
+ printf "\n\n" >> ${haddfile_TwoEleOffZ_histograms}   
  #printf "\n\n" >> ${haddfile_OneMuOffZ_histograms}    
- #printf "\n\n" >> ${haddfile_TwoMuOffZ_histograms}    
+ printf "\n\n" >> ${haddfile_TwoMuOffZ_histograms}    
  #printf "\n\n" >> ${haddfile_OneEleNoPair_histograms} 
  #printf "\n\n" >> ${haddfile_OneMuNoPair_histograms}  
  printf "\n\n" >> ${haddfile_EleMuOSOF_histograms}    
@@ -272,6 +431,45 @@ makeasubmitdir () {
  printf "\n\n" >> ${haddfile_OPTtree}           
  printf "\n\n" >> ${haddfile_NM1trees}           
  printf "\n\n" >> ${haddfile_BkgEst}
+ printf "\n\n" >> ${haddfile_AODGenEventWeight}
+ printf "\n\n" >> ${haddfile_AOD0thnPU}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_edmEventPick.txt" >> ${catfile_TwoEleZH_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_edmEventPick.txt" >> ${catfile_TwoMuZH_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_edmEventPick.txt" >> ${catfile_TwoEleDY_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_edmEventPick.txt" >> ${catfile_TwoMuDY_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_IPSigUp_edmEventPick.txt" >> ${catfile_TwoEleZH_IPSigUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_IPSigUp_edmEventPick.txt" >> ${catfile_TwoMuZH_IPSigUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_IPSigUp_edmEventPick.txt" >> ${catfile_TwoEleDY_IPSigUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_IPSigUp_edmEventPick.txt" >> ${catfile_TwoMuDY_IPSigUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_IPSigDown_edmEventPick.txt" >> ${catfile_TwoEleZH_IPSigDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_IPSigDown_edmEventPick.txt" >> ${catfile_TwoMuZH_IPSigDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_IPSigDown_edmEventPick.txt" >> ${catfile_TwoEleDY_IPSigDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_IPSigDown_edmEventPick.txt" >> ${catfile_TwoMuDY_IPSigDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_AMaxUp_edmEventPick.txt" >> ${catfile_TwoEleZH_AMaxUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_AMaxUp_edmEventPick.txt" >> ${catfile_TwoMuZH_AMaxUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_AMaxUp_edmEventPick.txt" >> ${catfile_TwoEleDY_AMaxUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_AMaxUp_edmEventPick.txt" >> ${catfile_TwoMuDY_AMaxUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_AMaxDown_edmEventPick.txt" >> ${catfile_TwoEleZH_AMaxDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_AMaxDown_edmEventPick.txt" >> ${catfile_TwoMuZH_AMaxDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_AMaxDown_edmEventPick.txt" >> ${catfile_TwoEleDY_AMaxDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_AMaxDown_edmEventPick.txt" >> ${catfile_TwoMuDY_AMaxDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_TAUp_edmEventPick.txt" >> ${catfile_TwoEleZH_TAUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_TAUp_edmEventPick.txt" >> ${catfile_TwoMuZH_TAUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_TAUp_edmEventPick.txt" >> ${catfile_TwoEleDY_TAUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_TAUp_edmEventPick.txt" >> ${catfile_TwoMuDY_TAUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_TADown_edmEventPick.txt" >> ${catfile_TwoEleZH_TADown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_TADown_edmEventPick.txt" >> ${catfile_TwoMuZH_TADown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_TADown_edmEventPick.txt" >> ${catfile_TwoEleDY_TADown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_TADown_edmEventPick.txt" >> ${catfile_TwoMuDY_TADown_edmEventPick}
+
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_TagVarsUp_edmEventPick.txt" >> ${catfile_TwoEleZH_TagVarsUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_TagVarsUp_edmEventPick.txt" >> ${catfile_TwoMuZH_TagVarsUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_TagVarsUp_edmEventPick.txt" >> ${catfile_TwoEleDY_TagVarsUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_TagVarsUp_edmEventPick.txt" >> ${catfile_TwoMuDY_TagVarsUp_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleZH/$1_cat_TwoEleZH_TagVarsDown_edmEventPick.txt" >> ${catfile_TwoEleZH_TagVarsDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuZH/$1_cat_TwoMuZH_TagVarsDown_edmEventPick.txt" >> ${catfile_TwoMuZH_TagVarsDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoEleDY/$1_cat_TwoEleDY_TagVarsDown_edmEventPick.txt" >> ${catfile_TwoEleDY_TagVarsDown_edmEventPick}
+ printf ">> ${hadddir}/$1/TwoMuDY/$1_cat_TwoMuDY_TagVarsDown_edmEventPick.txt" >> ${catfile_TwoMuDY_TagVarsDown_edmEventPick}
 
  if [ ${doSubmit} = true ]
  then

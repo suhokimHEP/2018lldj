@@ -23,6 +23,10 @@ cp ../../2018_ElectronTight.root     .
 cp ../../2018_ElectronMedium.root    .
 cp ../../2018_ElectronLoose.root     .
 cp ../../feff_ZH.root                           .
+cp ../../Zsf.root                           .
+cp ../../Zsf_0Jet.root                           .
+cp ../../Zsf_1Jet.root                           .
+cp ../../Zsf_nJet.root                           .
 
 
 scramv1 build -j 10

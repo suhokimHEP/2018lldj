@@ -286,6 +286,9 @@ public :
  TH1F*  h_AOD_OSOFdilepton_Mass       [SELBINNAMESIZE];
  TH1F*  h_AOD_OSOFdilepton_Pt         [SELBINNAMESIZE];
  TH1F*  h_AOD_OSOFdileptonNewB_Pt         [SELBINNAMESIZE];
+ TH1F*  h_0Jet_AOD_dileptonNewB_Pt             [SELBINNAMESIZE];
+ TH1F*  h_1Jet_AOD_dileptonNewB_Pt             [SELBINNAMESIZE];
+ TH1F*  h_nJet_AOD_dileptonNewB_Pt             [SELBINNAMESIZE];
 
  // Photon
  TH1F*  h_AOD_nPho                     [SELBINNAMESIZE];
@@ -374,6 +377,24 @@ public :
  TH1F*  h_AODCaloJetAbsEta                         [SELBINNAMESIZE][JETMULTNAMESIZE];
  TH2F*  h_AODCaloJetPtVarAbsEtaVar                 [SELBINNAMESIZE][JETMULTNAMESIZE];
  TH2F*  h_AODCaloJetEtaVsPhi                       [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetPt                             [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetEta                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetPhi                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetAlphaMax                       [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetMedianLog10IPSig               [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_1Jet_AODCaloJetMedianLog10TrackAngle          [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetPt                             [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetEta                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetPhi                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetAlphaMax                       [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetMedianLog10IPSig               [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_2Jet_AODCaloJetMedianLog10TrackAngle          [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetPt                             [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetEta                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetPhi                            [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetAlphaMax                       [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetMedianLog10IPSig               [SELBINNAMESIZE][JETMULTNAMESIZE];
+ TH1F*  h_nJet_AODCaloJetMedianLog10TrackAngle          [SELBINNAMESIZE][JETMULTNAMESIZE];
  
  
  // AODCaloJetL1PFHistograms

@@ -16,11 +16,17 @@ public :
  Float_t         makeEventWeight(Float_t crossSec, Float_t lumi,
                                   Float_t nrEvents);
  void            loadPUWeight();
+ void            loadZsfWeight();
  Float_t         makePUWeight( TString dataset );
+ Float_t         makeZsfWeight( Float_t dilep_pt, std::vector<int> aodcalojet_list );
  TH1F*           PUWeights_DoubleEG     ;
  TH1F*           PUWeights_DoubleMu     ;
  TH1F*           PUWeights_MuonEG       ;
  TH1F*           PUWeights_SinglePhoton ;
+ TH1F*           ZsfWeights ;
+ TH1F*           ZsfWeights_0Jet ;
+ TH1F*           ZsfWeights_1Jet ;
+ TH1F*           ZsfWeights_nJet ;
  void            loadElectronWeight( TString eleid );
  Float_t         makeElectronWeight( std::vector<int> &electron_list );
  TH2F*           EleWeights;

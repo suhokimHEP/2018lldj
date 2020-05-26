@@ -21,6 +21,7 @@ void analyzer_loop::Loop(TString outfilename,
                        Float_t crossSec, Float_t avgTTSF,
                        Int_t nevts, TFile *optfile, TFile *NM1file, TString uncbin)
 {
+ Float_t Zsf[100]={150.0,170.0,200.0,230.0,260.0,290.0,320.0,350.0,390.0,430.0,470.0,510.0,550.0,590.0,640.0,690.0,740.0,790.0,840.0,900.0,960.0,1020.0,1090.0,1160.0,1250.0};
 
 
  if(makelog){
@@ -37,6 +38,7 @@ void analyzer_loop::Loop(TString outfilename,
  clearglobalcounters();
 
  if(isMC) loadPUWeight();
+ if(isMC) loadZsfWeight();
  if(isMC) loadElectronWeight( eleid );
 
  std::cout<<"uncbin: "<<uncbin<<std::endl;
@@ -52,11 +54,11 @@ TFile *outfile_bkgest = 0;
 // TFile *outfile_nPU = 0;
 // outfile_nPU = TFile::Open(outfilename+"_AOD0thnPU.root","RECREATE");
 // TH1F* h_sum_AOD0thnPU = new TH1F("h_sum_AOD0thnPU","h_sum_AOD0thnPU", 120,0.00,120.00);
-
+int count;
  // start looping over entries
  Long64_t nbytes = 0, nb = 0;
  for (Long64_t jentry=0; jentry<nentries;jentry++) {
-
+  count++;
   L1PFremoved=kFALSE;
   cleareventcounters();
 
@@ -183,19 +185,26 @@ TFile *outfile_bkgest = 0;
   calculateHT();
 
   makeDiLepton();
-
   // set booleans if pass selections 
   passOSSF = (dilep_mass>20.);
   passOSOF = (OSOF_mass>20.);
   passPTOSOF = (OSOF_pt>100.);
-  passPTOSOFL = (OSOF_pt>10. && OSOF_pt<100.);
+  passPTOSOFL = (OSOF_pt<100.);
   passZWindow = (dilep_mass>70. && dilep_mass<110.);
   passZWinOSOF= (OSOF_mass>70. && OSOF_mass<110.);
 
   passPTOSSF     = (dilep_pt>=100.);
-  passPTOSSFL    = (dilep_pt>=10. && dilep_pt<100.);
-  passPTOSSFL_2  = (dilep_pt>=10.);
-
+  passPTOSSFL    = ( dilep_pt<100.);
+  passPTOSSFL_2  = (dilep_pt>=0.);
+  //cout<<event_weight<<endl;
+  //cout<<dilep_pt<<endl;
+  if(outfilename.Contains("DYJetsToLL_M-50")){
+	Float_t appZsf=makeZsfWeight(dilep_pt,aodcalojet_list);
+	//cout<<appZsf<<endl;
+	//event_weight *= appZsf;
+	}
+  //cout<<event_weight<<endl;
+  //cout<<"----------"<<endl;
   passGoodVtx = AODnGoodVtx>0; 
   passOneJet  = false; if (aodcalojet_list.size()>0) passOneJet=true;  
   passOneTag  = false; if (taggedjet_list.size()>0) passOneTag=true;  

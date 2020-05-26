@@ -343,14 +343,20 @@ Bool_t analyzer_histograms::initLepHistograms( TString uncbin ){
   TString hname_AOD_OSOFdilepton_Mass = "h_"+selbinnames[i]+"_AOD_OSOFdilepton_Mass"+uncbin; 
   TString hname_AOD_OSOFdilepton_Pt   = "h_"+selbinnames[i]+"_AOD_OSOFdilepton_Pt"  +uncbin; 
   TString hname_AOD_OSOFdileptonNewB_Pt   = "h_"+selbinnames[i]+"_AOD_OSOFdileptonNewB_Pt"  +uncbin; 
+  TString hname_0Jet_AOD_dileptonNewB_Pt   = "h_"+selbinnames[i]+"_0Jet_AOD_dileptonNewB_Pt"  +uncbin; 
+  TString hname_1Jet_AOD_dileptonNewB_Pt   = "h_"+selbinnames[i]+"_1Jet_AOD_dileptonNewB_Pt"  +uncbin; 
+  TString hname_nJet_AOD_dileptonNewB_Pt   = "h_"+selbinnames[i]+"_nJet_AOD_dileptonNewB_Pt"  +uncbin; 
 
-  h_AOD_dilepton_Mass[i] = initSingleHistogramTH1F( hname_AOD_dilepton_Mass, "AOD_dilepton_Mass", 30,  60, 120) ;  
-  h_AOD_dileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_AOD_dileptonNewB_Pt  , "AOD_dileptonNewB_Pt  ", 50,   0, 500) ;  
+  h_AOD_dilepton_Mass[i] = initSingleHistogramTH1F( hname_AOD_dilepton_Mass, "AOD_dilepton_Mass", 60,  60, 120) ;  
+  h_AOD_dileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_AOD_dileptonNewB_Pt  , "AOD_dileptonNewB_Pt  ", 100,   0, 200) ;  
   h_AOD_dilepton_Pt  [i] = initSingleHistogramTH1F( hname_AOD_dilepton_Pt  , "AOD_dilepton_Pt  ", 24, x_bins);
   
-  h_AOD_OSOFdilepton_Mass[i] = initSingleHistogramTH1F( hname_AOD_OSOFdilepton_Mass, "AOD_OSOFdilepton_Mass", 30,  60, 120) ;  
-  h_AOD_OSOFdileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_AOD_OSOFdileptonNewB_Pt  , "AOD_OSOFdileptonNewB_Pt  ", 50,   0, 500) ;  
+  h_AOD_OSOFdilepton_Mass[i] = initSingleHistogramTH1F( hname_AOD_OSOFdilepton_Mass, "AOD_OSOFdilepton_Mass", 60,  60, 120) ;  
+  h_AOD_OSOFdileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_AOD_OSOFdileptonNewB_Pt  , "AOD_OSOFdileptonNewB_Pt  ", 100,   0, 200) ;  
   h_AOD_OSOFdilepton_Pt  [i] = initSingleHistogramTH1F( hname_AOD_OSOFdilepton_Pt  , "AOD_OSOFdilepton_Pt  ", 24,x_bins);  
+  h_0Jet_AOD_dileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_0Jet_AOD_dileptonNewB_Pt  , "0Jet_AOD_dileptonNewB_Pt  ", 100,   0, 200) ;  
+  h_1Jet_AOD_dileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_1Jet_AOD_dileptonNewB_Pt  , "1Jet_AOD_dileptonNewB_Pt  ", 100,   0, 200) ;  
+  h_nJet_AOD_dileptonNewB_Pt  [i] = initSingleHistogramTH1F( hname_nJet_AOD_dileptonNewB_Pt  , "nJet_AOD_dileptonNewB_Pt  ", 100,   0, 200) ;  
  }
  return kTRUE;
 }
@@ -360,8 +366,21 @@ Bool_t analyzer_histograms::fillLepHistograms(Float_t weight, int selbin )
 {
   hist_file_out[selbin]->cd();
   h_AOD_dilepton_Mass  [selbin]->Fill( dilep_mass, weight );
+  if (dilep_pt>=200.){h_AOD_dileptonNewB_Pt    [selbin]->Fill( 199.9, weight );}
+  else {h_AOD_dileptonNewB_Pt    [selbin]->Fill( dilep_pt, weight );}
+  if(aodcalojet_list.size()==0){
+  if (dilep_pt>=200.){h_0Jet_AOD_dileptonNewB_Pt    [selbin]->Fill( 199.9, weight );}
+  else {h_0Jet_AOD_dileptonNewB_Pt    [selbin]->Fill( dilep_pt, weight );}
+  }
+  if(aodcalojet_list.size()==1){
+  if (dilep_pt>=200.){h_1Jet_AOD_dileptonNewB_Pt    [selbin]->Fill( 199.9, weight );}
+  else {h_1Jet_AOD_dileptonNewB_Pt    [selbin]->Fill( dilep_pt, weight );}
+  }
+  if(aodcalojet_list.size()>1){
+  if (dilep_pt>=200.){h_nJet_AOD_dileptonNewB_Pt    [selbin]->Fill( 199.9, weight );}
+  else {h_nJet_AOD_dileptonNewB_Pt    [selbin]->Fill( dilep_pt, weight );}
+  }
   h_AOD_dilepton_Pt    [selbin]->Fill( dilep_pt, weight );
-  h_AOD_dileptonNewB_Pt    [selbin]->Fill( dilep_pt, weight );
   h_AOD_OSOFdilepton_Mass  [selbin]->Fill( OSOF_mass, weight );
   h_AOD_OSOFdilepton_Pt    [selbin]->Fill( OSOF_pt, weight );
   h_AOD_OSOFdileptonNewB_Pt    [selbin]->Fill( OSOF_pt, weight );
@@ -375,6 +394,9 @@ Bool_t analyzer_histograms::writeLepHistograms(int selbin)
  h_AOD_dilepton_Mass           [selbin]->Write();
  h_AOD_dilepton_Pt             [selbin]->Write();
  h_AOD_dileptonNewB_Pt             [selbin]->Write();
+ h_0Jet_AOD_dileptonNewB_Pt             [selbin]->Write();
+ h_1Jet_AOD_dileptonNewB_Pt             [selbin]->Write();
+ h_nJet_AOD_dileptonNewB_Pt             [selbin]->Write();
  h_AOD_OSOFdilepton_Mass       [selbin]->Write();
  h_AOD_OSOFdilepton_Pt         [selbin]->Write();
  h_AOD_OSOFdileptonNewB_Pt         [selbin]->Write();
@@ -388,7 +410,9 @@ Bool_t analyzer_histograms::deleteLepHistograms(int selbin)
   hist_file_out[selbin]->cd();
   if(h_AOD_dilepton_Mass    [selbin]!=NULL)   h_AOD_dilepton_Mass           [selbin]->Delete();
   if(h_AOD_dilepton_Pt      [selbin]!=NULL)   h_AOD_dilepton_Pt             [selbin]->Delete();
-  if(h_AOD_dileptonNewB_Pt      [selbin]!=NULL)   h_AOD_dileptonNewB_Pt             [selbin]->Delete();
+  if(h_0Jet_AOD_dileptonNewB_Pt      [selbin]!=NULL)   h_0Jet_AOD_dileptonNewB_Pt             [selbin]->Delete();
+  if(h_1Jet_AOD_dileptonNewB_Pt      [selbin]!=NULL)   h_1Jet_AOD_dileptonNewB_Pt             [selbin]->Delete();
+  if(h_nJet_AOD_dileptonNewB_Pt      [selbin]!=NULL)   h_nJet_AOD_dileptonNewB_Pt             [selbin]->Delete();
   if(h_AOD_OSOFdilepton_Mass[selbin]!=NULL)   h_AOD_OSOFdilepton_Mass       [selbin]->Delete();
   if(h_AOD_OSOFdilepton_Pt  [selbin]!=NULL)   h_AOD_OSOFdilepton_Pt         [selbin]->Delete();  
   if(h_AOD_OSOFdileptonNewB_Pt  [selbin]!=NULL)   h_AOD_OSOFdileptonNewB_Pt         [selbin]->Delete();  
@@ -582,10 +606,28 @@ Bool_t analyzer_histograms::initAODCaloJetBasicHistograms( TString uncbin )
         TString hname_AODCaloJetAbsEta                        = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_AODCaloJetAbsEta"               +uncbin; 
 	TString hname_AODCaloJetPtVarAbsEtaVar                = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_AODCaloJetPtVarAbsEtaVar"       +uncbin; 
 	TString hname_AODCaloJetEtaVsPhi                      = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_AODCaloJetEtaVsPhi"             +uncbin; 
-	h_AODCaloJetPt                             [i][k] = initSingleHistogramTH1F( hname_AODCaloJetPt                             , "AODCaloJetPt                            ", 50,0,500  ); 
+	TString hname_nJet_AODCaloJetPt                            = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetPt"                   +uncbin; 
+	TString hname_nJet_AODCaloJetEta                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetEta"                  +uncbin; 
+	TString hname_nJet_AODCaloJetPhi                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetPhi"                  +uncbin; 
+	TString hname_nJet_AODCaloJetAlphaMax                      = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetAlphaMax"             +uncbin; 
+	TString hname_nJet_AODCaloJetMedianLog10IPSig              = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetMedianLog10IPSig"     +uncbin; 
+	TString hname_nJet_AODCaloJetMedianLog10TrackAngle         = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_nJet_AODCaloJetMedianLog10TrackAngle"+uncbin; 
+	TString hname_1Jet_AODCaloJetPt                            = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetPt"                   +uncbin; 
+	TString hname_1Jet_AODCaloJetEta                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetEta"                  +uncbin; 
+	TString hname_1Jet_AODCaloJetPhi                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetPhi"                  +uncbin; 
+	TString hname_1Jet_AODCaloJetAlphaMax                      = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetAlphaMax"             +uncbin; 
+	TString hname_1Jet_AODCaloJetMedianLog10IPSig              = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetMedianLog10IPSig"     +uncbin; 
+	TString hname_1Jet_AODCaloJetMedianLog10TrackAngle         = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_1Jet_AODCaloJetMedianLog10TrackAngle"+uncbin; 
+	TString hname_2Jet_AODCaloJetPt                            = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetPt"                   +uncbin; 
+	TString hname_2Jet_AODCaloJetEta                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetEta"                  +uncbin; 
+	TString hname_2Jet_AODCaloJetPhi                           = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetPhi"                  +uncbin; 
+	TString hname_2Jet_AODCaloJetAlphaMax                      = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetAlphaMax"             +uncbin; 
+	TString hname_2Jet_AODCaloJetMedianLog10IPSig              = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetMedianLog10IPSig"     +uncbin; 
+	TString hname_2Jet_AODCaloJetMedianLog10TrackAngle         = "h_"+selbinnames[i]+"_"+jetmultnames[k]+"_2Jet_AODCaloJetMedianLog10TrackAngle"+uncbin; 
+	h_AODCaloJetPt                             [i][k] = initSingleHistogramTH1F( hname_AODCaloJetPt                             , "AODCaloJetPt                            ", 100,0,500  ); 
 	h_AODCaloJetEta                            [i][k] = initSingleHistogramTH1F( hname_AODCaloJetEta                            , "AODCaloJetEta                           ", 30,-5,5   ); 
 	h_AODCaloJetPhi                            [i][k] = initSingleHistogramTH1F( hname_AODCaloJetPhi                            , "AODCaloJetPhi                           ", 30,-5,5   ); 
-	h_AODCaloJetAlphaMax                       [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAlphaMax                       , "AODCaloJetAlphaMax                      ", 60, 0, 1.2  ); 
+	h_AODCaloJetAlphaMax                       [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAlphaMax                       , "AODCaloJetAlphaMax                      ", 120, 0, 1.2  ); 
 	h_AODCaloJetAlphaMax2                      [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAlphaMax2                      , "AODCaloJetAlphaMax2                     ", 50, 0, 1  ); 
 	h_AODCaloJetAlphaMaxPrime                  [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAlphaMaxPrime                  , "AODCaloJetAlphaMaxPrime                 ", 50, 0, 1  ); 
 	h_AODCaloJetAlphaMaxPrime2                 [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAlphaMaxPrime2                 , "AODCaloJetAlphaMaxPrime2                ", 50, 0, 1  ); 
@@ -594,15 +636,33 @@ Bool_t analyzer_histograms::initAODCaloJetBasicHistograms( TString uncbin )
 	h_AODCaloJetSumIP                          [i][k] = initSingleHistogramTH1F( hname_AODCaloJetSumIP                          , "AODCaloJetSumIP                         ", 50, -3, 3 ); 
 	h_AODCaloJetSumIPSig                       [i][k] = initSingleHistogramTH1F( hname_AODCaloJetSumIPSig                       , "AODCaloJetSumIPSig                      ", 50, -3, 3 ); 
 	h_AODCaloJetMedianIP                       [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMedianIP                       , "AODCaloJetMedianIP                      ", 50, -3, 3 ); 
-	h_AODCaloJetMedianLog10IPSig               [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMedianLog10IPSig               , "AODCaloJetMedianLog10IPSig              ", 50, -3, 4 ); 
+	h_AODCaloJetMedianLog10IPSig               [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMedianLog10IPSig               , "AODCaloJetMedianLog10IPSig              ", 100, -3, 4 ); 
 	h_AODCaloJetTrackAngle                     [i][k] = initSingleHistogramTH1F( hname_AODCaloJetTrackAngle                     , "AODCaloJetTrackAngle                    ", 50, -3, 3 ); 
 	h_AODCaloJetLogTrackAngle                  [i][k] = initSingleHistogramTH1F( hname_AODCaloJetLogTrackAngle                  , "AODCaloJetLogTrackAngle                 ", 50, -3, 3 ); 
-	h_AODCaloJetMedianLog10TrackAngle          [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMedianLog10TrackAngle          , "AODCaloJetMedianLog10TrackAngle         ", 50, -5, 2 ); 
+	h_AODCaloJetMedianLog10TrackAngle          [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMedianLog10TrackAngle          , "AODCaloJetMedianLog10TrackAngle         ", 100, -5, 2 ); 
 	h_AODCaloJetTotalTrackAngle                [i][k] = initSingleHistogramTH1F( hname_AODCaloJetTotalTrackAngle                , "AODCaloJetTotalTrackAngle               ", 50, -3, 3 ); 
 	h_AODCaloJetMinDR                          [i][k] = initSingleHistogramTH1F( hname_AODCaloJetMinDR                          , "AODCaloJetMinDR                         ", 30, 0, 5 ); 
 //	h_AODCaloJetCSV                            [i][k] = initSingleHistogramTH1F( hname_AODCaloJetCSV                            , "AODCaloJetCSV                           ", 24, -.1, 1.1 ); 
 //	h_AODCaloJetPartonFlavour                  [i][k] = initSingleHistogramTH1F( hname_AODCaloJetPartonFlavour                  , "AODCaloJetPartonFlavour                 ", 35, -10, 25 ); 
         h_AODCaloJetAbsEta                         [i][k] = initSingleHistogramTH1F( hname_AODCaloJetAbsEta                         , "AODCaloJetAbsEta                        ", 4, 0, 3 );
+	h_nJet_AODCaloJetPt                             [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetPt                             , "nJet_AODCaloJetPt                            ", 100,0,500  ); 
+	h_nJet_AODCaloJetEta                            [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetEta                            , "nJet_AODCaloJetEta                           ", 30,-5,5   ); 
+	h_nJet_AODCaloJetPhi                            [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetPhi                            , "nJet_AODCaloJetPhi                           ", 30,-5,5   ); 
+	h_nJet_AODCaloJetAlphaMax                       [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetAlphaMax                       , "nJet_AODCaloJetAlphaMax                      ", 120, 0, 1.2  ); 
+	h_nJet_AODCaloJetMedianLog10IPSig               [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetMedianLog10IPSig               , "nJet_AODCaloJetMedianLog10IPSig              ", 100, -3, 4 ); 
+	h_nJet_AODCaloJetMedianLog10TrackAngle          [i][k] = initSingleHistogramTH1F( hname_nJet_AODCaloJetMedianLog10TrackAngle          , "nJet_AODCaloJetMedianLog10TrackAngle         ", 100, -5, 2 ); 
+	h_1Jet_AODCaloJetPt                             [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetPt                             , "1Jet_AODCaloJetPt                            ", 100,0,500  ); 
+	h_1Jet_AODCaloJetEta                            [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetEta                            , "1Jet_AODCaloJetEta                           ", 30,-5,5   ); 
+	h_1Jet_AODCaloJetPhi                            [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetPhi                            , "1Jet_AODCaloJetPhi                           ", 30,-5,5   ); 
+	h_1Jet_AODCaloJetAlphaMax                       [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetAlphaMax                       , "1Jet_AODCaloJetAlphaMax                      ", 120, 0, 1.2  ); 
+	h_1Jet_AODCaloJetMedianLog10IPSig               [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetMedianLog10IPSig               , "1Jet_AODCaloJetMedianLog10IPSig              ", 100, -3, 4 ); 
+	h_1Jet_AODCaloJetMedianLog10TrackAngle          [i][k] = initSingleHistogramTH1F( hname_1Jet_AODCaloJetMedianLog10TrackAngle          , "1Jet_AODCaloJetMedianLog10TrackAngle         ", 100, -5, 2 ); 
+	h_2Jet_AODCaloJetPt                             [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetPt                             , "2Jet_AODCaloJetPt                            ", 100,0,500  ); 
+	h_2Jet_AODCaloJetEta                            [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetEta                            , "2Jet_AODCaloJetEta                           ", 30,-5,5   ); 
+	h_2Jet_AODCaloJetPhi                            [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetPhi                            , "2Jet_AODCaloJetPhi                           ", 30,-5,5   ); 
+	h_2Jet_AODCaloJetAlphaMax                       [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetAlphaMax                       , "2Jet_AODCaloJetAlphaMax                      ", 120, 0, 1.2  ); 
+	h_2Jet_AODCaloJetMedianLog10IPSig               [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetMedianLog10IPSig               , "2Jet_AODCaloJetMedianLog10IPSig              ", 100, -3, 4 ); 
+	h_2Jet_AODCaloJetMedianLog10TrackAngle          [i][k] = initSingleHistogramTH1F( hname_2Jet_AODCaloJetMedianLog10TrackAngle          , "2Jet_AODCaloJetMedianLog10TrackAngle         ", 100, -5, 2 ); 
 
 	const int Pt_n_xbins = 10;
 	float Pt_xbins[Pt_n_xbins+1] = {0, 10, 20, 30, 40, 50, 75, 100, 150, 250, 500};
@@ -651,6 +711,30 @@ Bool_t analyzer_histograms::fillAODCaloJetBasicHistograms(Float_t weight, int se
       h_AODCaloJetAbsEta                         [selbin][jetbin]->Fill( fabs(AODCaloJetEta                       ->at( aodcalojetindex )), weight );
       h_AODCaloJetPtVarAbsEtaVar                 [selbin][jetbin]->Fill( AODCaloJetPt->at(aodcalojetindex), fabs(AODCaloJetEta->at(aodcalojetindex)), weight );  
       h_AODCaloJetEtaVsPhi                       [selbin][jetbin]->Fill( AODCaloJetEta->at(aodcalojetindex), fabs(AODCaloJetPhi->at(aodcalojetindex)), weight );  
+	if(aodcalojet_list.size()==1){
+      h_1Jet_AODCaloJetPt                             [selbin][jetbin]->Fill( AODCaloJetPt                             ->at( aodcalojetindex ), weight );  
+      h_1Jet_AODCaloJetEta                            [selbin][jetbin]->Fill( AODCaloJetEta                            ->at( aodcalojetindex ), weight );  
+      h_1Jet_AODCaloJetPhi                            [selbin][jetbin]->Fill( AODCaloJetPhi                            ->at( aodcalojetindex ), weight );  
+      h_1Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Fill( Shifted_CaloJetAlphaMax                   .at( aodcalojetindex ), weight );  
+      h_1Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10IPSig           .at( aodcalojetindex ), weight );  
+      h_1Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10TrackAngle      .at( aodcalojetindex ), weight );  
+	}
+	if(aodcalojet_list.size()==2){
+      h_2Jet_AODCaloJetPt                             [selbin][jetbin]->Fill( AODCaloJetPt                             ->at( aodcalojetindex ), weight );  
+      h_2Jet_AODCaloJetEta                            [selbin][jetbin]->Fill( AODCaloJetEta                            ->at( aodcalojetindex ), weight );  
+      h_2Jet_AODCaloJetPhi                            [selbin][jetbin]->Fill( AODCaloJetPhi                            ->at( aodcalojetindex ), weight );  
+      h_2Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Fill( Shifted_CaloJetAlphaMax                   .at( aodcalojetindex ), weight );  
+      h_2Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10IPSig           .at( aodcalojetindex ), weight );  
+      h_2Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10TrackAngle      .at( aodcalojetindex ), weight );  
+	}
+	if(aodcalojet_list.size()>2){
+      h_nJet_AODCaloJetPt                             [selbin][jetbin]->Fill( AODCaloJetPt                             ->at( aodcalojetindex ), weight );  
+      h_nJet_AODCaloJetEta                            [selbin][jetbin]->Fill( AODCaloJetEta                            ->at( aodcalojetindex ), weight );  
+      h_nJet_AODCaloJetPhi                            [selbin][jetbin]->Fill( AODCaloJetPhi                            ->at( aodcalojetindex ), weight );  
+      h_nJet_AODCaloJetAlphaMax                       [selbin][jetbin]->Fill( Shifted_CaloJetAlphaMax                   .at( aodcalojetindex ), weight );  
+      h_nJet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10IPSig           .at( aodcalojetindex ), weight );  
+      h_nJet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Fill( Shifted_CaloJetMedianLog10TrackAngle      .at( aodcalojetindex ), weight );  
+	}
     }    
   }
   else{
@@ -718,6 +802,24 @@ Bool_t analyzer_histograms::writeAODCaloJetBasicHistograms(int selbin, int jetbi
   h_AODCaloJetAbsEta                         [selbin][jetbin]->Write();
   h_AODCaloJetPtVarAbsEtaVar                 [selbin][jetbin]->Write(); 
   h_AODCaloJetEtaVsPhi                       [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetPt                             [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetEta                            [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetPhi                            [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetAlphaMax                       [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Write(); 
+  h_nJet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetPt                             [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetEta                            [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetPhi                            [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Write(); 
+  h_1Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetPt                             [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetEta                            [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetPhi                            [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Write(); 
+  h_2Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Write(); 
  return kTRUE;
 }
 
@@ -760,6 +862,24 @@ Bool_t analyzer_histograms::deleteAODCaloJetBasicHistograms(int selbin, int jetb
   if(h_AODCaloJetAbsEta               [selbin][jetbin]!=NULL)    h_AODCaloJetAbsEta                         [selbin][jetbin]->Delete();
   if(h_AODCaloJetPtVarAbsEtaVar       [selbin][jetbin]!=NULL)    h_AODCaloJetPtVarAbsEtaVar                 [selbin][jetbin]->Delete(); 
   if(h_AODCaloJetEtaVsPhi             [selbin][jetbin]!=NULL)    h_AODCaloJetEtaVsPhi                       [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetPt                   [selbin][jetbin]!=NULL)    h_nJet_AODCaloJetPt                             [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetEta                  [selbin][jetbin]!=NULL)    h_nJet_AODCaloJetEta                            [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetPhi                  [selbin][jetbin]!=NULL)    h_nJet_AODCaloJetPhi                            [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetAlphaMax             [selbin][jetbin]!=NULL)    h_nJet_AODCaloJetAlphaMax                       [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetMedianLog10IPSig     [selbin][jetbin]!=NULL)    h_nJet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Delete(); 
+  if(h_nJet_AODCaloJetMedianLog10TrackAngle[selbin][jetbin]!=NULL)    h_nJet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetPt                   [selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetPt                             [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetEta                  [selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetEta                            [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetPhi                  [selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetPhi                            [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetAlphaMax             [selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetMedianLog10IPSig     [selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Delete(); 
+  if(h_1Jet_AODCaloJetMedianLog10TrackAngle[selbin][jetbin]!=NULL)    h_1Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetPt                   [selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetPt                             [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetEta                  [selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetEta                            [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetPhi                  [selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetPhi                            [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetAlphaMax             [selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetAlphaMax                       [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetMedianLog10IPSig     [selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetMedianLog10IPSig               [selbin][jetbin]->Delete(); 
+  if(h_2Jet_AODCaloJetMedianLog10TrackAngle[selbin][jetbin]!=NULL)    h_2Jet_AODCaloJetMedianLog10TrackAngle          [selbin][jetbin]->Delete(); 
  return kTRUE;
 }
 
@@ -1053,7 +1173,7 @@ Bool_t analyzer_histograms::fillAODCaloJetExtraHistograms(Float_t weight, int se
   if(jetmultnames.at(jetbin) == "AllJets"){
     for(unsigned int i =0; i<aodcalojet_list.size(); i++){
       int aodcalojetindex = aodcalojet_list[i];
-      h_AODCaloJetAvfVx                          [selbin][jetbin]->Fill( AODCaloJetAvfVx                          ->at( aodcalojetindex ), weight );  
+      //h_AODCaloJetAvfVx                          [selbin][jetbin]->Fill( AODCaloJetAvfVx                          ->at( aodcalojetindex ), weight );  
       h_AODCaloJetAvfVy                          [selbin][jetbin]->Fill( AODCaloJetAvfVy                          ->at( aodcalojetindex ), weight );  
       h_AODCaloJetAvfVz                          [selbin][jetbin]->Fill( AODCaloJetAvfVz                          ->at( aodcalojetindex ), weight );  
       h_AODCaloJetAvfVertexTotalChiSquared       [selbin][jetbin]->Fill( AODCaloJetAvfVertexTotalChiSquared       ->at( aodcalojetindex ), weight );  

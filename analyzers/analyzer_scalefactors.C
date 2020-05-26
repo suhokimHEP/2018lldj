@@ -52,6 +52,29 @@ Float_t analyzer_scalefactors::makePUWeight( TString dataset ){
  return tmpweight;
 }
 
+//----------------------------makeZsfWeight
+Float_t analyzer_scalefactors::makeZsfWeight( Float_t dilep_pt, std::vector<int> aodcalojet_list ){
+ Float_t tempdilep;
+ Int_t tmpbin;
+ Float_t tmpweight;
+  //cout<<dilep_pt<<endl;
+  if(dilep_pt<200.0) {tempdilep = dilep_pt;}
+  else {tempdilep = 199.9;} 
+  if(aodcalojet_list.size()==0){ 
+  tmpbin    = ZsfWeights_0Jet->GetXaxis()->FindBin(tempdilep);
+  tmpweight = ZsfWeights_0Jet->GetBinContent(tmpbin);
+  }
+  if(aodcalojet_list.size()==1){ 
+  tmpbin    = ZsfWeights_1Jet->GetXaxis()->FindBin(tempdilep);
+  tmpweight = ZsfWeights_1Jet->GetBinContent(tmpbin);
+  }
+  if(aodcalojet_list.size()>1){ 
+  tmpbin    = ZsfWeights_nJet->GetXaxis()->FindBin(tempdilep);
+  tmpweight = ZsfWeights_nJet->GetBinContent(tmpbin);
+  }
+ return tmpweight;
+}
+
 //----------------------------makeElectronWeight
 Float_t analyzer_scalefactors::makeElectronWeight( std::vector<int> &electron_list ){
 
@@ -111,6 +134,24 @@ void analyzer_scalefactors::loadPUWeight(){
  PUWeights_DoubleMu     = (TH1F*)file_puweights_DoubleMu    ->Get("h_PUweight")->Clone("PUWeights_DoubleMu"    );
  PUWeights_MuonEG       = (TH1F*)file_puweights_MuonEG      ->Get("h_PUweight")->Clone("PUWeights_MuonEG"      );
  PUWeights_SinglePhoton = (TH1F*)file_puweights_SinglePhoton->Get("h_PUweight")->Clone("PUWeights_SinglePhoton");
+ return ;
+}
+
+//----------------------------loadZsfWeight
+void analyzer_scalefactors::loadZsfWeight(){
+ std::cout << "loading Zsf weight" << std::endl;
+ TString filename_Zsf     = "Zsf.root" ;
+ TString filename_Zsf_0Jet     = "Zsf_0Jet.root" ;
+ TString filename_Zsf_1Jet     = "Zsf_1Jet.root" ;
+ TString filename_Zsf_nJet     = "Zsf_nJet.root" ;
+ TFile* file_Zsf     = new TFile( filename_Zsf     ) ;
+ TFile* file_Zsf_0Jet     = new TFile( filename_Zsf_0Jet     ) ;
+ TFile* file_Zsf_1Jet     = new TFile( filename_Zsf_1Jet     ) ;
+ TFile* file_Zsf_nJet     = new TFile( filename_Zsf_nJet     ) ;
+ ZsfWeights     = (TH1F*)file_Zsf    ->Get("Zsf_AOD_dileptonNewB_Pt")->Clone("Zsf"    );
+ ZsfWeights_0Jet     = (TH1F*)file_Zsf_0Jet    ->Get("Zsf_0Jet_AOD_dileptonNewB_Pt")->Clone("Zsf_0Jet"    );
+ ZsfWeights_1Jet     = (TH1F*)file_Zsf_1Jet    ->Get("Zsf_1Jet_AOD_dileptonNewB_Pt")->Clone("Zsf_1Jet"    );
+ ZsfWeights_nJet     = (TH1F*)file_Zsf_nJet    ->Get("Zsf_nJet_AOD_dileptonNewB_Pt")->Clone("Zsf_nJet"    );
  return ;
 }
 

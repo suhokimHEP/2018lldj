@@ -106,11 +106,16 @@ void analyzer_selections::setSelections()
  selvecBaseDY      .push_back( passZWindow );
  selvecBaseDY      .push_back( passPTOSSFL );
  selvecBaseDY      .push_back( passOneJet  );
+ 
+// selvecBaseOffZ    .push_back( true );//.push_back( passGoodVtx  );
+// selvecBaseOffZ    .push_back( true );//.push_back( !passZWindow );
+// selvecBaseOffZ    .push_back( true );//.push_back( passOSSF     );
+// selvecBaseOffZ    .push_back( true );//.push_back( passOneJet   );
 
- selvecBaseOffZ    .push_back( passGoodVtx  );
- selvecBaseOffZ    .push_back( !passZWindow );
- selvecBaseOffZ    .push_back( passOSSF     );
- selvecBaseOffZ    .push_back( passOneJet   );
+ selvecBaseOffZ    .push_back( passGoodVtx );//.push_back( passGoodVtx  );
+ selvecBaseOffZ    .push_back( passZWindow );//.push_back( !passZWindow );
+ selvecBaseOffZ    .push_back( passPTOSSFL_2);//.push_back( passOSSF     );
+ selvecBaseOffZ    .push_back( passOneJet  );//.push_back( passOneJet   );
 
  selvecBaseNoPair  .push_back( passGoodVtx  );
  selvecBaseNoPair  .push_back( !passZWindow );

@@ -123,9 +123,10 @@ std::vector<int> analyzer_createobjects::jet_passTagger( ) {
 
   for(int i=0; i<aodcalojet_list.size(); ++i){
    int aodcalojetindex = aodcalojet_list[i];
-   if( Shifted_CaloJetMedianLog10IPSig.at(aodcalojetindex)      >  tag_minIPsig  &&
-       Shifted_CaloJetMedianLog10TrackAngle.at(aodcalojetindex) >  tag_minTA     &&
-       Shifted_CaloJetAlphaMax.at(aodcalojetindex)              <  tag_maxAmax  )
+   if( Shifted_CaloJetMedianLog10IPSig.at(aodcalojetindex)      >=  tag_minIPsig  &&
+       Shifted_CaloJetMedianLog10TrackAngle.at(aodcalojetindex) >=  tag_minTA     &&
+       Shifted_CaloJetAlphaMax.at(aodcalojetindex)              <=  tag_maxAmax   &&
+       Shifted_CaloJetAlphaMax.at(aodcalojetindex)              >=  0.0  )
     {
      taglist.push_back(aodcalojetindex);
     }
@@ -533,30 +534,7 @@ std::vector<int> analyzer_createobjects::jet_passID( int bitnr, TString jettype,
     jeteta = AODCaloJetEta->at(i);       
     jetphi = AODCaloJetPhi->at(i);              
    }
-//   if(jettype.EqualTo("pf")){
-//    jetpt  = AODPFJetPt->at(i) ;       
-//    jeteta = AODPFJetEta->at(i);       
-//    jetphi = AODPFJetPhi->at(i);              
-//   }
-//   if(jettype.EqualTo("pfchs")){
-//    jetpt  = AODPFchsJetPt->at(i) ;       
-//    jeteta = AODPFchsJetEta->at(i);       
-//    jetphi = AODPFchsJetPhi->at(i);              
-//   }
    bool pass_overlap = true;
-/*
-   // check overlap with photons
-   if(photon_list.size()>0){
-    for(int d=0; d<photon_list.size(); ++d){
-     int phoindex = photon_list[d];
-     if(phoindex<= (AOD_phoEta->size()-1)&&phoindex<= (AOD_phoPhi->size()-1)){  //  <---- shouldn't be needed?
-      if( dR( AOD_phoEta->at(phoindex),AOD_phoPhi->at(phoindex), AODCaloJetEta->at(i),AODCaloJetPhi->at(i) ) < objcleandRcut ){
-       pass_overlap=false;
-      } // if overlap
-     }
-    }//end photons
-   } // if photons
-*/
    //check overlap with electrons
    if(electron_list.size()>0){
     for(int d=0; d<electron_list.size(); ++d){
@@ -583,8 +561,11 @@ std::vector<int> analyzer_createobjects::jet_passID( int bitnr, TString jettype,
 
    // WHAT ABOUT JET ID?
    bool pass_kin = jetpt > jetPtCut && ( fabs(jeteta) < jetEtaCut ) ;
-              
-   if( pass_kin && pass_overlap )
+   bool HEMFailure = false; //part of the HEM failure of 2018 
+   if( ( jetphi >= -1.57 && jetphi <= -0.87 ) && ( jeteta <= -1.3 && jeteta >= -3.0 ) ) HEMFailure=true;   
+   //std::cout<<"Eta: "<<jeteta<<"  Phi: "<<jetphi <<" HEMFailure?: "<<HEMFailure<<std::endl;
+  
+   if( pass_kin && pass_overlap/* && !HEMFailure*/ )
    {
     jetlist.push_back(i);
    } // if pass_bit && pass_kin
@@ -600,7 +581,6 @@ std::vector<int> analyzer_createobjects::photon_passID( Float_t AOD_phoPtCut, Fl
 
  std::vector<int> pholist;
  pholist.clear();
-
  bool pass_overlap = true;
 // bool pass_noPixelSeed = true;
  ////Loop over photons                   

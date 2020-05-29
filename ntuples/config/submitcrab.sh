@@ -1,7 +1,7 @@
 #voms-proxy-init --voms cms --valid 100:00
 
 # do we submit or just generate submit scripts
-dosubmit=false
+dosubmit=true
 doAOD=true
 dominiAOD=false
 domakeMiniAOD=false
@@ -92,18 +92,21 @@ samples=( \
 #"QCD_HT1000to1500"           \
 #"QCD_HT1500to2000"           \
 #"QCD_HT2000toInf"            \
-#"Data_DoubleMuon_A"          \
-#"Data_DoubleMuon_B"          \
-"Data_DoubleMuon_C"          \
-#"Data_DoubleMuon_D"          \
-#"Data_EGamma_A"              \
-#"Data_EGamma_B"              \
-#"Data_EGamma_C"              \
-#"Data_EGamma_D"              \
-#"Data_MuonEG_A"              \
-#"Data_MuonEG_B"              \
-#"Data_MuonEG_C"              \
-#"Data_MuonEG_D"              \
+"Data_DoubleEG_B"          \
+"Data_DoubleEG_C"          \
+"Data_DoubleEG_D"          \
+"Data_DoubleEG_E"          \
+"Data_DoubleEG_F"              \
+"Data_DoubleMuon_B"              \
+"Data_DoubleMuon_C"              \
+"Data_DoubleMuon_D"              \
+"Data_DoubleMuon_E"              \
+"Data_DoubleMuon_F"              \
+"Data_MuonEG_B"              \
+"Data_MuonEG_C"              \
+"Data_MuonEG_D"              \
+"Data_MuonEG_E"              \
+"Data_MuonEG_F"              \
 #DY_1J                        \
 #DY_2J                        \
 )

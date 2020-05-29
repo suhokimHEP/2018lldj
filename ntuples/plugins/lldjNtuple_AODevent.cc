@@ -56,7 +56,7 @@ void lldjNtuple::branchesAODEvent(TTree* tree) {
   tree->Branch("AODBunchXing",                &AODBunchXing_);
   tree->Branch("AODnPU",                      &AODnPU_);
   tree->Branch("AODnPUmean",                  &AODnPUmean_);
- 
+
   tree->Branch("model",       &model_);
 
 }
@@ -65,7 +65,7 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
 
   //reset local variables
   ResetEventBranches();
- 
+
   AODrun_    = e.id().run();
   AODevent_  = e.id().event();
   AODlumis_  = e.luminosityBlock();
@@ -94,11 +94,15 @@ void lldjNtuple::fillAODEvent(const edm::Event& e, const edm::EventSetup& es) {
      //Save separately the 0th value
      if(BunchXing==0) AOD0thnPU_= nPU;
    }
-    
-  // Signal Sample Splitting
-   edm::Handle<GenLumiInfoHeader> gen_header;  
-   e.getLuminosityBlock().getByToken(genLumiHeaderToken_,gen_header);
-   model_ = gen_header->configDescription();
+
+   if( !is2016_ )
+   {
+     //Signal Sample Splitting
+     edm::Handle<GenLumiInfoHeader> gen_header;
+     e.getLuminosityBlock().getByToken(genLumiHeaderToken_,gen_header);
+     model_ = gen_header->configDescription();
+   }
+
   }//!e.isRealData()
 
 

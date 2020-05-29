@@ -26,10 +26,10 @@ ULong64_t   AOD_HLT_Ele23Ele12_noDZ_;
 ULong64_t   AOD_HLT_Mu17Mu8_;
 ULong64_t   AOD_HLT_Mu17Mu8_Mass8_;
 ULong64_t   AOD_HLT_Mu17Mu8_Mass3p8_;
-//ULong64_t   AOD_HLT_Mu17TkMu8_;
+ULong64_t   AOD_HLT_Mu17TkMu8_;
 
 ULong64_t   AOD_HLT_Mu17Mu8_noDZ_;
-//ULong64_t   AOD_HLT_Mu17TkMu8_noDZ_;
+ULong64_t   AOD_HLT_Mu17TkMu8_noDZ_;
 
 ULong64_t   AOD_HLT_Mu8Ele23_DZ_;
 ULong64_t   AOD_HLT_Mu8Ele23_noDZ_;
@@ -46,10 +46,10 @@ ULong64_t   AOD_HLT_Ele23Ele12_noDZ_isPS_;
 ULong64_t   AOD_HLT_Mu17Mu8_isPS_;
 ULong64_t   AOD_HLT_Mu17Mu8_Mass8_isPS_;
 ULong64_t   AOD_HLT_Mu17Mu8_Mass3p8_isPS_;
-//ULong64_t   AOD_HLT_Mu17TkMu8_isPS_;
+ULong64_t   AOD_HLT_Mu17TkMu8_isPS_;
 
 ULong64_t   AOD_HLT_Mu17Mu8_noDZ_isPS_;
-//ULong64_t   AOD_HLT_Mu17TkMu8_noDZ_isPS_;
+ULong64_t   AOD_HLT_Mu17TkMu8_noDZ_isPS_;
 
 ULong64_t   AOD_HLT_Mu8Ele23_DZ_isPS_;
 ULong64_t   AOD_HLT_Mu8Ele23_noDZ_isPS_;
@@ -62,17 +62,17 @@ void lldjNtuple::branchesAODTrigger(TTree* tree){
   tree->Branch("AOD_HLT_DoubleEle33",      &AOD_HLT_DoubleEle33_)     ;
   tree->Branch("AOD_HLT_Ele23Ele12",       &AOD_HLT_Ele23Ele12_)     ;
   tree->Branch("AOD_HLT_Ele23Ele12_noDZ",  &AOD_HLT_Ele23Ele12_noDZ_) ;
-  
+
   tree->Branch("AOD_HLT_Mu17Mu8"  ,        &AOD_HLT_Mu17Mu8_)   ;
   tree->Branch("AOD_HLT_Mu17Mu8_Mass8"  ,  &AOD_HLT_Mu17Mu8_Mass8_)   ;
   tree->Branch("AOD_HLT_Mu17Mu8_Mass3p8"  ,&AOD_HLT_Mu17Mu8_Mass3p8_)   ;
-  //tree->Branch("AOD_HLT_Mu17TkMu8",        &AOD_HLT_Mu17TkMu8_) ;
+  tree->Branch("AOD_HLT_Mu17TkMu8",        &AOD_HLT_Mu17TkMu8_) ;
 
   tree->Branch("AOD_HLT_Mu17Mu8_noDZ"  ,   &AOD_HLT_Mu17Mu8_noDZ_)   ;
-  //tree->Branch("AOD_HLT_Mu17TkMu8_noDZ",   &AOD_HLT_Mu17TkMu8_noDZ_) ;
+  tree->Branch("AOD_HLT_Mu17TkMu8_noDZ",   &AOD_HLT_Mu17TkMu8_noDZ_) ;
 
   tree->Branch("AOD_HLT_Mu8Ele23_DZ"  ,    &AOD_HLT_Mu8Ele23_DZ_)     ;
-  tree->Branch("AOD_HLT_Mu8Ele23_noDZ"  ,  &AOD_HLT_Mu8Ele23_noDZ_)     ;
+  tree->Branch("AOD_HLT_Mu8Ele23_noDZ"  ,  &AOD_HLT_Mu8Ele23_noDZ_)   ;
   tree->Branch("AOD_HLT_Mu23Ele12_DZ"  ,   &AOD_HLT_Mu23Ele12_DZ_)    ;
   tree->Branch("AOD_HLT_Mu23Ele12_noDZ"  , &AOD_HLT_Mu23Ele12_noDZ_) ;
   tree->Branch("AOD_HLT_Mu12Ele23_DZ"  ,   &AOD_HLT_Mu12Ele23_DZ_) ;
@@ -82,14 +82,14 @@ void lldjNtuple::branchesAODTrigger(TTree* tree){
   tree->Branch("AOD_HLT_DoubleEle33_isPS",      &AOD_HLT_DoubleEle33_isPS_)      ;
   tree->Branch("AOD_HLT_Ele23Ele12_isPS",       &AOD_HLT_Ele23Ele12_isPS_)      ;
   tree->Branch("AOD_HLT_Ele23Ele12_noDZ_isPS",  &AOD_HLT_Ele23Ele12_noDZ_isPS_) ;
-  
+
   tree->Branch("AOD_HLT_Mu17Mu8_isPS",          &AOD_HLT_Mu17Mu8_isPS_)   ;
   tree->Branch("AOD_HLT_Mu17Mu8_Mass8_isPS",    &AOD_HLT_Mu17Mu8_Mass8_isPS_)   ;
   tree->Branch("AOD_HLT_Mu17Mu8_Mass3p8_isPS",  &AOD_HLT_Mu17Mu8_Mass3p8_isPS_)   ;
-  //tree->Branch("AOD_HLT_Mu17TkMu8_isPS",        &AOD_HLT_Mu17TkMu8_isPS_) ;
+  tree->Branch("AOD_HLT_Mu17TkMu8_isPS",        &AOD_HLT_Mu17TkMu8_isPS_) ;
 
   tree->Branch("AOD_HLT_Mu17Mu8_noDZ_isPS",     &AOD_HLT_Mu17Mu8_noDZ_isPS_)   ;
-  //tree->Branch("AOD_HLT_Mu17TkMu8_noDZ_isPS",   &AOD_HLT_Mu17TkMu8_noDZ_isPS_) ;
+  tree->Branch("AOD_HLT_Mu17TkMu8_noDZ_isPS",   &AOD_HLT_Mu17TkMu8_noDZ_isPS_) ;
 
   tree->Branch("AOD_HLT_Mu8Ele23_DZ_isPS",      &AOD_HLT_Mu8Ele23_DZ_isPS_)     ;
   tree->Branch("AOD_HLT_Mu8Ele23_noDZ_isPS",    &AOD_HLT_Mu8Ele23_noDZ_isPS_)     ;
@@ -101,18 +101,18 @@ void lldjNtuple::branchesAODTrigger(TTree* tree){
 
 
 void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
-  
+
   AOD_HLT_DoubleEle33_      = 0;
   AOD_HLT_Ele23Ele12_       = 0;
   AOD_HLT_Ele23Ele12_noDZ_  = 0;
-  
+
   AOD_HLT_Mu17Mu8_          = 0;
   AOD_HLT_Mu17Mu8_Mass8_          = 0;
   AOD_HLT_Mu17Mu8_Mass3p8_          = 0;
-  //AOD_HLT_Mu17TkMu8_        = 0;
+  AOD_HLT_Mu17TkMu8_        = 0;
 
   AOD_HLT_Mu17Mu8_noDZ_     = 0;
-  //AOD_HLT_Mu17TkMu8_noDZ_   = 0;
+  AOD_HLT_Mu17TkMu8_noDZ_   = 0;
 
   AOD_HLT_Mu8Ele23_DZ_          = 0;
   AOD_HLT_Mu8Ele23_noDZ_          = 0;
@@ -125,14 +125,14 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
   AOD_HLT_DoubleEle33_isPS_      = 0;
   AOD_HLT_Ele23Ele12_isPS_       = 0;
   AOD_HLT_Ele23Ele12_noDZ_isPS_  = 0;
-  
+
   AOD_HLT_Mu17Mu8_isPS_          = 0;
   AOD_HLT_Mu17Mu8_Mass8_isPS_          = 0;
   AOD_HLT_Mu17Mu8_Mass3p8_isPS_          = 0;
-  //AOD_HLT_Mu17TkMu8_isPS_        = 0;
+  AOD_HLT_Mu17TkMu8_isPS_        = 0;
 
   AOD_HLT_Mu17Mu8_noDZ_isPS_     = 0;
-  //AOD_HLT_Mu17TkMu8_noDZ_isPS_   = 0;
+  AOD_HLT_Mu17TkMu8_noDZ_isPS_   = 0;
 
   AOD_HLT_Mu8Ele23_DZ_isPS_          = 0;
   AOD_HLT_Mu8Ele23_noDZ_isPS_          = 0;
@@ -142,11 +142,11 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
   AOD_HLT_Mu12Ele23_noDZ_isPS_      = 0;
 
   if( !( e.getByToken(AODTriggerToken_, AODTriggerHandle_) && e.getByToken(AODTriggerEventToken_, AODTriggerEventHandle_) ) ){ return; }
-  
+
   for(int i = 0; i < (int)hltConfig_.size(); i++){
     string name = hltConfig_.triggerName(i);
     //std::cout<<name<<"\n";
-    
+
     // Double Electron
     int bitDoubleEle33 = -1;
     if      (name.find("HLT_DoubleEle33_CaloIdL_MW_v1")  != string::npos) bitDoubleEle33 = 0  ;
@@ -169,7 +169,7 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     else if (name.find("HLT_DoubleEle33_CaloIdL_MW_v18") != string::npos) bitDoubleEle33 = 17 ;
     else if (name.find("HLT_DoubleEle33_CaloIdL_MW_v19") != string::npos) bitDoubleEle33 = 18 ;
     else if (name.find("HLT_DoubleEle33_CaloIdL_MW_v20") != string::npos) bitDoubleEle33 = 19 ;
-    
+
     int bitEle23Ele12 = -1;
     if      (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1")  != string::npos) bitEle23Ele12 = 0  ;
     else if (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v2")  != string::npos) bitEle23Ele12 = 1  ;
@@ -191,7 +191,7 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     else if (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v18") != string::npos) bitEle23Ele12 = 17 ;
     else if (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v19") != string::npos) bitEle23Ele12 = 18 ;
     else if (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v20") != string::npos) bitEle23Ele12 = 19 ;
-    
+
     int bitEle23Ele12_noDZ = -1;
     if      (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v1")  != string::npos) bitEle23Ele12_noDZ = 0  ;
     else if (name.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v2")  != string::npos) bitEle23Ele12_noDZ = 1  ;
@@ -230,28 +230,28 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v13") != string::npos) bitMu17Mu8 = 12 ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v14") != string::npos) bitMu17Mu8 = 13 ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v15") != string::npos) bitMu17Mu8 = 14 ;
-    
+
     int bitMu17Mu8_Mass8   = -1;
     if      (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v1")  != string::npos) bitMu17Mu8_Mass8 = 0  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v2")  != string::npos) bitMu17Mu8_Mass8 = 1  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v3")  != string::npos) bitMu17Mu8_Mass8 = 2  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v4")  != string::npos) bitMu17Mu8_Mass8 = 3  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v5")  != string::npos) bitMu17Mu8_Mass8 = 4  ;
-    
+
     int bitMu17Mu8_Mass3p8   = -1;
     if      (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v1")  != string::npos) bitMu17Mu8_Mass3p8 = 0  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v2")  != string::npos) bitMu17Mu8_Mass3p8 = 1  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v3")  != string::npos) bitMu17Mu8_Mass3p8 = 2  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v4")  != string::npos) bitMu17Mu8_Mass3p8 = 3  ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v5")  != string::npos) bitMu17Mu8_Mass3p8 = 4  ;
-    
-    //int bitMu17TkMu8 = -1;
-    //if      (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1") != string::npos) bitMu17TkMu8 = 0 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2") != string::npos) bitMu17TkMu8 = 1 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v3") != string::npos) bitMu17TkMu8 = 2 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v4") != string::npos) bitMu17TkMu8 = 3 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v5") != string::npos) bitMu17TkMu8 = 4 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v6") != string::npos) bitMu17TkMu8 = 5 ;                   
+
+    int bitMu17TkMu8 = -1;
+    if      (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v1") != string::npos) bitMu17TkMu8 = 0 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v2") != string::npos) bitMu17TkMu8 = 1 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v3") != string::npos) bitMu17TkMu8 = 2 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v4") != string::npos) bitMu17TkMu8 = 3 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v5") != string::npos) bitMu17TkMu8 = 4 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v6") != string::npos) bitMu17TkMu8 = 5 ;
 
     int bitMu17Mu8_noDZ   = -1;
     if      (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v1")  != string::npos) bitMu17Mu8_noDZ = 0  ;
@@ -269,14 +269,14 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v13") != string::npos) bitMu17Mu8_noDZ = 12 ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v14") != string::npos) bitMu17Mu8_noDZ = 13 ;
     else if (name.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v15") != string::npos) bitMu17Mu8_noDZ = 14 ;
-    
-    
-    //int bitMu17TkMu8_noDZ = -1;
-    //if      (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1") != string::npos) bitMu17TkMu8_noDZ = 0 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v2") != string::npos) bitMu17TkMu8_noDZ = 1 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v3") != string::npos) bitMu17TkMu8_noDZ = 2 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v4") != string::npos) bitMu17TkMu8_noDZ = 3 ;                   
-    //else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v5") != string::npos) bitMu17TkMu8_noDZ = 4 ;                   
+
+
+    int bitMu17TkMu8_noDZ = -1;
+    if      (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v1") != string::npos) bitMu17TkMu8_noDZ = 0 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v2") != string::npos) bitMu17TkMu8_noDZ = 1 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v3") != string::npos) bitMu17TkMu8_noDZ = 2 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v4") != string::npos) bitMu17TkMu8_noDZ = 3 ;
+    else if (name.find("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v5") != string::npos) bitMu17TkMu8_noDZ = 4 ;
 
     //Mu - EG
     int bitMu8Ele23_DZ = -1;
@@ -290,8 +290,8 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v8")  != string::npos) bitMu8Ele23_DZ = 7  ;
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v9")  != string::npos) bitMu8Ele23_DZ = 8  ;
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v10") != string::npos) bitMu8Ele23_DZ = 9  ;
-    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v11") != string::npos) bitMu8Ele23_DZ = 10 ; 
-    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v12") != string::npos) bitMu8Ele23_DZ = 11 ; 
+    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v11") != string::npos) bitMu8Ele23_DZ = 10 ;
+    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v12") != string::npos) bitMu8Ele23_DZ = 11 ;
 
     int bitMu8Ele23_noDZ = -1;
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v1")  != string::npos) bitMu8Ele23_noDZ = 0  ;
@@ -304,8 +304,8 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v8")  != string::npos) bitMu8Ele23_noDZ = 7  ;
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v9")  != string::npos) bitMu8Ele23_noDZ = 8  ;
     if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v10") != string::npos) bitMu8Ele23_noDZ = 9  ;
-    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v11") != string::npos) bitMu8Ele23_noDZ = 10 ; 
-    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v12") != string::npos) bitMu8Ele23_noDZ = 11 ; 
+    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v11") != string::npos) bitMu8Ele23_noDZ = 10 ;
+    if      (name.find("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v12") != string::npos) bitMu8Ele23_noDZ = 11 ;
 
     int bitMu23Ele12_DZ = -1;
     if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v1")  != string::npos) bitMu23Ele12_DZ = 0;
@@ -323,15 +323,21 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v13") != string::npos) bitMu23Ele12_DZ = 12;
     if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v14") != string::npos) bitMu23Ele12_DZ = 13;
     if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v15") != string::npos) bitMu23Ele12_DZ = 14;
-    
+
     int bitMu23Ele12_noDZ = -1;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1") != string::npos)  bitMu23Ele12_noDZ = 0;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v2") != string::npos)  bitMu23Ele12_noDZ = 1;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3") != string::npos)  bitMu23Ele12_noDZ = 2;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v4") != string::npos)  bitMu23Ele12_noDZ = 3;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v5") != string::npos)  bitMu23Ele12_noDZ = 4;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v6") != string::npos)  bitMu23Ele12_noDZ = 5;
-    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v7") != string::npos)  bitMu23Ele12_noDZ = 6;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v1")  != string::npos)  bitMu23Ele12_noDZ = 0;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v2")  != string::npos)  bitMu23Ele12_noDZ = 1;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v3")  != string::npos)  bitMu23Ele12_noDZ = 2;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v4")  != string::npos)  bitMu23Ele12_noDZ = 3;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v5")  != string::npos)  bitMu23Ele12_noDZ = 4;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v6")  != string::npos)  bitMu23Ele12_noDZ = 5;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v7")  != string::npos)  bitMu23Ele12_noDZ = 6;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v8")  != string::npos)  bitMu23Ele12_noDZ = 7;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v9")  != string::npos)  bitMu23Ele12_noDZ = 8;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v10") != string::npos)  bitMu23Ele12_noDZ = 9;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v11") != string::npos)  bitMu23Ele12_noDZ = 10;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v12") != string::npos)  bitMu23Ele12_noDZ = 11;
+    if     (name.find("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL")     != string::npos)  bitMu23Ele12_noDZ = 15;
 
     int bitMu12Ele23_DZ = -1;
     if     (name.find("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v1")  != string::npos)  bitMu12Ele23_DZ = 0;
@@ -357,17 +363,17 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     if     (name.find("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v4")  != string::npos)  bitMu12Ele23_noDZ = 3;
     if     (name.find("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v5")  != string::npos)  bitMu12Ele23_noDZ = 4;
     if     (name.find("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v6")  != string::npos)  bitMu12Ele23_noDZ = 5;
-    
+
     //printf(" Reading trigger: %s\n" , name.c_str()  );
-    //printf(" bitEle23Loose      %d \n", bitEle23Loose      ); 
-    //printf(" bitEle27Tight      %d \n", bitEle27Tight      ); 
-    //printf(" bitEle17Ele12      %d \n", bitEle17Ele12      ); 
-    //printf(" bitEle23Ele12      %d \n", bitEle23Ele12      ); 
-    //printf(" bitIsoMu22         %d \n", bitIsoMu22         ); 
-    //printf(" bitIsoTkMu22       %d \n", bitIsoTkMu22       ); 
-    //printf(" bitMu17Mu8         %d \n", bitMu17Mu8         ); 
-    //printf(" bitMu17TkMu8       %d \n", bitMu17TkMu8       ); 
-    
+    //printf(" bitEle23Loose      %d \n", bitEle23Loose      );
+    //printf(" bitEle27Tight      %d \n", bitEle27Tight      );
+    //printf(" bitEle17Ele12      %d \n", bitEle17Ele12      );
+    //printf(" bitEle23Ele12      %d \n", bitEle23Ele12      );
+    //printf(" bitIsoMu22         %d \n", bitIsoMu22         );
+    //printf(" bitIsoTkMu22       %d \n", bitIsoTkMu22       );
+    //printf(" bitMu17Mu8         %d \n", bitMu17Mu8         );
+    //printf(" bitMu17TkMu8       %d \n", bitMu17TkMu8       );
+
     // indicates prescaling and whether trigger was fired or not
     unsigned int isPrescaled = (hltPrescale_.prescaleValue(e,es,name)) != 1;
     const unsigned int triggerIndex = hltConfig_.triggerIndex(name);
@@ -377,43 +383,43 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
     // if statement checks if trigger was present (any version XXX_vN)
     // set the bit N of our trigger variable to 1 or 0 based on isFired
     // DoubleEle
-    if ( bitDoubleEle33           >= 0 ){     
+    if ( bitDoubleEle33           >= 0 ){
       AOD_HLT_DoubleEle33_            |= (isFired     << bitDoubleEle33      );
       AOD_HLT_DoubleEle33_isPS_       |= (isPrescaled << bitDoubleEle33      );
     }
-    if ( bitEle23Ele12           >= 0 ){     
+    if ( bitEle23Ele12           >= 0 ){
       AOD_HLT_Ele23Ele12_            |= (isFired     << bitEle23Ele12      );
       AOD_HLT_Ele23Ele12_isPS_       |= (isPrescaled << bitEle23Ele12      );
     }
-    if ( bitEle23Ele12_noDZ      >= 0 ){     
+    if ( bitEle23Ele12_noDZ      >= 0 ){
       AOD_HLT_Ele23Ele12_noDZ_       |= (isFired     << bitEle23Ele12_noDZ      );
       AOD_HLT_Ele23Ele12_noDZ_isPS_  |= (isPrescaled << bitEle23Ele12_noDZ      );
     }
     // Double Mu
-    if ( bitMu17Mu8              >= 0 ){   
+    if ( bitMu17Mu8              >= 0 ){
       AOD_HLT_Mu17Mu8_               |= (isFired     << bitMu17Mu8         );
       AOD_HLT_Mu17Mu8_isPS_          |= (isPrescaled << bitMu17Mu8         );
     }
-    if ( bitMu17Mu8_Mass8              >= 0 ){   
+    if ( bitMu17Mu8_Mass8              >= 0 ){
       AOD_HLT_Mu17Mu8_Mass8_               |= (isFired     << bitMu17Mu8_Mass8         );
       AOD_HLT_Mu17Mu8_Mass8_isPS_          |= (isPrescaled << bitMu17Mu8_Mass8         );
     }
-    if ( bitMu17Mu8_Mass3p8              >= 0 ){   
+    if ( bitMu17Mu8_Mass3p8              >= 0 ){
       AOD_HLT_Mu17Mu8_Mass3p8_               |= (isFired     << bitMu17Mu8_Mass3p8         );
       AOD_HLT_Mu17Mu8_Mass3p8_isPS_          |= (isPrescaled << bitMu17Mu8_Mass3p8         );
     }
-   // if ( bitMu17TkMu8            >= 0 ){     
-   //   AOD_HLT_Mu17TkMu8_             |= (isFired     << bitMu17TkMu8       );
-   //   AOD_HLT_Mu17TkMu8_isPS_        |= (isPrescaled << bitMu17TkMu8       );
-   // }
-    if ( bitMu17Mu8_noDZ         >= 0 ){   
+   if ( bitMu17TkMu8            >= 0 ){
+     AOD_HLT_Mu17TkMu8_             |= (isFired     << bitMu17TkMu8       );
+     AOD_HLT_Mu17TkMu8_isPS_        |= (isPrescaled << bitMu17TkMu8       );
+   }
+    if ( bitMu17Mu8_noDZ         >= 0 ){
       AOD_HLT_Mu17Mu8_noDZ_          |= (isFired     << bitMu17Mu8_noDZ    );
       AOD_HLT_Mu17Mu8_noDZ_isPS_     |= (isPrescaled << bitMu17Mu8_noDZ    );
     }
-   // if ( bitMu17TkMu8_noDZ       >= 0 ){     
-   //   AOD_HLT_Mu17TkMu8_noDZ_        |= (isFired     << bitMu17TkMu8_noDZ  );
-   //   AOD_HLT_Mu17TkMu8_noDZ_isPS_   |= (isPrescaled << bitMu17TkMu8_noDZ  );
-   // }
+   if ( bitMu17TkMu8_noDZ       >= 0 ){
+     AOD_HLT_Mu17TkMu8_noDZ_        |= (isFired     << bitMu17TkMu8_noDZ  );
+     AOD_HLT_Mu17TkMu8_noDZ_isPS_   |= (isPrescaled << bitMu17TkMu8_noDZ  );
+   }
     // EMU/MuE
     if ( bitMu8Ele23_DZ >= 0 ){
       AOD_HLT_Mu8Ele23_DZ_       |= (isFired     << bitMu8Ele23_DZ );
@@ -439,7 +445,7 @@ void lldjNtuple::fillAODTrigger(const edm::Event &e, const edm::EventSetup &es){
       AOD_HLT_Mu12Ele23_noDZ_       |= (isFired     << bitMu12Ele23_noDZ );
       AOD_HLT_Mu12Ele23_noDZ_isPS_  |= (isPrescaled << bitMu12Ele23_noDZ );
     }
-    
+
   }//hltConfig loop
-  
+
 }//fillAODTrigger

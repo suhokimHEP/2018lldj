@@ -17,6 +17,7 @@ lldjNtuple::lldjNtuple(const edm::ParameterSet& ps) :
   // choose AOD or miniAOD or both
   doAOD_                   = ps.getParameter<bool>("doAOD");
   doMiniAOD_               = ps.getParameter<bool>("doMiniAOD");
+  is2016_                  = ps.getParameter<bool>("is2016");
 
   // electrons
   //electronCollection_      = consumes<View<pat::Electron> > (ps.getParameter<InputTag>("electronSrc"));

@@ -98,6 +98,7 @@ class lldjNtuple : public edm::EDAnalyzer {
 
   bool doAOD_     ;
   bool doMiniAOD_ ;
+  bool is2016_    ;
 
   // collections
   // electrons
@@ -246,7 +247,7 @@ class lldjNtuple : public edm::EDAnalyzer {
   edm::EDGetTokenT<GenEventInfoProduct> AODGenEventInfoLabel_;
 
   edm::EDGetTokenT<GenLumiInfoHeader> genLumiHeaderToken_;
-  
+
   TTree   *tree_;
   TH1F    *hEvents_;
   TH1F    *hTTSF_;

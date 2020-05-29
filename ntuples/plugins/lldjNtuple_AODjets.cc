@@ -1588,7 +1588,7 @@ void lldjNtuple::calculateDisplacedVertices(const edm::EventSetup& es, vector<in
       GlobalPoint vertPos = avfVerts[0].position();
       GlobalError vertErr = avfVerts[0].positionError();
 
-      AODCaloJetCorrectedAvfVx_.push_back( vertPos.x() );
+      AODCaloJetAvfVx_.push_back( vertPos.x() );
       AODCaloJetAvfVy_.push_back( vertPos.y() );
       AODCaloJetAvfVz_.push_back( vertPos.z() );
 

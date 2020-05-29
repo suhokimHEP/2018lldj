@@ -66,15 +66,29 @@ samples=( \
 #"TTtoLfromTbar"              \
 #"DY50_1_MG"                   \
 #"DY50_1"                      \
-"QCD_HT50to100"              \
-"QCD_HT100to200"             \
-"QCD_HT200to300"             \
-"QCD_HT300to500"             \
-"QCD_HT500to700"             \
-"QCD_HT700to1000"            \
-"QCD_HT1000to1500"           \
-"QCD_HT1500to2000"           \
-"QCD_HT2000toInf"            \
+#"QCD_HT50to100"              \
+#"QCD_HT100to200"             \
+#"QCD_HT200to300"             \
+#"QCD_HT300to500"             \
+#"QCD_HT500to700"             \
+#"QCD_HT700to1000"            \
+#"QCD_HT1000to1500"           \
+#"QCD_HT1500to2000"           \
+#"QCD_HT2000toInf"            \
+#"Data_DoubleMuon_A"          \
+#"Data_DoubleMuon_B"          \
+#"Data_DoubleMuon_C"          \
+#"Data_DoubleMuon_D"          \
+#"Data_EGamma_A"              \
+#"Data_EGamma_B"              \
+#"Data_EGamma_C"              \
+#"Data_EGamma_D"              \
+#"Data_MuonEG_A"              \
+#"Data_MuonEG_B"              \
+#"Data_MuonEG_C"              \
+#"Data_MuonEG_D"              \
+ DY_1J                        \
+ DY_2J                        \
 )
 #data
 

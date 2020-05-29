@@ -8,16 +8,14 @@ process = cms.Process('LLDJ')
 process.options = cms.untracked.PSet( allowUnscheduled = cms.untracked.bool(True) )
 
 #Setup FWK for multithreaded
-#process.options.numberOfThreads=cms.untracked.uint32(4)
-#process.options.numberOfStreams=cms.untracked.uint32(0)
+process.options.numberOfThreads=cms.untracked.uint32(4)
+process.options.numberOfStreams=cms.untracked.uint32(0)
 
 process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )  ## number of events -1 does all
-
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.cerr.FwkReport.reportEvery = 1
 #process.Tracer = cms.Service('Tracer')
@@ -28,19 +26,8 @@ process.source = cms.Source('PoolSource',
 #'file:MuEG.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E29742B1-13C3-5A40-8A5E-8840E48C4063.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E278D406-5E44-3E42-91F6-1CD774B5C98A.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E22D4FD5-C780-2047-B7DF-9A02159C14C3.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E1C056DB-ABBE-A940-9D7A-709755DF6C14.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E1AC6B85-7967-4A4D-9E6B-37DDB0ADD75A.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E18321DC-A7F4-6A40-B5FD-2BA9B685F7BB.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E1617366-E5E7-4844-A6BB-5873364AFB0A.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E15E4C39-3AB5-EA47-BF33-B56A4F8E2322.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E0A375D6-588D-E94F-BF2A-76B261B15FCB.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E07E61AB-8407-194A-9B0B-7EE62200E604.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E070BA7E-60B0-8943-B753-C22D0984767D.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E041BF9B-94F5-DE46-88FF-2ADDC6F9F7C6.root',
-'root://cms-xrd-global.cern.ch//store/data/Run2018D/EGamma/AOD/22Jan2019-v2/60002/E00F72D6-A5E3-DB4B-8840-270FCF996772.root'
+#'root://cms-xrd-global.cern.ch//store/data/Run2017B/DoubleEG/AOD/17Nov2017-v1/30000/087A0944-99D5-E711-A42A-5065F37D1192.root '
+'root://cms-xrd-global.cern.ch///store/data/Run2016H/DoubleEG/AOD/07Aug17-v1/10000/021C4224-7392-E711-8E7C-001F2908AEB6.root'
 #'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )
@@ -152,7 +139,7 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 
  doAOD                     = cms.bool(True),
  doMiniAOD                 = cms.bool(False),
- is2016                    = cms.bool(False),
+ is2016                    = cms.bool(True),
 
  rhoLabel                  = cms.InputTag('fixedGridRhoFastjetAll', '', 'RECO'),
 
@@ -227,6 +214,9 @@ process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
 process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
 process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
+process.patCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidatesTask.remove(process.selectedPatTaus)
+process.selectedPatCandidatesTask.remove(process.patTaus)
 
 
 #builds Ntuple

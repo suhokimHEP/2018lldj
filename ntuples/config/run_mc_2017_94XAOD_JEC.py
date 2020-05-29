@@ -9,8 +9,9 @@ process = cms.Process('LLDJ')
 process.options = cms.untracked.PSet( allowUnscheduled = cms.untracked.bool(True) )
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(4)
-process.options.numberOfStreams=cms.untracked.uint32(0)
+#process.options.numberOfThreads=cms.untracked.uint32(4)
+#rocess.options.numberOfStreams=cms.untracked.uint32(0)
+
 #process.options.SkipEvent = cms.untracked.vstring('ProductNotFound')
 process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
@@ -24,7 +25,7 @@ process.source = cms.Source('PoolSource',
                             fileNames = cms.untracked.vstring(
 
 #'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/QCD_HT50to100_TuneCP5_13TeV-madgraphMLM-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/100000/4E581528-5A9D-5042-8B33-99BB0FF2F0DD.root'
-'root://cmsxrootd.fnal.gov//store/mc/RunIIAutumn18DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/AODSIM/102X_upgrade2018_realistic_v15-v1/90000/0EBE99B3-B9C8-1E4F-BF05-996F426C109B.root'
+'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17DRPremix/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/AODSIM/PU2017_94X_mc2017_realistic_v11-v1/70000/FEFC52C1-4D54-E811-9709-0242AC130002.root'
 #'file://DD967656-BACC-DD40-BA44-7E309FF8D393.root'
 #'file:/eos/cms/store/mc/RunIIAutumn18DRPremix/ZJetsToNuNu_HT-400To600_13TeV-madgraph/AODSIM/102X_upgrade2018_realistic_v15-v1/120000/D8B9E921-46DB-F848-92AC-3428BE04A420.root'
  ),
@@ -34,19 +35,19 @@ process.source = cms.Source('PoolSource',
 process.TFileService = cms.Service('TFileService', fileName = cms.string('lldjntuple_mc_AOD.root'));
 
 
-process.output = cms.OutputModule("PoolOutputModule",
-    compressionAlgorithm = cms.untracked.string('LZMA'),
-    compressionLevel = cms.untracked.int32(4),
-    dataset = cms.untracked.PSet(
-        dataTier = cms.untracked.string(''),
-        filterName = cms.untracked.string('')
-    ),
-    dropMetaData = cms.untracked.string('ALL'),
-    eventAutoFlushCompressedSize = cms.untracked.int32(-900),
-    fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('miniAOD-prod_PAT.root'),
-    outputCommands = cms.untracked.vstring('keep *'),
-)
+# process.output = cms.OutputModule("PoolOutputModule",
+#     compressionAlgorithm = cms.untracked.string('LZMA'),
+#     compressionLevel = cms.untracked.int32(4),
+#     dataset = cms.untracked.PSet(
+#         dataTier = cms.untracked.string(''),
+#         filterName = cms.untracked.string('')
+#     ),
+#     dropMetaData = cms.untracked.string('ALL'),
+#     eventAutoFlushCompressedSize = cms.untracked.int32(-900),
+#     fastCloning = cms.untracked.bool(False),
+#     fileName = cms.untracked.string('miniAOD-prod_PAT.root'),
+#     outputCommands = cms.untracked.vstring('keep *'),
+# )
 
 # cms geometry
 #process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
@@ -62,7 +63,8 @@ process.load("Geometry.CaloEventSetup.CaloTowerConstituents_cfi")
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-process.GlobalTag.globaltag = '102X_upgrade2018_realistic_v20'#2018 GT for MC
+
+process.GlobalTag.globaltag = '102X_mc2017_realistic_v7'#2017 GT for MC
 
 ## for AOD Photons
 #from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
@@ -210,7 +212,11 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 )
 
 # Double check: this is to remove the OOT photons, which is causing a crash
-#process.patCandidates.remove(process.patCandidateSummary)
+process.patCandidates.remove(process.patCandidateSummary)
+
+process.patCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidatesTask.remove(process.selectedPatTaus)
+process.selectedPatCandidatesTask.remove(process.patTaus)
 #process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
 #process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
 #process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)

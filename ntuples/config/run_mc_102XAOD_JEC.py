@@ -9,7 +9,7 @@ process = cms.Process('LLDJ')
 process.options = cms.untracked.PSet( allowUnscheduled = cms.untracked.bool(True) )
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(4)
+process.options.numberOfThreads=cms.untracked.uint32(8)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 #process.options.SkipEvent = cms.untracked.vstring('ProductNotFound')
 process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")

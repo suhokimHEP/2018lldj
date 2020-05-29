@@ -5,7 +5,7 @@ if __name__ == '__main__':
 
     from CRABClient.UserUtilities import config
     config = config()
-    
+
     from multiprocessing import Process
 
     # Common configuration
@@ -19,9 +19,9 @@ if __name__ == '__main__':
     config.JobType.sendExternalFolder = True
     config.JobType.maxMemoryMB        = MAXMEM
     #config.JobType.maxJobRuntimeMin   = MAXTM
-    config.JobType.numCores           = 4
+    config.JobType.numCores           = 8
     #config.JobType.priority           = 50 # default=10, first 10 jobs=20
-    config.Data.inputDBS              = 'global'    
+    config.Data.inputDBS              = 'global'
     config.Data.splitting             = SPLITTING # 'LumiBased' EventBased, FileBased, LumiBased (1 lumi ~= 300 events)
     config.Data.totalUnits            = NUNITS
     config.Data.publication           = False
@@ -50,4 +50,3 @@ if __name__ == '__main__':
     p = Process(target=submit, args=(config,))
     p.start()
     p.join()
-

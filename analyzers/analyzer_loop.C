@@ -49,11 +49,14 @@ TFile *outfile_bkgest = 0;
    loadMistagRate();
  }
  TH1F* h_sum_AODGenEventWeight = new TH1F("h_sum_AODGenEventWeight","h_sum_AODGenEventWeight", 5,0.,5.);
+// TFile *outfile_nPU = 0;
+// outfile_nPU = TFile::Open(outfilename+"_AOD0thnPU.root","RECREATE");
+// TH1F* h_sum_AOD0thnPU = new TH1F("h_sum_AOD0thnPU","h_sum_AOD0thnPU", 120,0.00,120.00);
 
  // start looping over entries
  Long64_t nbytes = 0, nb = 0;
  for (Long64_t jentry=0; jentry<nentries;jentry++) {
-  
+
   L1PFremoved=kFALSE;
   cleareventcounters();
 
@@ -84,6 +87,7 @@ TFile *outfile_bkgest = 0;
   n_tot++;
   sum_AODGenEventWeight+=AODGenEventWeight;
   h_sum_AODGenEventWeight->Fill(2, AODGenEventWeight);
+  //h_sum_AOD0thnPU->Fill(AOD0thnPU);
 
   // get lists of "good" electrons, photons, jets
   // idbit, pt, eta, sysbinname
@@ -159,8 +163,20 @@ TFile *outfile_bkgest = 0;
   if(isMC) PUweight_MuonEG       = makePUWeight("MuonEG"      ) ;
 //  if(isMC) PUweight_SinglePhoton = makePUWeight("SinglePhoton") ;
   // electrons also have an associated scale factor for MC 
-  if(isMC) event_weight *= makeElectronWeight( electron_list );
 //  if(isMC) event_weight *= makeTTWeight( avgTTSF );
+  
+
+  base_weight = event_weight; ///.7323;
+  ele_weight = 1.0;
+  if(isMC) ele_weight  = makeElectronWeight( electron_list );
+  mu_weight   = 1.0;//makeMuonWeight( muon_list );
+  
+  if(isMC) event_weight *= makeElectronWeight( electron_list );
+  //std::cout<<"EW:         "<<event_weight<<std::endl;
+  if(isMC) event_weight *= ctauEventWeight;
+  //std::cout<<"ctauWeight: "<<ctauEventWeight<<std::endl;
+  //std::cout<<"EW:         "<<event_weight<<std::endl;
+  //std::cout<<std::endl;
 
 //  getMET();
 
@@ -175,8 +191,11 @@ TFile *outfile_bkgest = 0;
   passPTOSOFL = (OSOF_pt>10. && OSOF_pt<100.);
   passZWindow = (dilep_mass>70. && dilep_mass<110.);
   passZWinOSOF= (OSOF_mass>70. && OSOF_mass<110.);
-  passPTOSSF  = (dilep_pt>100.);
-  passPTOSSFL  = (dilep_pt>10. && dilep_pt<100.);
+
+  passPTOSSF     = (dilep_pt>=100.);
+  passPTOSSFL    = (dilep_pt>=10. && dilep_pt<100.);
+  passPTOSSFL_2  = (dilep_pt>=10.);
+
   passGoodVtx = AODnGoodVtx>0; 
   passOneJet  = false; if (aodcalojet_list.size()>0) passOneJet=true;  
   passOneTag  = false; if (taggedjet_list.size()>0) passOneTag=true;  
@@ -308,6 +327,8 @@ TFile *outfile_bkgest = 0;
   dofillselbin[19] = ( ( bitsPassOnePho       >> 0) &1) ; 
   dofillselbin[20] = ( ( bitsPassEleMuOSOFL   >> 0) &1) ; 
 
+  if ( (( bitsPassTwoMuOffZ      >> 0) &1) ){PU_weight = PUweight_DoubleMu; } 
+  if ( (( bitsPassTwoEleOffZ     >> 0) &1) ){PU_weight = PUweight_DoubleEG; }
   // fake rate code
   if(doBkgEst && uncbin.EqualTo("")){
    if( ( ( bitsPassTwoMuZH      >> 0) &1) ){// TwoMuZH
@@ -316,11 +337,12 @@ TFile *outfile_bkgest = 0;
   }
   // fill the histograms
   for(unsigned int i=0; i<selbinnames.size(); ++i){
-
+  //if(!isMC && run>=319077){/*std::cout<<"HEM Failure, run: "<<run<<std::endl;*/ continue;} // skips HEM Failure, saves prior to problem
+//  if(!isMC && run<319077 && run>0){/*std::cout<<"Before HEM Failure, run: "<<run<<std::endl;*/ continue;} //skips Before HEM Failure, saves HEM Failure
    if(isMC){
      // ok I'm sorry, this is terrible
-     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13||i==15)   fullweight = event_weight * PUweight_DoubleEG;
-     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) fullweight = event_weight * PUweight_DoubleMu;
+     if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13)   fullweight = event_weight * PUweight_DoubleEG;
+     if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15) fullweight = event_weight * PUweight_DoubleMu;
      if(i==18) fullweight = event_weight * PUweight_MuonEG;
      if(i==20) fullweight = event_weight * PUweight_MuonEG;
      if(i==19) fullweight = event_weight * PUweight_SinglePhoton;
@@ -329,7 +351,7 @@ TFile *outfile_bkgest = 0;
      fullweight = event_weight;
    }
    /// quick hack to only write phase spaces we care about
-   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
+   if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==13 || i==15 || i==18 || i==19 || i==20 ){
     fillCutflowHistograms( fullweight, i, selvec[i], selkey[i] );
     if( dofillselbin[i] ){
      fillSelectedHistograms( fullweight, i );
@@ -352,7 +374,7 @@ TFile *outfile_bkgest = 0;
   } // for(unsigned int i=0; i<selbinnames.size(); ++i){
 
   // tagging variable optimization tree
-  if( ( (( bitsPassTwoMuZH      >> 0) &1) || (( bitsPassTwoEleZH      >> 0) &1))  && uncbin.EqualTo("") ){// TwoMuZH or TwoEleZH 
+  if( ( (( bitsPassTwoMuOffZ      >> 0) &1) || (( bitsPassTwoEleOffZ      >> 0) &1))  && uncbin.EqualTo("") ){// TwoMuZH or TwoEleZH 
    optfile->cd();
    setOPTtree(); 
    OPTtree->Fill();
@@ -456,6 +478,12 @@ TFile *outfile_bkgest = 0;
  h_sum_AODGenEventWeight->Write();
  h_sum_AODGenEventWeight->Delete();
  outfile_GEW->Close();
+ 
+// outfile_nPU->cd();
+// h_sum_AOD0thnPU->Write();
+// h_sum_AOD0thnPU->Delete();
+// outfile_nPU->Close();
+ 
  if(doBkgEst && uncbin.EqualTo("")){
    //Can choose more regions here
    outfile_bkgest->cd();
@@ -485,7 +513,7 @@ TFile *outfile_bkgest = 0;
  // make outfile and save histograms
  // write the histograms
  for(unsigned int i=0; i<selbinnames.size(); ++i){
-  if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==18 || i==19 || i==20  ){
+  if(i==1 || i==3 || i==5 || i==7 || i==9 || i==11 || i==13 || i==15 || i==18 || i==19 || i==20  ){
 
      //Normalize variable binned histograms by bin width
      //Could put this in its own loop for clarity

@@ -1,5 +1,6 @@
 #include "analyzer_scalefactors.h"
 #include <iostream>
+#include <numeric>
 
 //----------------------------analyzer_scalefactors
 analyzer_scalefactors::analyzer_scalefactors() 
@@ -53,35 +54,99 @@ Float_t analyzer_scalefactors::makePUWeight( TString dataset ){
 }
 
 //----------------------------makeElectronWeight
-Float_t analyzer_scalefactors::makeElectronWeight( std::vector<int> &electron_list ){
+Float_t analyzer_scalefactors::makeElectronWeight( std::vector<int> &electron_list, float &eleID_Unc, std::vector<float> &eleID_ind ){
+ Float_t eleID = 1.;
+ eleID_Unc=0.;
+ eleID_ind.clear();
 
- Float_t tmpsf;
- tmpsf = 1.;
+ std::vector<float> eleID_Unc_ind;
+ eleID_Unc_ind.clear();
 
  //check overlap with electrons
  if(electron_list.size()>0){
-  //printf(" esize: %lu\n",electron_list.size());
-  //printf(" esceta: %lu\n",eleSCEta->size());
-  //printf(" ept: %lu\n",AOD_elePt->size());
   for(int d=0; d<electron_list.size(); ++d){
-   //printf(" brgin looping over electrons\n");
    int eleindex = electron_list[d];
-   //printf(" d: %i eleindex: %i\n",d,eleindex);
-   //printf(" ele sceta %f pt %f \n",eleSCEta->at(eleindex),AOD_elePt->at(eleindex));
    Float_t eeta = AOD_eleEta->at(eleindex);//<------changed; don't have SCEta right now
    Float_t ept  = AOD_elePt->at(eleindex);
    Int_t tmpbinx       = EleWeights->GetXaxis()->FindBin( eeta );
    Int_t tmpbiny       = EleWeights->GetYaxis()->FindBin( ept  );
-   //printf(" bins %i %i\n",tmpbinx,tmpbiny);
    Int_t tmpbin        = EleWeights->GetBin( tmpbinx, tmpbiny );
-   Float_t tmpweight = EleWeights->GetBinContent(tmpbin);
-   tmpsf *= tmpweight;
+   eleID_ind.push_back(EleWeights->GetBinContent(tmpbin));
+   eleID_Unc_ind.push_back(EleWeights->GetBinError(tmpbin));
   }//end electrons
+  eleID = std::accumulate( eleID_ind.begin(), eleID_ind.end(), 1., std::multiplies<float>());
+  //std::cout<<"eleID:"<<eleID<<std::endl;
+  eleID_Unc = TMath::Sqrt(std::inner_product( eleID_Unc_ind.begin(), eleID_Unc_ind.end(), eleID_Unc_ind.begin(), 0.));
  } // if electrons
 
  //printf(" done making Electron weight\n");
 
- return tmpsf;
+ return eleID;
+}
+
+//----------------------------makeMuonWeight ----MuonID weight
+Float_t analyzer_scalefactors::makeMuonWeight( std::vector<int> &muon_list, float &muonID_Unc, std::vector<float> &muonID_ind ){
+ Float_t muonID = 1.;
+ muonID_Unc=0.;
+ muonID_ind.clear();
+
+ std::vector<float> muonID_Unc_ind;
+ muonID_Unc_ind.clear();
+
+ //check overlap with electrons
+ if(muon_list.size()>0){
+  for(int d=0; d<muon_list.size(); ++d){
+   int muindex = muon_list[d];
+   Float_t mueta = AOD_muEta->at(muindex);//<------changed; don't have SCEta right now
+   Float_t mupt  = AOD_muPt->at(muindex);
+   if(mupt<20){mupt=20.1;}//SF root files lowest bin is 20. Our muPt cut is 12 for lagging lepton. Bincontent is 0 pT<20
+   if(mupt>120){mupt=119.9;}//SF root files highest bin is 120. Bincontent is 0 pT>120
+   Int_t tmpbinx       = MuonWeights->GetXaxis()->FindBin( mupt );
+   Int_t tmpbiny       = MuonWeights->GetYaxis()->FindBin( abs(mueta)  );
+   //printf(" bins %i %i\n",tmpbinx,tmpbiny);
+   Int_t tmpbin        = MuonWeights->GetBin( tmpbinx, tmpbiny );
+   muonID_ind.push_back(MuonWeights->GetBinContent(tmpbin));
+   muonID_Unc_ind.push_back(MuonWeights->GetBinError(tmpbin));
+  }//end Muons
+  muonID = std::accumulate( muonID_ind.begin(), muonID_ind.end(), 1., std::multiplies<float>());
+  //std::cout<<"muonID:"<<muonID<<std::endl;
+  muonID_Unc = TMath::Sqrt(std::inner_product( muonID_Unc_ind.begin(), muonID_Unc_ind.end(), muonID_Unc_ind.begin(), 0.));
+ } // if Muons
+ return muonID;
+}
+
+//----------------------------makeMuonIso ----MuonISO weight
+Float_t analyzer_scalefactors::makeMuonIso( std::vector<int> &muon_list, float &muonISO_Unc, std::vector<float> &muonISO_ind ){
+ Float_t muonISO = 1.;
+ muonISO_Unc=0.;
+ muonISO_ind.clear();
+
+ std::vector<float> muonISO_Unc_ind;
+ muonISO_Unc_ind.clear();
+
+ //check overlap with electrons
+ if(muon_list.size()>0){
+  for(int d=0; d<muon_list.size(); ++d){
+   int muindex = muon_list[d];
+   Float_t mueta = AOD_muEta->at(muindex);//<------changed; don't have SCEta right now
+   Float_t mupt  = AOD_muPt->at(muindex);
+   if(mupt<20){mupt=20.1;}//SF root files lowest bin is 20. Our muPt cut is 12 for lagging lepton. Bincontent is 0 pT<20
+   if(mupt>120){mupt=119.9;}//SF root files highest bin is 120. Bincontent is 0 pT>120
+   Int_t tmpbinx       = MuonIso->GetXaxis()->FindBin( mupt );
+   Int_t tmpbiny       = MuonIso->GetYaxis()->FindBin( abs(mueta)  );
+   //printf(" bins %i %i\n",tmpbinx,tmpbiny);
+   Int_t tmpbin        = MuonIso->GetBin( tmpbinx, tmpbiny );
+   muonISO_ind.push_back(MuonIso->GetBinContent(tmpbin));
+   muonISO_Unc_ind.push_back(MuonIso->GetBinError(tmpbin));
+  }//end Muons
+  muonISO = std::accumulate( muonISO_ind.begin(), muonISO_ind.end(), 1., std::multiplies<float>());
+  //std::cout<<"muonISO:"<<muonISO<<std::endl;
+  muonISO_Unc = TMath::Sqrt(std::inner_product( muonISO_Unc_ind.begin(), muonISO_Unc_ind.end(), muonISO_Unc_ind.begin(), 0.));
+ } // if Muons
+ return muonISO;
+  // if Muons
+
+
 }
 
 ////----------------------------makeTTWeight
@@ -124,6 +189,30 @@ void analyzer_scalefactors::loadElectronWeight(TString eleid){
  return ;
 }
 
+//----------------------------loadMuonWeight
+void analyzer_scalefactors::loadMuonWeight(TString muoid){
+ std::cout << "loading Muon weight" << std::endl;
+ TString filename = "RunABCD_SF_ID.root" ;
+ TFile* file_muonweights = new TFile( filename ) ;
+ std::cout << " filename: " << filename << std::endl;
+ TString histname = "NUM_"+muoid+"ID_DEN_TrackerMuons_pt_abseta" ;
+ MuonWeights = (TH2F*)file_muonweights->Get(histname)->Clone("MuonWeights");
+ return ;
+}
+
+//----------------------------loadMuonIso
+void analyzer_scalefactors::loadMuonIso(TString muoid){
+ std::cout << "loading Muon Iso" << std::endl;
+ TString filename = "RunABCD_SF_ISO.root" ;
+ TFile* file_muoniso = new TFile( filename ) ;
+ std::cout << " filename: " << filename << std::endl;
+ TString histname;
+ if (muoid.EqualTo("Loose")) histname = "NUM_LooseRelIso_DEN_LooseID_pt_abseta" ; //ISO criteria always given as Loose
+ if (muoid.EqualTo("Medium")) histname = "NUM_LooseRelIso_DEN_MediumID_pt_abseta" ;
+ if (muoid.EqualTo("Tight")) histname = "NUM_LooseRelIso_DEN_TightIDandIPCut_pt_abseta" ;
+ MuonIso = (TH2F*)file_muoniso->Get(histname)->Clone("MuonIso");
+ return ;
+}
 //----------------------------loadMistagRate
 void analyzer_scalefactors::loadMistagRate(){
 

@@ -28,9 +28,9 @@ std::vector<int> analyzer_createobjects::muon_passID( int bitnr, Float_t muPtCut
 
   bool pass_bit = AOD_muPassLooseID->at(i);//------should probably make if/else groups for other ID's
 
-  if (muoid = "Loose")  muoisoval = 0.25 ;
-  if (muoid = "Medium") muoisoval = 0.25 ;
-  if (muoid = "Tight")  muoisoval = 0.15 ;
+  if (muoid == "Loose")  muoisoval = 0.25 ;
+  if (muoid == "Medium") muoisoval = 0.25 ;
+  if (muoid == "Tight")  muoisoval = 0.15 ;
   bool pass_iso = AOD_muPFdBetaIsolation->at(i) < muoisoval ;
 
   if( pass_bit && pass_kin && pass_iso )
@@ -652,9 +652,16 @@ Float_t analyzer_createobjects::getMuonPt(int i, TString sysbinname){
     //Muon passes pt cut
     Float_t muonPt = AOD_muPt->at(i);
     Float_t muonEnergy = muonPt*TMath::CosH( AOD_muEta->at(i) );
-    if(sysbinname=="_MESUp"  ){ muonEnergy*=(1.0 + 0.020); }
-    if(sysbinname=="_MESDown"){ muonEnergy*=(1.0 - 0.020); }
-
+    if(sysbinname=="_MESUp" )
+	{
+	if(fabs(AOD_muEta->at(i)<2.1)) {muonEnergy*=(1.0 + 0.003); }
+	else	{ muonEnergy*=(1.0 + 0.010); }
+	}
+    if(sysbinname=="_MESDown")
+	{
+	if(fabs(AOD_muEta->at(i)<2.1))	{ muonEnergy*=(1.0 - 0.003); }
+	else	{ muonEnergy*=(1.0 - 0.010); }
+	}
     muonPt = muonEnergy/TMath::CosH( AOD_muEta->at(i) );
     return muonPt;
   }

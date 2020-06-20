@@ -279,6 +279,7 @@ int main(int argc, char **argv){
   analyzer.initLepHistograms( unccategory );
   analyzer.initPhoHistograms( unccategory );
   analyzer.initMETHTHistograms( unccategory );
+  analyzer.initWeightHistograms( unccategory );
   //analyzer.initExtraHistograms( unccategory );
   analyzer.initAODCaloJetBasicHistograms( unccategory );
   analyzer.initAODCaloJet_L1PFHistograms( unccategory );

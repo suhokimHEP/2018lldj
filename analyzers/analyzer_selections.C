@@ -103,7 +103,8 @@ void analyzer_selections::setSelections()
  selvecBaseZH   .push_back( passOneJet  );
 
  selvecBaseDY      .push_back( passGoodVtx );
- selvecBaseDY      .push_back( passZWindow );
+ if (!TTOC) {selvecBaseDY      .push_back( passZWindow );}
+ else {selvecBaseDY      .push_back( true );}
  selvecBaseDY      .push_back( passPTOSSFL );
  selvecBaseDY      .push_back( passOneJet  );
  

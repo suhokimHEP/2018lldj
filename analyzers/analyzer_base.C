@@ -24,7 +24,7 @@ Long64_t analyzer_base::LoadTree(Long64_t entry)
 }
 
 //----------------------------Init
-void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString Tsample)
+void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString Tsample, TString uncbin)
 {
 
    isMC = isitMC;
@@ -253,6 +253,9 @@ void analyzer_base::Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString 
 //   fChain->SetBranchAddress("AODPATJetMVA", &AODPATJetMVA, &b_AODPATJetMVA);
    fChain->SetBranchAddress("AODnCaloJet", &AODnCaloJet, &b_AODnCaloJet);
    fChain->SetBranchAddress("AODCaloJetPt", &AODCaloJetPt, &b_AODCaloJetPt);
+   if (uncbin.Contains("_JESUp")){fChain->SetBranchAddress("AODCaloJetPt_JECUp", &AODCaloJetPt, &b_AODCaloJetPt);}
+   else if (uncbin.Contains("_JESDown")){fChain->SetBranchAddress("AODCaloJetPt_JECDown", &AODCaloJetPt, &b_AODCaloJetPt);}
+   else {fChain->SetBranchAddress("AODCaloJetPt", &AODCaloJetPt, &b_AODCaloJetPt);}
    fChain->SetBranchAddress("AODCaloJetEta", &AODCaloJetEta, &b_AODCaloJetEta);
    fChain->SetBranchAddress("AODCaloJetPhi", &AODCaloJetPhi, &b_AODCaloJetPhi);
    fChain->SetBranchAddress("AODCaloJetAlphaMax", &AODCaloJetAlphaMax, &b_AODCaloJetAlphaMax);

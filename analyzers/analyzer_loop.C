@@ -37,6 +37,7 @@ void analyzer_loop::Loop(TString outfilename,
  clearglobalcounters();
 
  if(isMC) loadPUWeight();
+ if(isMC) loadElectronReco();
  if(isMC) loadElectronWeight( eleid );
  if(isMC) loadMuonWeight( muoid );
  if(isMC) loadMuonIso( muoid );
@@ -177,6 +178,7 @@ TFile *outfile_bkgest = 0;
   //std::cout<<"EW:         "<<event_weight<<std::endl;
   if(isMC) event_weight *= ctauEventWeight;
   if(isMC){ 
+  w_eleReco = makeElectronReco(electron_list, eleReco_Unc, eleReco_ind);
   w_eleID   = ele_weight;
   w_muonID  = mu_weight;
   w_muonISO = makeMuonIso(muon_list, muonISO_Unc, muonISO_ind);
@@ -351,25 +353,29 @@ TFile *outfile_bkgest = 0;
      if(i==0||i==1||i==4||i==5||i==8||i==9||i==12||i==13)  
 	{
 	fullweight = event_weight*PUweight_DoubleEG;  	
-	w_LeptonSF = w_eleID;
-	LeptonSF_Unc = eleID_Unc;
+	w_LeptonSF = w_eleReco;
+	w_LeptonSF *= w_eleID;
+	ESF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+eleReco_Unc*eleReco_Unc);	
 	}
      if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) 
 	{
 	fullweight = event_weight*PUweight_DoubleMu;    
 	w_LeptonSF=w_muonID;
 	w_LeptonSF*=w_muonISO; 
-	LeptonSF_Unc = TMath::Sqrt(muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);	
+	MSF_Unc = TMath::Sqrt(muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);	
 	}
      if(i==18||i==20) 
 	{
 	fullweight = event_weight * PUweight_MuonEG; 
-	w_LeptonSF=w_eleID*w_muonID*w_muonISO; 
-	LeptonSF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);
+	w_LeptonSF=w_eleReco*w_eleID*w_muonID*w_muonISO; 
+	ESF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+eleReco_Unc*eleReco_Unc);	
+	MSF_Unc = TMath::Sqrt(muonID_Unc*muonID_Unc+muonISO_Unc*muonISO_Unc);	
 	}
-     if(uncbin.Contains("LeptonSFUp")){w_LeptonSF += LeptonSF_Unc; fullweight*=w_LeptonSF;}
-     else if(uncbin.Contains("LeptonSFDown")){w_LeptonSF -= LeptonSF_Unc; fullweight*=w_LeptonSF;}
-     else {fullweight*=w_LeptonSF;}
+     if(uncbin.Contains("ESFUp")){w_LeptonSF += ESF_Unc;}
+     if(uncbin.Contains("ESFDown")){w_LeptonSF -= ESF_Unc;}
+     if(uncbin.Contains("MSFUp")){w_LeptonSF += MSF_Unc;}
+     if(uncbin.Contains("MSFDown")){w_LeptonSF -=MSF_Unc;}
+     fullweight*=w_LeptonSF;
    }
    else{
      fullweight = event_weight;

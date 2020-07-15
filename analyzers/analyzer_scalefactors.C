@@ -53,6 +53,42 @@ Float_t analyzer_scalefactors::makePUWeight( TString dataset ){
  return tmpweight;
 }
 
+
+
+//----------------------------makeElectronReco
+Float_t analyzer_scalefactors::makeElectronReco( std::vector<int> &electron_list, float &eleReco_Unc, std::vector<float> &eleReco_ind ){
+ Float_t eleReco = 1.;
+ eleReco_Unc=0.;
+ eleReco_ind.clear();
+
+ std::vector<float> eleReco_Unc_ind;
+ eleReco_Unc_ind.clear();
+
+ //check overlap with electrons
+ if(electron_list.size()>0){
+  for(int d=0; d<electron_list.size(); ++d){
+   int eleindex = electron_list[d];
+   Float_t eeta = AOD_eleEta->at(eleindex);//<------changed; don't have SCEta right now
+   Float_t ept  = AOD_elePt->at(eleindex);
+   if(ept<20){ept=20.1;}//SF root files lowest bin is 20. Our ePt cut is 15 for lagging lepton. Bincontent is 0 for pT<20
+   Int_t tmpbinx       = EleRecos->GetXaxis()->FindBin( eeta );
+   Int_t tmpbiny       = EleRecos->GetYaxis()->FindBin( ept  );
+   Int_t tmpbin        = EleRecos->GetBin( tmpbinx, tmpbiny );
+   eleReco_ind.push_back(EleRecos->GetBinContent(tmpbin));
+   eleReco_Unc_ind.push_back(EleRecos->GetBinError(tmpbin));
+  }//end electrons
+  eleReco = std::accumulate( eleReco_ind.begin(), eleReco_ind.end(), 1., std::multiplies<float>());
+  //std::cout<<"eleReco:"<<eleReco<<std::endl;
+  eleReco_Unc = TMath::Sqrt(std::inner_product( eleReco_Unc_ind.begin(), eleReco_Unc_ind.end(), eleReco_Unc_ind.begin(), 0.));
+ } // if electrons
+
+ //printf(" done making Electron weight\n");
+
+ return eleReco;
+}
+
+
+
 //----------------------------makeElectronWeight
 Float_t analyzer_scalefactors::makeElectronWeight( std::vector<int> &electron_list, float &eleID_Unc, std::vector<float> &eleID_ind ){
  Float_t eleID = 1.;
@@ -178,6 +214,18 @@ void analyzer_scalefactors::loadPUWeight(){
  PUWeights_SinglePhoton = (TH1F*)file_puweights_SinglePhoton->Get("h_PUweight")->Clone("PUWeights_SinglePhoton");
  return ;
 }
+
+
+//----------------------------loadElectronReco
+void analyzer_scalefactors::loadElectronReco(){
+ std::cout << "loading Electron Reco" << std::endl;
+ TString filename = "egammaEffi.txt_EGM2D_updatedAll.root" ;
+ TFile* file_eleweights = new TFile( filename ) ;
+ std::cout << " filename: " << filename << std::endl;
+ EleRecos = (TH2F*)file_eleweights->Get("EGamma_SF2D")->Clone("EleRecos");
+ return ;
+}
+
 
 //----------------------------loadElectronWeight
 void analyzer_scalefactors::loadElectronWeight(TString eleid){

@@ -8,7 +8,7 @@ domakeMiniAOD=false
 #change do_lpchbb to true to stage to lpchbb
 do_lpchbb=true
 #select year to submit
-_year=2017
+_year=2016
 
 # start the timer
 START=$(date +%s);
@@ -92,21 +92,48 @@ samples=( \
 #"QCD_HT1000to1500"           \
 #"QCD_HT1500to2000"           \
 #"QCD_HT2000toInf"            \
-"Data_DoubleEG_B"          \
-"Data_DoubleEG_C"          \
-"Data_DoubleEG_D"          \
-"Data_DoubleEG_E"          \
-"Data_DoubleEG_F"              \
-"Data_DoubleMuon_B"              \
-"Data_DoubleMuon_C"              \
-"Data_DoubleMuon_D"              \
-"Data_DoubleMuon_E"              \
-"Data_DoubleMuon_F"              \
-"Data_MuonEG_B"              \
-"Data_MuonEG_C"              \
-"Data_MuonEG_D"              \
-"Data_MuonEG_E"              \
-"Data_MuonEG_F"              \
+###2017-DATA###
+#"Data_DoubleEG_B"          \
+#"Data_DoubleEG_C"          \
+#"Data_DoubleEG_D"          \
+#"Data_DoubleEG_E"          \
+#"Data_DoubleEG_F"              \
+#"Data_DoubleMuon_B"              \
+#"Data_DoubleMuon_C"              \
+#"Data_DoubleMuon_D"              \
+#"Data_DoubleMuon_E"              \
+#"Data_DoubleMuon_F"              \
+#"Data_MuonEG_B"              \
+#"Data_MuonEG_C"              \
+#"Data_MuonEG_D"              \
+#"Data_MuonEG_E"              \
+#"Data_MuonEG_F"              \
+###Data-2016####
+"Data_DoubleMuon_B_1"         \
+"Data_DoubleMuon_B_1"         \
+"Data_DoubleMuon_C"           \
+"Data_DoubleMuon_D"           \
+"Data_DoubleMuon_E"           \
+"Data_DoubleMuon_F"           \
+"Data_DoubleMuon_G"           \
+"Data_DoubleMuon_H"           \
+#"Data_DoubleEG_B_1"           \
+#"Data_DoubleEG_B_2"           \
+#"Data_DoubleEG_C"             \
+#"Data_DoubleEG_D"             \
+#"Data_DoubleEG_E"             \
+#"Data_DoubleEG_F"             \
+#"Data_DoubleEG_G"             \
+#"Data_DoubleEG_H"             \
+#"Data_MuonEG_B_1"             \
+#"Data_MuonEG_B_2"             \
+#"Data_MuonEG_C"               \
+#"Data_MuonEG_D"               \
+#"Data_MuonEG_E"               \
+#"Data_MuonEG_F"               \
+#"Data_MuonEG_G"               \
+#"Data_MuonEG_H"               \
+
 #DY_1J                        \
 #DY_2J                        \
 )
@@ -220,7 +247,10 @@ do
  printf "******************************************************\n\n"
 
  #datasetname="$(grep -P ${samplename} ${thedasmap} | sed -n -e "s@ ${samplename}    @@p")"
+ echo "$(grep -P ${samplename} ${thedasmap})"
+ echo "$(grep -P ${samplename} ${thedasmap} | sed -n -e "s@ ${samplename}    @@p")"
  datasetname="$(grep -P ${samplename} ${thedasmap} | awk '{print $2}')"
+
 
  submitname="submit_${samplename}"
  submitfile="${thesubdir}/${submitname}.py"

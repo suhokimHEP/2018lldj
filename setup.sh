@@ -3,7 +3,7 @@
 export depot="/eos/uscms/store/group/lpchbb/LLDJntuples"
 export depot2="/store/group/lpchbb/LLDJntuples"
 export FWVersion="2018lldj"
-export nversion="2017_LLDJ_V2p0"
+export nversion="2016_LLDJ_V2p0"
 #export aversion="2017Comparisons_noPUWeights_simTrig"
 #export aversion="DanielTag_wShift_16AMFull"
 #export aversion="DanielTag_wShift_16AM"

@@ -15,7 +15,8 @@ process.load("RecoTracker.TkNavigation.NavigationSchoolESProducer_cfi")
 
 # log output
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
+#process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )  ## number of events -1 does all
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )  ## number of events -1 does all
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
 #process.MessageLogger.cerr.FwkReport.reportEvery = 1
 #process.Tracer = cms.Service('Tracer')
@@ -27,7 +28,8 @@ process.source = cms.Source('PoolSource',
 #'root://cms-xrd-global.cern.ch//store/data/Run2016G/SingleElectron/AOD/23Sep2016-v1/100000/62B0D6B4-D58A-E611-9F51-002590AC4B5C.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2018A/MuonEG/AOD/17Sep2018-v1/90000/4B3CE728-3432-BF47-9B44-8D65A8D5762A.root'
 #'root://cms-xrd-global.cern.ch//store/data/Run2017B/DoubleEG/AOD/17Nov2017-v1/30000/087A0944-99D5-E711-A42A-5065F37D1192.root '
-'root://cms-xrd-global.cern.ch///store/data/Run2016H/DoubleEG/AOD/07Aug17-v1/10000/021C4224-7392-E711-8E7C-001F2908AEB6.root'
+#'root://cms-xrd-global.cern.ch///store/data/Run2016H/DoubleEG/AOD/07Aug17-v1/10000/021C4224-7392-E711-8E7C-001F2908AEB6.root'
+'root://cms-xrd-global.cern.ch///store/data/Run2016G/DoubleMuon/AOD/07Aug17-v1/90001/FCF68A9E-EE9C-E711-8E40-02163E01458E.root'
 #'file:/uscms/home/ddiaz/nobackup/DataSP.root'
  ),
 )

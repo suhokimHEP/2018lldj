@@ -26,7 +26,7 @@ public :
    FILE * logfile;
    FILE * edmfile;
    Float_t event_weight;
-   Float_t w_eleID, w_muonID, w_muonISO, w_LeptonSF, w_Lumi, w_PU, w_GenEvent, w_other, w_tot = 1.;
+   Float_t w_eleReco, w_eleID, w_muonID, w_muonISO, w_LeptonSF, w_Lumi, w_PU, w_GenEvent, w_other, w_tot = 1.;
    Float_t PUweight_DoubleEG;
    Float_t PUweight_DoubleMu;
    Float_t PUweight_MuonEG;
@@ -442,7 +442,7 @@ public :
    //analyzer_base(TTree *tree=0);
    analyzer_base();
    virtual ~analyzer_base();
-   virtual void     Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString Tsample);
+   virtual void     Init(TChain *tree, Bool_t isitMC, Bool_t domakelog, TString Tsample, TString uncbin);
    virtual Long64_t LoadTree(Long64_t entry);
    
 };

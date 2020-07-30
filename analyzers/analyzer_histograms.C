@@ -546,11 +546,13 @@ Bool_t analyzer_histograms::initWeightHistograms( TString uncbin ){
   for(unsigned int i=0; i<selbinnames.size(); ++i){
     hist_file_out[i]->cd();
     //deleteWeightHistograms(i);
+    TString hname_eleReco                       = "h_"+selbinnames[i]+"_eleReco"  +uncbin ; 
     TString hname_eleID                       = "h_"+selbinnames[i]+"_eleID"  +uncbin ; 
     TString hname_muonID                      = "h_"+selbinnames[i]+"_muonID"  +uncbin ; 
     TString hname_muonISO                     = "h_"+selbinnames[i]+"_muonISO"  +uncbin ; 
     TString hname_LeptonSF                    = "h_"+selbinnames[i]+"_LeptonSF"  +uncbin ; 
 
+    TString hname_eleReco_Unc              = "h_"+selbinnames[i]+"_eleReco_Unc"  +uncbin ; 
     TString hname_eleID_Unc              = "h_"+selbinnames[i]+"_eleID_Unc"  +uncbin ; 
     TString hname_muonID_Unc              = "h_"+selbinnames[i]+"_muonID_Unc"  +uncbin ; 
     TString hname_muonISO_Unc              = "h_"+selbinnames[i]+"_muonISO_Unc"  +uncbin ; 
@@ -563,11 +565,13 @@ Bool_t analyzer_histograms::initWeightHistograms( TString uncbin ){
     TString hname_FullWeight              = "h_"+selbinnames[i]+"_FullWeight"  +uncbin ; 
 
     
+    h_eleReco          [i] = initSingleHistogramTH2F( hname_eleReco   , "eleReco  " , 10, 0.96, 1.01, 10, 0.96, 1.01); 
     h_eleID          [i] = initSingleHistogramTH2F( hname_eleID   , "eleID  " , 10, 0.96, 1.01, 10, 0.96, 1.01); 
     h_muonID          [i] = initSingleHistogramTH2F( hname_muonID   , "muonID  " , 20, 0.985, 1.005, 20, 0.985, 1.005); 
     h_muonISO          [i] = initSingleHistogramTH2F( hname_muonISO   , "muonISO  " , 20, 0.985, 1.005, 20, 0.985, 1.005); 
     h_LeptonSF          [i] = initSingleHistogramTH1F( hname_LeptonSF   , "LeptonSF  " , 100, 0.7, 1.1); 
 
+    h_eleReco_Unc          [i] = initSingleHistogramTH1F( hname_eleReco_Unc   , "eleReco_Unc  " , 100, 0, .1);
     h_eleID_Unc          [i] = initSingleHistogramTH1F( hname_eleID_Unc   , "eleID_Unc  " , 100, 0, .1);
     h_muonID_Unc          [i] = initSingleHistogramTH1F( hname_muonID_Unc   , "muonID_Unc  " , 100, 0, .1); 
     h_muonISO_Unc          [i] = initSingleHistogramTH1F( hname_muonISO_Unc   , "muonISO_Unc  " , 100, 0, .1); 
@@ -589,6 +593,8 @@ Bool_t analyzer_histograms::fillWeightHistograms(Float_t weight, int selbin)
   hist_file_out[selbin]->cd();
  if(isMC){
  if (dofillselbin[5]||dofillselbin[9]||dofillselbin[13]){
+ h_eleReco             [selbin]->Fill(eleReco_ind[0], eleReco_ind[1]); 
+ h_eleReco_Unc         [selbin]->Fill(eleReco_Unc);  
  h_eleID             [selbin]->Fill(eleID_ind[0], eleID_ind[1]); 
  h_eleID_Unc         [selbin]->Fill(eleID_Unc);  
 } 
@@ -615,11 +621,13 @@ Bool_t analyzer_histograms::fillWeightHistograms(Float_t weight, int selbin)
 Bool_t analyzer_histograms::writeWeightHistograms(int selbin)
 {
   hist_file_out[selbin]->cd();
+  h_eleReco                  [selbin]->Write(); 
   h_eleID                  [selbin]->Write(); 
   h_muonID                 [selbin]->Write(); 
   h_muonISO                [selbin]->Write(); 
   h_LeptonSF               [selbin]->Write(); 
 
+  h_eleReco_Unc         [selbin]->Write(); 
   h_eleID_Unc         [selbin]->Write(); 
   h_muonID_Unc         [selbin]->Write(); 
   h_muonISO_Unc         [selbin]->Write(); 
@@ -638,11 +646,13 @@ Bool_t analyzer_histograms::deleteWeightHistograms(int selbin)
 {
   //printf("deleteWeightHistograms\n");
   hist_file_out[selbin]->cd();
+  if(h_eleReco         [selbin]!=NULL)   h_eleReco                    [selbin]->Delete(); 
   if(h_eleID         [selbin]!=NULL)   h_eleID                    [selbin]->Delete(); 
   if(h_muonID        [selbin]!=NULL)   h_muonID                   [selbin]->Delete(); 
   if(h_muonISO       [selbin]!=NULL)   h_muonISO                  [selbin]->Delete(); 
   if(h_LeptonSF      [selbin]!=NULL)   h_LeptonSF                 [selbin]->Delete(); 
 
+  if(h_eleReco_Unc[selbin]!=NULL)   h_eleReco_Unc           [selbin]->Delete(); 
   if(h_eleID_Unc[selbin]!=NULL)   h_eleID_Unc           [selbin]->Delete(); 
   if(h_muonID_Unc[selbin]!=NULL)   h_muonID_Unc           [selbin]->Delete(); 
   if(h_muonISO_Unc[selbin]!=NULL)   h_muonISO_Unc           [selbin]->Delete(); 

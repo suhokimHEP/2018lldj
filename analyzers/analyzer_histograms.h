@@ -311,12 +311,14 @@ public :
 
  // Weight
  TH2F*  h_eleReco              [SELBINNAMESIZE];
+ TH2F*  h_eleTrig              [SELBINNAMESIZE];
  TH2F*  h_eleID              [SELBINNAMESIZE];
  TH2F*  h_muonID             [SELBINNAMESIZE];
  TH2F*  h_muonISO            [SELBINNAMESIZE];
  TH1F*  h_LeptonSF            [SELBINNAMESIZE];
 
  TH1F*  h_eleReco_Unc               [SELBINNAMESIZE];
+ TH1F*  h_eleTrig_Unc               [SELBINNAMESIZE];
  TH1F*  h_eleID_Unc               [SELBINNAMESIZE];
  TH1F*  h_muonID_Unc               [SELBINNAMESIZE];
  TH1F*  h_muonISO_Unc               [SELBINNAMESIZE];

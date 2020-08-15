@@ -87,6 +87,37 @@ Float_t analyzer_scalefactors::makeElectronReco( std::vector<int> &electron_list
  return eleReco;
 }
 
+//----------------------------makeElectronTrig
+Float_t analyzer_scalefactors::makeElectronTrig( std::vector<int> &electron_list, float &eleTrig_Unc, std::vector<float> &eleTrig_ind ){
+ Float_t eleTrig = 1.;
+ eleTrig_Unc=0.;
+ eleTrig_ind.clear();
+
+ std::vector<float> eleTrig_Unc_ind;
+ eleTrig_Unc_ind.clear();
+
+ //check overlap with electrons
+ if(electron_list.size()>0){
+  for(int d=0; d<electron_list.size(); ++d){
+   int eleindex = electron_list[d];
+   Float_t eeta = AOD_eleEta->at(eleindex);//<------changed; don't have SCEta right now
+   Float_t ept  = AOD_elePt->at(eleindex);
+   if(ept<20){ept=20.1;}//SF root files lowest bin is 20. Our ePt cut is 15 for lagging lepton. Bincontent is 0 for pT<20
+   Int_t tmpbinx       = EleTrigs->GetXaxis()->FindBin( eeta );
+   Int_t tmpbiny       = EleTrigs->GetYaxis()->FindBin( ept  );
+   Int_t tmpbin        = EleTrigs->GetBin( tmpbinx, tmpbiny );
+   eleTrig_ind.push_back(EleTrigs->GetBinContent(tmpbin));
+   eleTrig_Unc_ind.push_back(EleTrigs->GetBinError(tmpbin));
+  }//end electrons
+  eleTrig = std::accumulate( eleTrig_ind.begin(), eleTrig_ind.end(), 1., std::multiplies<float>());
+  //std::cout<<"eleTrig:"<<eleTrig<<std::endl;
+  eleTrig_Unc = TMath::Sqrt(std::inner_product( eleTrig_Unc_ind.begin(), eleTrig_Unc_ind.end(), eleTrig_Unc_ind.begin(), 0.));
+ } // if electrons
+
+ //printf(" done making Electron weight\n");
+
+ return eleTrig;
+}
 
 
 //----------------------------makeElectronWeight
@@ -226,6 +257,16 @@ void analyzer_scalefactors::loadElectronReco(){
  return ;
 }
 
+
+//----------------------------loadElectronTrig
+void analyzer_scalefactors::loadElectronTrig(){
+ std::cout << "loading Electron Trig" << std::endl;
+ TString filename = "egammaTrigSF.root" ;
+ TFile* file_eleweights = new TFile( filename ) ;
+ std::cout << " filename: " << filename << std::endl;
+ EleTrigs = (TH2F*)file_eleweights->Get("EGamma_SF2D")->Clone("EleTrigs");
+ return ;
+}
 
 //----------------------------loadElectronWeight
 void analyzer_scalefactors::loadElectronWeight(TString eleid){

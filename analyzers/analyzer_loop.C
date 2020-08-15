@@ -38,6 +38,7 @@ void analyzer_loop::Loop(TString outfilename,
 
  if(isMC) loadPUWeight();
  if(isMC) loadElectronReco();
+ if(isMC) loadElectronTrig();
  if(isMC) loadElectronWeight( eleid );
  if(isMC) loadMuonWeight( muoid );
  if(isMC) loadMuonIso( muoid );
@@ -179,6 +180,7 @@ TFile *outfile_bkgest = 0;
   if(isMC) event_weight *= ctauEventWeight;
   if(isMC){ 
   w_eleReco = makeElectronReco(electron_list, eleReco_Unc, eleReco_ind);
+  w_eleTrig = makeElectronTrig(electron_list, eleTrig_Unc, eleTrig_ind);
   w_eleID   = ele_weight;
   w_muonID  = mu_weight;
   w_muonISO = makeMuonIso(muon_list, muonISO_Unc, muonISO_ind);
@@ -354,8 +356,10 @@ TFile *outfile_bkgest = 0;
 	{
 	fullweight = event_weight*PUweight_DoubleEG;  	
 	w_LeptonSF = w_eleReco;
+	//w_LeptonSF *= w_eleTrig;
 	w_LeptonSF *= w_eleID;
 	ESF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+eleReco_Unc*eleReco_Unc);	
+	//ESF_Unc = TMath::Sqrt(eleID_Unc*eleID_Unc+eleReco_Unc*eleReco_Unc+eleTrig_Unc*eleTrig_Unc);	
 	}
      if(i==2||i==3||i==6||i==7||i==10||i==11||i==14||i==15||i==17) 
 	{

@@ -83,6 +83,8 @@ vector<float>  AODCaloJetPhi_;
 
 //new variables
 std::vector<bool>  AODCaloJetID_;
+std::vector<float>  AODCaloJet_emEnergyFraction_;
+std::vector<float>  AODCaloJet_energyFractionHadronic_;
 std::vector<float>  AODCaloJetMass_;
 std::vector<float>  AODCaloJetArea_;
 std::vector<float>  AODCaloJetPileup_;
@@ -277,6 +279,8 @@ void lldjNtuple::branchesAODJets(TTree* tree) {
   tree->Branch("AODCaloJetEta"                 , &AODCaloJetEta_);
   tree->Branch("AODCaloJetPhi"                 , &AODCaloJetPhi_);
   tree->Branch("AODCaloJetID"                  , &AODCaloJetID_);
+  tree->Branch("AODCaloJet_emEnergyFraction"   , &AODCaloJet_emEnergyFraction_);
+  tree->Branch("AODCaloJet_energyFractionHadronic" , &AODCaloJet_energyFractionHadronic_);
   tree->Branch("AODCaloJetMass"                , &AODCaloJetMass_);
   tree->Branch("AODCaloJetArea"                , &AODCaloJetArea_);
   tree->Branch("AODCaloJetPileup"              , &AODCaloJetPileup_);
@@ -450,6 +454,8 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
  AODCaloJetEta_.clear();
  AODCaloJetPhi_.clear();
  AODCaloJetID_.clear();
+ AODCaloJet_emEnergyFraction_.clear();
+ AODCaloJet_energyFractionHadronic_.clear();
  AODCaloJetMass_.clear();
  AODCaloJetArea_.clear();
  AODCaloJetPileup_.clear();
@@ -841,6 +847,11 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
 
   // ID and jet selections
   bool passID = false;
+  float emEnergyFraction = -999.;
+  emEnergyFraction = iJet->emEnergyFraction();
+  float energyFractionHadronic = -999.;
+  energyFractionHadronic = iJet->energyFractionHadronic();
+  //check jet ID
   if( iJet->emEnergyFraction()>=0.0
    && iJet->emEnergyFraction()<=0.9
    && iJet->energyFractionHadronic()>=0.0
@@ -917,6 +928,8 @@ void lldjNtuple::fillAODJets(const edm::Event& e, const edm::EventSetup& es) {
   AODCaloJetEta_.push_back(jet_eta);
   AODCaloJetPhi_.push_back(jet_phi);
   AODCaloJetID_.push_back(passID);
+  AODCaloJet_emEnergyFraction_.push_back(emEnergyFraction);
+  AODCaloJet_energyFractionHadronic_.push_back(energyFractionHadronic);
   AODCaloJetMass_.push_back(jet_mass);
   AODCaloJetArea_.push_back(jet_area);
   AODCaloJetPileup_.push_back(jet_pileup);

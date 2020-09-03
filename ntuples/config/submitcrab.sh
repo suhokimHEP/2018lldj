@@ -109,12 +109,12 @@ samples=( \
 #"Data_MuonEG_E"              \
 #"Data_MuonEG_F"              \
 ###Data-2016####
-"Data_DoubleMuon_B_1"         \
-"Data_DoubleMuon_B_1"         \
-"Data_DoubleMuon_C"           \
-"Data_DoubleMuon_D"           \
-"Data_DoubleMuon_E"           \
-"Data_DoubleMuon_F"           \
+#"Data_DoubleMuon_B_1"         \
+#"Data_DoubleMuon_B_1"         \
+#"Data_DoubleMuon_C"           \
+#"Data_DoubleMuon_D"           \
+#"Data_DoubleMuon_E"           \
+#"Data_DoubleMuon_F"           \
 "Data_DoubleMuon_G"           \
 "Data_DoubleMuon_H"           \
 #"Data_DoubleEG_B_1"           \
@@ -123,19 +123,32 @@ samples=( \
 #"Data_DoubleEG_D"             \
 #"Data_DoubleEG_E"             \
 #"Data_DoubleEG_F"             \
-#"Data_DoubleEG_G"             \
-#"Data_DoubleEG_H"             \
+"Data_DoubleEG_G"             \
+"Data_DoubleEG_H"             \
 #"Data_MuonEG_B_1"             \
 #"Data_MuonEG_B_2"             \
 #"Data_MuonEG_C"               \
 #"Data_MuonEG_D"               \
 #"Data_MuonEG_E"               \
 #"Data_MuonEG_F"               \
-#"Data_MuonEG_G"               \
-#"Data_MuonEG_H"               \
+"Data_MuonEG_G"               \
+"Data_MuonEG_H"               \
 
 #DY_1J                        \
 #DY_2J                        \
+#data 2018
+#"Data_DoubleMuon_A"          \
+#"Data_DoubleMuon_B"          \
+#"Data_DoubleMuon_C"          \
+#"Data_DoubleMuon_D"          \
+#"Data_EGamma_A"              \
+#"Data_EGamma_B"              \
+#"Data_EGamma_C"              \
+#"Data_EGamma_D"              \
+#"Data_MuonEG_A"              \
+#"Data_MuonEG_B"              \
+#"Data_MuonEG_C"              \
+#"Data_MuonEG_D"              \
 )
 #data
 

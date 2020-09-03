@@ -211,10 +211,10 @@ process.lldjNtuple = cms.EDAnalyzer('lldjNtuple',
 )
 
 # Double check: this is to remove the OOT photons, which is causing a crash
-#process.patCandidates.remove(process.patCandidateSummary)
-#process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
-#process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
-#process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
+process.patCandidates.remove(process.patCandidateSummary)
+process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
+process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
 
 

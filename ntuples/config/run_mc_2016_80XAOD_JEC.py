@@ -65,7 +65,7 @@ process.load('Configuration.StandardSequences.Services_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 
-process.GlobalTag.globaltag = '102X_mcRun2_asymptotic_v7'#2016 GT for MC
+process.GlobalTag.globaltag = '102X_mcRun2_asymptotic_v8'#2016 GT for MC
 
 ## for AOD Photons
 #from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
@@ -99,10 +99,11 @@ process.load( 'PhysicsTools.PatAlgos.triggerLayer1.triggerProducer_cff' )
 # pat for muons
 process.load('PhysicsTools.PatAlgos.patSequences_cff')
 
-from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+#from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+from EgammaUser.EgammaPostRecoTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 setupEgammaPostRecoSeq(process,
                        runVID=True,
-                       era='2017-Nov17ReReco',
+                       era='2016-Legacy',
 		       isMiniAOD=False,
 		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'],
 		       phoIDModules=['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Fall17_94X_V2_cff']

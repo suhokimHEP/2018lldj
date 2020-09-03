@@ -54,7 +54,7 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 #process.GlobalTag.globaltag = '102X_dataRun2_Sep2018ABC_v2'#not sure where this one came from
 
 
-process.GlobalTag.globaltag = '102X_dataRun2_v12'#2016-2018C
+process.GlobalTag.globaltag = '102X_dataRun2_v13'#2016-2018C
 #process.GlobalTag.globaltag = '102X_dataRun2_Prompt_v15'## 2018 - Run D
 ##from old config for 2016
 ###########################################################################################
@@ -109,10 +109,11 @@ runOnData( process, names=['All'], outputModules = [])
 # 2017 AOD Electron ID: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaPostRecoRecipes#Running_on_2016_2017_AOD
 # 2017 ID recommendations: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaRunIIRecommendations#Fall17v1
 ## for AOD Electrons
-from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+#from RecoEgamma.EgammaTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
+from EgammaUser.EgammaPostRecoTools.EgammaPostRecoTools import setupEgammaPostRecoSeq
 setupEgammaPostRecoSeq(process,
                        runVID=True,
-                       era='2017-Nov17ReReco',
+                       era='2016-Legacy',
 		       isMiniAOD=False,
 		       eleIDModules=['RecoEgamma.ElectronIdentification.Identification.cutBasedElectronID_Fall17_94X_V2_cff'],
 		       phoIDModules=['RecoEgamma.PhotonIdentification.Identification.cutBasedPhotonID_Fall17_94X_V2_cff']

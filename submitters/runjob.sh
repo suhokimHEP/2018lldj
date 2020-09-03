@@ -25,6 +25,7 @@ cp ../../2018_ElectronLoose.root     .
 cp ../../RunABCD_SF_ID.root     .
 cp ../../RunABCD_SF_ISO.root     .
 cp ../../feff_ZH.root                           .
+cp ../../egammaEffi.txt_EGM2D_updatedAll.root                           .
 
 
 scramv1 build -j 10

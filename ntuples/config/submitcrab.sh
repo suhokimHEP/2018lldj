@@ -1,14 +1,27 @@
 #voms-proxy-init --voms cms --valid 100:00
 
 # do we submit or just generate submit scripts
-dosubmit=true
+dosubmit=false
 doAOD=true
 dominiAOD=false
 domakeMiniAOD=false
 #change do_lpchbb to true to stage to lpchbb
 do_lpchbb=true
 #select year to submit
-_year=2016
+_year=2018
+
+printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+printf "@@\n"
+printf "@@  WARNING: confirm that these make sense\n"
+printf "@@\n"
+printf "@@  nversion = ${nversion},    year=$_year \n"
+printf "@@\n"
+printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+printf "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n"
+printf "\n"
+
+
 
 # start the timer
 START=$(date +%s);
@@ -74,81 +87,93 @@ cp "${subdir}/${msubmitconfig}"  ${thesubdir}
 
 # sample names to run over
 samples=( \
-# put your samples here, copy from below
+"test"                   \
+#"DY50_MG"                   \
+#"DY50_amc"                      \
 #"TTJets_MG"                  \
-#"TTJets"                     \
+#"TTJets_amc"                     \
 #"TTtoLL_MG"                  \
-#"TTtoLL"                     \
-#"TTtoLfromT"                 \
+#"TTtoLL_amc"                     \
+#"TTtoLfromT_"                 \
 #"TTtoLfromTbar"              \
-#"DY50_1_MG"                   \
-#"DY50_1"                      \
-#"QCD_HT50to100"              \
-#"QCD_HT100to200"             \
-#"QCD_HT200to300"             \
-#"QCD_HT300to500"             \
-#"QCD_HT500to700"             \
-#"QCD_HT700to1000"            \
-#"QCD_HT1000to1500"           \
-#"QCD_HT1500to2000"           \
-#"QCD_HT2000toInf"            \
-###2017-DATA###
-#"Data_DoubleEG_B"          \
-#"Data_DoubleEG_C"          \
-#"Data_DoubleEG_D"          \
-#"Data_DoubleEG_E"          \
-#"Data_DoubleEG_F"              \
-#"Data_DoubleMuon_B"              \
-#"Data_DoubleMuon_C"              \
-#"Data_DoubleMuon_D"              \
-#"Data_DoubleMuon_E"              \
-#"Data_DoubleMuon_F"              \
-#"Data_MuonEG_B"              \
-#"Data_MuonEG_C"              \
-#"Data_MuonEG_D"              \
-#"Data_MuonEG_E"              \
-#"Data_MuonEG_F"              \
-###Data-2016####
-#"Data_DoubleMuon_B_1"         \
-#"Data_DoubleMuon_B_1"         \
-#"Data_DoubleMuon_C"           \
-#"Data_DoubleMuon_D"           \
-#"Data_DoubleMuon_E"           \
-#"Data_DoubleMuon_F"           \
-"Data_DoubleMuon_G"           \
-"Data_DoubleMuon_H"           \
-#"Data_DoubleEG_B_1"           \
-#"Data_DoubleEG_B_2"           \
-#"Data_DoubleEG_C"             \
-#"Data_DoubleEG_D"             \
-#"Data_DoubleEG_E"             \
-#"Data_DoubleEG_F"             \
-"Data_DoubleEG_G"             \
-"Data_DoubleEG_H"             \
-#"Data_MuonEG_B_1"             \
-#"Data_MuonEG_B_2"             \
-#"Data_MuonEG_C"               \
-#"Data_MuonEG_D"               \
-#"Data_MuonEG_E"               \
-#"Data_MuonEG_F"               \
-"Data_MuonEG_G"               \
-"Data_MuonEG_H"               \
+#"DY_0J"                      \
+#"DY_1J"                      \
+#"DY_2J"                      \
+#"ZH_Sig_"                     \
+#"ggZH_Sig"                   \
+#"ZH_4d_Sig_"                  \
+#"ggZH_4d_Sig"                \
+#"ZH_4Tau_Sig_"                \
+#"ggZH_4Tau_Sig"              \
 
-#DY_1J                        \
-#DY_2J                        \
-#data 2018
-#"Data_DoubleMuon_A"          \
-#"Data_DoubleMuon_B"          \
-#"Data_DoubleMuon_C"          \
-#"Data_DoubleMuon_D"          \
-#"Data_EGamma_A"              \
-#"Data_EGamma_B"              \
-#"Data_EGamma_C"              \
-#"Data_EGamma_D"              \
-#"Data_MuonEG_A"              \
-#"Data_MuonEG_B"              \
-#"Data_MuonEG_C"              \
-#"Data_MuonEG_D"              \
+#
+## put your samples here, copy from below
+##"QCD_HT50to100"              \
+##"QCD_HT100to200"             \
+##"QCD_HT200to300"             \
+##"QCD_HT300to500"             \
+##"QCD_HT500to700"             \
+##"QCD_HT700to1000"            \
+##"QCD_HT1000to1500"           \
+##"QCD_HT1500to2000"           \
+##"QCD_HT2000toInf"            \
+####2017-DATA###
+##"Data_DoubleEG_B"          \
+##"Data_DoubleEG_C"          \
+##"Data_DoubleEG_D"          \
+##"Data_DoubleEG_E"          \
+##"Data_DoubleEG_F"              \
+##"Data_DoubleMuon_B"              \
+##"Data_DoubleMuon_C"              \
+##"Data_DoubleMuon_D"              \
+##"Data_DoubleMuon_E"              \
+##"Data_DoubleMuon_F"              \
+##"Data_MuonEG_B"              \
+##"Data_MuonEG_C"              \
+##"Data_MuonEG_D"              \
+##"Data_MuonEG_E"              \
+##"Data_MuonEG_F"              \
+####Data-2016####
+##"Data_DoubleMuon_B_1"         \
+##"Data_DoubleMuon_B_1"         \
+##"Data_DoubleMuon_C"           \
+##"Data_DoubleMuon_D"           \
+##"Data_DoubleMuon_E"           \
+##"Data_DoubleMuon_F"           \
+##"Data_DoubleMuon_G"           \
+##"Data_DoubleMuon_H"           \
+##"Data_DoubleEG_B_1"           \
+##"Data_DoubleEG_B_2"           \
+##"Data_DoubleEG_C"             \
+##"Data_DoubleEG_D"             \
+##"Data_DoubleEG_E"             \
+##"Data_DoubleEG_F"             \
+##"Data_DoubleEG_G"             \
+##"Data_DoubleEG_H"             \
+##"Data_MuonEG_B_1"             \
+##"Data_MuonEG_B_2"             \
+##"Data_MuonEG_C"               \
+##"Data_MuonEG_D"               \
+##"Data_MuonEG_E"               \
+##"Data_MuonEG_F"               \
+##"Data_MuonEG_G"               \
+##"Data_MuonEG_H"               \
+#
+##DY_1J                        \
+##DY_2J                        \
+##data 2018
+##"Data_DoubleMuon_A"          \
+##"Data_DoubleMuon_B"          \
+##"Data_DoubleMuon_C"          \
+##"Data_DoubleMuon_D"          \
+##"Data_EGamma_A"              \
+##"Data_EGamma_B"              \
+##"Data_EGamma_C"              \
+##"Data_EGamma_D"              \
+##"Data_MuonEG_A"              \
+##"Data_MuonEG_B"              \
+##"Data_MuonEG_C"              \
+##"Data_MuonEG_D"              \
 )
 #data
 

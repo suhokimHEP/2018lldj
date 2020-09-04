@@ -218,9 +218,9 @@ process.patCandidates.remove(process.patCandidateSummary)
 process.patCandidates.remove(process.selectedPatCandidateSummary)
 process.selectedPatCandidatesTask.remove(process.selectedPatTaus)
 process.selectedPatCandidatesTask.remove(process.patTaus)
-#process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
-#process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
-#process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
+process.patCandidatesTask.remove(process.makePatOOTPhotonsTask)
+process.selectedPatCandidates.remove(process.selectedPatCandidateSummary)
+process.selectedPatCandidatesTask.remove(process.selectedPatOOTPhotons)
 #process.cleanPatCandidates.remove(process.cleanPatCandidateSummary)
 
 

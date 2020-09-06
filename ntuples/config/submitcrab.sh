@@ -284,11 +284,10 @@ do
  printf "******************************************************\n"
  printf "******************************************************\n\n"
 
- #datasetname="$(grep -P ${samplename} ${thedasmap} | sed -n -e "s@ ${samplename}    @@p")"
  echo "$(grep -P ${samplename} ${thedasmap})"
  echo "$(grep -P ${samplename} ${thedasmap} | sed -n -e "s@ ${samplename}    @@p")"
- datasetname="$(grep -P ${samplename} ${thedasmap} | awk '{print $2}')"
-
+ #datasetname="$(grep -P ${samplename} ${thedasmap} | awk '{print $2}')"
+ datasetname="$(grep -P ${samplename} ${thedasmap} | sed -n -e "s@ ${samplename}    @@p")"
 
  submitname="submit_${samplename}"
  submitfile="${thesubdir}/${submitname}.py"
